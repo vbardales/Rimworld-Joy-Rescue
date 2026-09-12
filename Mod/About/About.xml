@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ModMetaData>
+  <name>Joy Rescue</name>
+  <author>nelim</author>
+  <packageId>nelim.joyrescue</packageId>
+  <supportedVersions>
+    <li>1.6</li>
+  </supportedVersions>
+  <description>Makes unusable recreation buildings usable again.
+
+Plenty of mods add a building, tag it with a recreation type, and stop there. That tag is only a label: without a JoyGiverDef pointing at the building, no colonist will ever walk up to it. The building gets built, looks the part, and is never used.
+
+Joy Rescue finds those buildings at startup and builds the missing recreation giver and job for them, picking the right vanilla behaviour from the shape of the building itself:
+- a building with an interaction cell gets the telescope treatment (stand on the cell, face the building),
+- a television-type building gets watched from a chair,
+- anything else gets played at from an adjacent cell, chair or no chair.
+
+Everything found is listed in the mod settings, one line per building, with an on/off toggle and a manual override of the chosen behaviour. Buildings coming from mods that ship their own recreation code are listed too, but left off by default, so nothing is ever fixed twice.
+
+This matters more than it looks: recreation tolerance is tracked per type, and expectations ask for up to 6 different types. A recreation type that no giver can produce is a type your colony simply does not have.
+
+No save data. Can be added to or removed from an ongoing game.</description>
+  <modDependencies>
+    <li>
+      <packageId>brrainz.harmony</packageId>
+      <displayName>Harmony</displayName>
+      <steamWorkshopUrl>steam://url/CommunityFilePage/2009463077</steamWorkshopUrl>
+      <downloadUrl>https://github.com/pardeike/HarmonyRimWorld/releases/latest</downloadUrl>
+    </li>
+  </modDependencies>
+  <loadAfter>
+    <li>brrainz.harmony</li>
+    <li>Ludeon.RimWorld</li>
+    <li>Ludeon.RimWorld.Royalty</li>
+    <li>Ludeon.RimWorld.Ideology</li>
+    <li>Ludeon.RimWorld.Biotech</li>
+    <li>Ludeon.RimWorld.Anomaly</li>
+    <li>Ludeon.RimWorld.Odyssey</li>
+  </loadAfter>
+  <!-- Le mod n'a pas besoin de se charger apres les mods qu'il repare : la detection
+       se fait au runtime dans DefGenerator.GenerateImpliedDefs_PreResolve, donc apres
+       que TOUS les mods ont verse leurs defs dans la base et que les references
+       croisees ont ete resolues. L'ordre de chargement est indifferent. -->
+</ModMetaData>

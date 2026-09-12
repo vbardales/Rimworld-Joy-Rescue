@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <!-- Rapports de job. Convention vanilla : minuscule, point final. -->
+  <JoyRescue.Report.Playing>playing {0}.</JoyRescue.Report.Playing>
+  <JoyRescue.Report.Using>using {0}.</JoyRescue.Report.Using>
+  <JoyRescue.Report.Watching>watching {0}.</JoyRescue.Report.Watching>
+
+  <JoyRescue.Settings.NotScanned>The scan has not run yet. Restart RimWorld with Joy Rescue enabled.</JoyRescue.Settings.NotScanned>
+  <JoyRescue.Settings.NothingToRescue>Every recreation building in your modlist is already served by a recreation giver. Nothing to fix.</JoyRescue.Settings.NothingToRescue>
+
+  <JoyRescue.Settings.Summary>{0} buildings, {1} usable, {2} orphaned, {3} rescued, {4} types you can actually get</JoyRescue.Settings.Summary>
+  <JoyRescue.Settings.SummaryTip>The {4} types come from buildings a colonist can actually use.
+
+Expectations ask for up to six different ones, and tolerance is counted per type: ten chess tables still count as one.</JoyRescue.Settings.SummaryTip>
+
+  <JoyRescue.Settings.RescueModsWithOwnCode>Also rescue buildings from mods that ship their own recreation code</JoyRescue.Settings.RescueModsWithOwnCode>
+  <JoyRescue.Settings.RescueModsWithOwnCodeTip>Those mods define their own recreation givers or job drivers, so they may already handle the building in code without listing it in a giver. Rescuing them anyway can produce two competing jobs on the same building. Left off, they are still listed below and can be enabled one by one.</JoyRescue.Settings.RescueModsWithOwnCodeTip>
+
+  <JoyRescue.Settings.RequireChair>Watching requires a chair or a bed</JoyRescue.Settings.RequireChair>
+  <JoyRescue.Settings.RequireChairTip>On: the base game behaviour for televisions — no seat in range, no watching. Off: colonists watch standing up, which keeps a rescued screen from sitting unused for want of a chair. Only affects buildings set to "watch".</JoyRescue.Settings.RequireChairTip>
+
+  <JoyRescue.Settings.EnableAll>Enable all</JoyRescue.Settings.EnableAll>
+  <JoyRescue.Settings.DisableAll>Disable all</JoyRescue.Settings.DisableAll>
+  <JoyRescue.Settings.LogReport>Report to log</JoyRescue.Settings.LogReport>
+  <JoyRescue.Settings.SortMode>Order: {0}</JoyRescue.Settings.SortMode>
+  <JoyRescue.Settings.SortByState>by state</JoyRescue.Settings.SortByState>
+  <JoyRescue.Settings.SortByCount>most furniture first</JoyRescue.Settings.SortByCount>
+  <JoyRescue.Settings.SortByName>by name</JoyRescue.Settings.SortByName>
+  <JoyRescue.Settings.SortModeTip>Click to cycle.
+
+By state: whatever needs attention comes first - dead types, then types with an orphan, then the ones already served.
+Most furniture first: shows at a glance where you are rich and where you are thin. A type with one building is one bad day from being useless.
+By name: for finding something you already know the name of.</JoyRescue.Settings.SortModeTip>
+  <JoyRescue.Settings.LogReportDone>Joy Rescue report written to the log.</JoyRescue.Settings.LogReportDone>
+  <JoyRescue.Settings.Reset>Restore defaults</JoyRescue.Settings.Reset>
+  <JoyRescue.Settings.ConfirmReset>Restore every Joy Rescue setting to its default?</JoyRescue.Settings.ConfirmReset>
+
+  <JoyRescue.Settings.GroupHeaderWithCode>{0} — ships its own recreation code</JoyRescue.Settings.GroupHeaderWithCode>
+
+  <JoyRescue.Settings.RowTip>{0}\nFrom: {1}\nRecreation type: {2}</JoyRescue.Settings.RowTip>
+  <JoyRescue.Settings.RowTipOwnCode>This mod defines recreation givers or job drivers of its own. It may already handle this building in code. Enable only if colonists visibly never use it.</JoyRescue.Settings.RowTipOwnCode>
+
+  <JoyRescue.Mode.Auto>Auto: {0}</JoyRescue.Mode.Auto>
+  <JoyRescue.Mode.AutoShort>Auto</JoyRescue.Mode.AutoShort>
+  <JoyRescue.Mode.InteractionCell>Stand on its spot</JoyRescue.Mode.InteractionCell>
+  <JoyRescue.Mode.SitAdjacent>Sit facing it</JoyRescue.Mode.SitAdjacent>
+  <JoyRescue.Mode.Watch>Watch from afar</JoyRescue.Mode.Watch>
+
+  <JoyRescue.Settings.NoJoyBuildings>No recreation building at all was found in this modlist.</JoyRescue.Settings.NoJoyBuildings>
+  <JoyRescue.Settings.RowTipCovered>Already served by its own mod. Nothing to fix, and nothing to switch off here.</JoyRescue.Settings.RowTipCovered>
+  <JoyRescue.Settings.RowTipOrphan>No activity points at this building. Left alone, no colonist would ever use it.</JoyRescue.Settings.RowTipOrphan>
+
+  <JoyRescue.Settings.KindHeader>{0} — {1} building(s), {2} activity/activities</JoyRescue.Settings.KindHeader>
+  <JoyRescue.Settings.KindHeaderDead>{0} — NO activity at all: this type is unreachable and counts for nothing</JoyRescue.Settings.KindHeaderDead>
+  <JoyRescue.Settings.KindHeaderBroken>{0} — {1} building(s), {2} of them orphaned and waiting to be rescued</JoyRescue.Settings.KindHeaderBroken>
+  <JoyRescue.Settings.KindHeaderNoBuilding>{0} — no building, {1} activity/activities: comes from items or actions</JoyRescue.Settings.KindHeaderNoBuilding>
+  <JoyRescue.Settings.KindHeaderOff>{0} — switched off by you: its {1} activity/activities are held at zero and it counts for nothing until you switch it back on</JoyRescue.Settings.KindHeaderOff>
+
+  <JoyRescue.Settings.KindTipFrom>From: {0}</JoyRescue.Settings.KindTipFrom>
+  <JoyRescue.Settings.KindTipNeedsThing>Needs an object or a building. Without one, a colonist cannot take this recreation at all.</JoyRescue.Settings.KindTipNeedsThing>
+  <JoyRescue.Settings.KindTipNoThing>Needs no object: a colonist does this on their own, anywhere.</JoyRescue.Settings.KindTipNoThing>
+  <JoyRescue.Settings.KindTipActivities>Done by: {0}.</JoyRescue.Settings.KindTipActivities>
+  <JoyRescue.Settings.KindTipBuildings>Buildings: {0}.</JoyRescue.Settings.KindTipBuildings>
+  <JoyRescue.Settings.KindTipMore>and {0} more</JoyRescue.Settings.KindTipMore>
+  <JoyRescue.Settings.KindTipWhatIsActivity>An "activity" is a way of taking that recreation: playing chess, watching television. One activity can serve several pieces of furniture, and furniture no activity points at is furniture nobody uses.</JoyRescue.Settings.KindTipWhatIsActivity>
+  <JoyRescue.Settings.GiverTip>{1}
+({0})</JoyRescue.Settings.GiverTip>
+  <JoyRescue.Settings.GiverTipMove>Moving an activity moves its job and every building it serves, all at once. That is on purpose: the game credits the recreation type of the JOB, and logs an error if a building disagrees with it. Nothing here can be half-moved.</JoyRescue.Settings.GiverTipMove>
+  <JoyRescue.Settings.KindTipTolerance>Tolerance is counted per type, not per building: a colonist who has played chess all week is just as tired of poker. Expectations ask for up to six different types, so a new type is worth more than a tenth building of an old one.</JoyRescue.Settings.KindTipTolerance>
+</LanguageData>

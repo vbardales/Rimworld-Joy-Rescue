@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <JoyRescue.Report.Playing>joue à {0}.</JoyRescue.Report.Playing>
+  <JoyRescue.Report.Using>utilise {0}.</JoyRescue.Report.Using>
+  <JoyRescue.Report.Watching>regarde {0}.</JoyRescue.Report.Watching>
+
+  <JoyRescue.Settings.NotScanned>L'analyse n'a pas encore eu lieu. Relancez RimWorld avec Joy Rescue actif.</JoyRescue.Settings.NotScanned>
+  <JoyRescue.Settings.NothingToRescue>Tous les bâtiments de loisir de votre liste de mods sont déjà desservis. Rien à réparer.</JoyRescue.Settings.NothingToRescue>
+
+  <JoyRescue.Settings.Summary>{0} bâtiments, {1} utilisables, {2} orphelins, {3} réparés, {4} types exploitables</JoyRescue.Settings.Summary>
+  <JoyRescue.Settings.SummaryTip>Les {4} types exploitables sont ceux qui proviennent d'un bâtiment réellement utilisable.
+
+Les attentes en réclament jusqu'à six différents, et la tolérance se compte par type : dix tables d'échecs n'en font toujours qu'un.</JoyRescue.Settings.SummaryTip>
+
+  <JoyRescue.Settings.RescueModsWithOwnCode>Réparer aussi les bâtiments des mods qui ont leur propre code de loisir</JoyRescue.Settings.RescueModsWithOwnCode>
+  <JoyRescue.Settings.RescueModsWithOwnCodeTip>Ces mods définissent leurs propres activités de loisir ou pilotes de tâche : ils gèrent peut-être déjà le bâtiment par code, sans le déclarer nulle part. Les réparer quand même peut créer deux tâches concurrentes sur le même meuble. Laissés de côté, ils restent listés ci-dessous et s'activent un par un.</JoyRescue.Settings.RescueModsWithOwnCodeTip>
+
+  <JoyRescue.Settings.RequireChair>Regarder exige un siège ou un lit</JoyRescue.Settings.RequireChair>
+  <JoyRescue.Settings.RequireChairTip>Activé : le comportement du jeu de base pour les téléviseurs, pas de siège à portée, pas de visionnage. Désactivé : les colons regardent debout, ce qui évite qu'un écran réparé reste inutilisé faute de chaise. N'affecte que les bâtiments en mode « regarder ».</JoyRescue.Settings.RequireChairTip>
+
+  <JoyRescue.Settings.EnableAll>Tout activer</JoyRescue.Settings.EnableAll>
+  <JoyRescue.Settings.DisableAll>Tout désactiver</JoyRescue.Settings.DisableAll>
+  <JoyRescue.Settings.LogReport>Rapport au journal</JoyRescue.Settings.LogReport>
+  <JoyRescue.Settings.SortMode>Ordre : {0}</JoyRescue.Settings.SortMode>
+  <JoyRescue.Settings.SortByState>par état</JoyRescue.Settings.SortByState>
+  <JoyRescue.Settings.SortByCount>du plus fourni au moins fourni</JoyRescue.Settings.SortByCount>
+  <JoyRescue.Settings.SortByName>par nom</JoyRescue.Settings.SortByName>
+  <JoyRescue.Settings.SortModeTip>Cliquez pour faire défiler.
+
+Par état : ce qui demande une action passe devant, les types morts, puis ceux qui ont un orphelin, puis ceux déjà desservis.
+Du plus fourni au moins fourni : montre d'un coup d'œil où vous êtes riche et où vous êtes juste. Un type qui ne tient qu'à un seul meuble est à un incendie de ne plus rien valoir.
+Par nom : pour retrouver quelque chose dont on connaît déjà le nom.</JoyRescue.Settings.SortModeTip>
+  <JoyRescue.Settings.LogReportDone>Rapport Joy Rescue écrit dans le journal.</JoyRescue.Settings.LogReportDone>
+  <JoyRescue.Settings.Reset>Valeurs par défaut</JoyRescue.Settings.Reset>
+  <JoyRescue.Settings.ConfirmReset>Rétablir tous les réglages de Joy Rescue ?</JoyRescue.Settings.ConfirmReset>
+
+  <JoyRescue.Settings.GroupHeaderWithCode>{0} : embarque son propre code de loisir</JoyRescue.Settings.GroupHeaderWithCode>
+
+  <JoyRescue.Settings.RowTip>{0}\nVient de : {1}\nType de loisir : {2}</JoyRescue.Settings.RowTip>
+  <JoyRescue.Settings.RowTipOwnCode>Ce mod définit ses propres activités de loisir ou pilotes de tâche. Il gère peut-être déjà ce bâtiment par code. À n'activer que si les colons ne l'utilisent visiblement jamais.</JoyRescue.Settings.RowTipOwnCode>
+
+  <JoyRescue.Mode.Auto>Auto : {0}</JoyRescue.Mode.Auto>
+  <JoyRescue.Mode.AutoShort>Auto</JoyRescue.Mode.AutoShort>
+  <JoyRescue.Mode.InteractionCell>Se placer dessus</JoyRescue.Mode.InteractionCell>
+  <JoyRescue.Mode.SitAdjacent>S'asseoir en face</JoyRescue.Mode.SitAdjacent>
+  <JoyRescue.Mode.Watch>Regarder de loin</JoyRescue.Mode.Watch>
+
+  <JoyRescue.Settings.NoJoyBuildings>Aucun bâtiment de loisir dans cette liste de mods.</JoyRescue.Settings.NoJoyBuildings>
+  <JoyRescue.Settings.RowTipCovered>Déjà desservi par son propre mod. Rien à réparer, et rien à désactiver ici.</JoyRescue.Settings.RowTipCovered>
+  <JoyRescue.Settings.RowTipOrphan>Aucune activité ne pointe vers ce bâtiment. Tel quel, aucun colon ne s'en approchera.</JoyRescue.Settings.RowTipOrphan>
+
+  <JoyRescue.Settings.KindHeader>{0} : {1} bâtiment(s), {2} activité(s)</JoyRescue.Settings.KindHeader>
+  <JoyRescue.Settings.KindHeaderDead>{0} : AUCUNE activité, ce type est inatteignable et ne compte pour rien</JoyRescue.Settings.KindHeaderDead>
+  <JoyRescue.Settings.KindHeaderBroken>{0} : {1} bâtiment(s), dont {2} orphelin(s) en attente de réparation</JoyRescue.Settings.KindHeaderBroken>
+  <JoyRescue.Settings.KindHeaderNoBuilding>{0} : aucun bâtiment, {1} activité(s), cela vient d'objets ou de gestes</JoyRescue.Settings.KindHeaderNoBuilding>
+  <JoyRescue.Settings.KindHeaderOff>{0} : éteint par vous, ses {1} activité(s) sont maintenues à zéro et il ne compte pour rien jusqu'au rallumage</JoyRescue.Settings.KindHeaderOff>
+
+  <JoyRescue.Settings.KindTipFrom>Vient de : {0}</JoyRescue.Settings.KindTipFrom>
+  <JoyRescue.Settings.KindTipNeedsThing>Réclame un objet ou un bâtiment. Sans lui, ce loisir est tout simplement hors de portée.</JoyRescue.Settings.KindTipNeedsThing>
+  <JoyRescue.Settings.KindTipNoThing>Ne réclame aucun objet : le colon s'en charge seul, n'importe où.</JoyRescue.Settings.KindTipNoThing>
+  <JoyRescue.Settings.KindTipActivities>Activités : {0}.</JoyRescue.Settings.KindTipActivities>
+  <JoyRescue.Settings.KindTipBuildings>Bâtiments : {0}.</JoyRescue.Settings.KindTipBuildings>
+  <JoyRescue.Settings.KindTipMore>et {0} de plus</JoyRescue.Settings.KindTipMore>
+  <JoyRescue.Settings.KindTipWhatIsActivity>Une « activité » est une façon de prendre ce loisir : jouer aux échecs, regarder la télévision. Une même activité peut desservir plusieurs meubles, et un meuble que rien ne dessert ne sert à rien.</JoyRescue.Settings.KindTipWhatIsActivity>
+  <JoyRescue.Settings.GiverTip>{1}
+({0})</JoyRescue.Settings.GiverTip>
+  <JoyRescue.Settings.GiverTipMove>Déplacer une activité déplace aussi sa tâche et tous les bâtiments qu'elle dessert, d'un seul coup. C'est voulu : le jeu crédite le type de loisir de la TÂCHE, et journalise une erreur si un bâtiment le contredit. Rien ici ne peut être déplacé à moitié.</JoyRescue.Settings.GiverTipMove>
+  <JoyRescue.Settings.KindTipTolerance>La tolérance se compte par type, pas par bâtiment : un colon qui a joué aux échecs toute la semaine est tout aussi lassé du poker. Les attentes réclament jusqu'à six types différents, donc un type neuf vaut mieux qu'un dixième bâtiment d'un type déjà servi.</JoyRescue.Settings.KindTipTolerance>
+
+</LanguageData>

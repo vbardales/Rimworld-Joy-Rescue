@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <JoyRescue.Settings.AddKind>Créer un type de loisir</JoyRescue.Settings.AddKind>
+  <JoyRescue.Settings.NewKindLabel>loisir personnalisé {0}</JoyRescue.Settings.NewKindLabel>
+  <JoyRescue.Settings.RemoveKind>Supprimer</JoyRescue.Settings.RemoveKind>
+  <JoyRescue.Settings.SaveNow>Enregistrer maintenant</JoyRescue.Settings.SaveNow>
+  <JoyRescue.Settings.SaveNowDone>Réglages de Joy Rescue écrits sur le disque.</JoyRescue.Settings.SaveNowDone>
+  <JoyRescue.Settings.KindLive>actif</JoyRescue.Settings.KindLive>
+  <JoyRescue.Settings.KindOnRestart>au redémarrage</JoyRescue.Settings.KindOnRestart>
+
+  <JoyRescue.Settings.KindDisable>Éteindre</JoyRescue.Settings.KindDisable>
+  <JoyRescue.Settings.KindEnable>Rallumer</JoyRescue.Settings.KindEnable>
+
+  <JoyRescue.Settings.KindPending>{0} (au redémarrage)</JoyRescue.Settings.KindPending>
+  <JoyRescue.Settings.KindRevert>Revenir à son type d'origine</JoyRescue.Settings.KindRevert>
+  <JoyRescue.Settings.KindRemovedOrphans>{0} réassignation(s) visaient ce type et ont été retirées avec lui.</JoyRescue.Settings.KindRemovedOrphans>
+  <JoyRescue.Settings.PendingRestartShort>Certains changements ne prendront qu'au prochain lancement de RimWorld.</JoyRescue.Settings.PendingRestartShort>
+
+  <JoyRescue.Settings.PendingRestart>Certains changements ne prendront qu'au prochain lancement de RimWorld. Créer un type, comme déplacer un bâtiment vers un autre type, doit être écrit avant que le jeu ne construise les tables de tolérance au loisir de chaque colon : aucun des deux ne peut se faire en cours de session.</JoyRescue.Settings.PendingRestart>
+
+  <JoyRescue.Settings.SaveHint>Les types créés ici existeront au prochain lancement de RimWorld. RimWorld enregistre les réglages d'un mod à la fermeture de sa fenêtre : « Enregistrer maintenant » fait la même chose tout de suite, si vous préférez le voir écrit noir sur blanc.</JoyRescue.Settings.SaveHint>
+
+  <JoyRescue.Settings.ModeTip>Comment le colon atteint le bâtiment.
+
+Se placer dessus : il monte sur la case que le bâtiment déclare, comme un télescope ou un piano.
+S'asseoir en face : il prend une case adjacente et se tourne vers lui, comme une table d'échecs.
+Regarder de loin : il s'assoit à quelques pas et le regarde, comme un téléviseur.
+
+Auto choisit d'après la forme du bâtiment. Cliquez pour faire défiler.</JoyRescue.Settings.ModeTip>
+
+</LanguageData>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <JoyRescue.Settings.AddKind>Create a recreation type</JoyRescue.Settings.AddKind>
+  <JoyRescue.Settings.NewKindLabel>custom recreation {0}</JoyRescue.Settings.NewKindLabel>
+  <JoyRescue.Settings.RemoveKind>Delete</JoyRescue.Settings.RemoveKind>
+  <JoyRescue.Settings.SaveNow>Save now</JoyRescue.Settings.SaveNow>
+  <JoyRescue.Settings.SaveNowDone>Joy Rescue settings written to disk.</JoyRescue.Settings.SaveNowDone>
+  <JoyRescue.Settings.KindLive>active</JoyRescue.Settings.KindLive>
+  <JoyRescue.Settings.KindOnRestart>on restart</JoyRescue.Settings.KindOnRestart>
+
+  <JoyRescue.Settings.KindDisable>Switch off</JoyRescue.Settings.KindDisable>
+  <JoyRescue.Settings.KindEnable>Switch back on</JoyRescue.Settings.KindEnable>
+
+  <JoyRescue.Settings.KindPending>{0} (on restart)</JoyRescue.Settings.KindPending>
+  <JoyRescue.Settings.KindRevert>Back to its original type</JoyRescue.Settings.KindRevert>
+  <JoyRescue.Settings.KindRemovedOrphans>{0} reassignment(s) pointed at this type and were removed with it.</JoyRescue.Settings.KindRemovedOrphans>
+  <JoyRescue.Settings.PendingRestartShort>Some changes only take effect the next time RimWorld starts.</JoyRescue.Settings.PendingRestartShort>
+
+  <JoyRescue.Settings.PendingRestart>Some changes take effect the next time RimWorld starts. Creating a type, and moving a building to another type, both have to be written before the game builds its per-colonist recreation tolerance tables — there is no way to do either mid-session.</JoyRescue.Settings.PendingRestart>
+
+  <JoyRescue.Settings.SaveHint>Types created here will exist the next time RimWorld starts. RimWorld writes a mod's settings when its window closes; "Save now" does the same thing immediately, if you would rather see it confirmed.</JoyRescue.Settings.SaveHint>
+
+  <JoyRescue.Settings.ModeTip>How the colonist reaches the building.
+
+Stand on its spot — they walk onto the cell the building declares, like a telescope or a piano.
+Sit facing it — they take an adjacent cell and turn towards it, like a chess table.
+Watch from afar — they sit a few paces back and look at it, like a television.
+
+Auto picks from the shape of the building. Click to cycle.</JoyRescue.Settings.ModeTip>
+
+</LanguageData>
