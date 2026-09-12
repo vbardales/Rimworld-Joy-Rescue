@@ -3,29 +3,25 @@ mod:          Joy Rescue
 packageId:    nelim.joyrescue
 repo:         Rimworld-Joy-Rescue
 visibility:   public
-detached:     no
+detached:     yes
 stage:        done
 licence:      original
-licence_at:   original work
+licence_at:   original work, MIT
 dependencies: declared
 showcase:     complete
 tested_on:    2026-08-29
 workshop:
 remaining:
-  - feature: still inside the monorepo. `JoyRescue/` is tracked by the monorepo, has no `.git`
-    of its own, and no remote points at it. The public repository
-    `https://github.com/vbardales/Rimworld-Joy-Rescue` exists but is empty: not one commit has
-    ever reached it.
-  - defect: `README.md` is written in French, in a repository meant to be public. Everything
-    shipped must be English.
   - unverified: the 2026-08-29 run proves the defs are generated and the load is clean, nothing
-    more. The current build is four commits younger than that run, and was never launched.
+    more. The current build is younger than that run, and was never launched.
   - unverified: pawn behaviour on a repaired building was never watched, and the settings window
     was never opened in game.
   - unverified: no off-game test suite. The mode heuristic, the `baseChance` toggle and the
     `workerInt` reset are unchecked outside the game.
+  - feature: never published to the Workshop. The GitHub repository is filled now, the Steam item
+    does not exist.
 session:      local_06dd178f-bf2c-4af0-8dd6-02a211cafcac
-updated:      2026-09-12, read by the mod's own session
+updated:      2026-09-12, detached from the monorepo
 ---
 
 # Joy Rescue — status
@@ -36,8 +32,15 @@ that holds this mod, not by the sweep that first wrote it.
 ## Where it stands
 
 The work is finished and the showcase is complete: preview, mod icon, and the full-resolution
-source under `Art/`. Nothing has been published. The repository name is reserved on GitHub and
-public, but empty, so publishing is still entirely ahead.
+source under `Art/`. The folder left the monorepo on 2026-09-12 and is now a repository of its
+own, pushed to `https://github.com/vbardales/Rimworld-Joy-Rescue`, which until that day was
+public but empty. One remote, which is not the monorepo.
+
+The four identifiers were already aligned on the display name, so nothing was renamed: folder
+`JoyRescue`, `packageId` `nelim.joyrescue`, repository `Rimworld-Joy-Rescue`. The junction from
+`RimWorld/Mods` points at `JoyRescue/Mod` and did not have to be rebuilt.
+
+The Workshop item does not exist. Publishing there is still entirely ahead.
 
 The mod is an original work. It owes nothing to another mod: not a name, not an asset, not an
 idea traceable to one. Malay Themed Expansion is what revealed the problem, having shipped two
