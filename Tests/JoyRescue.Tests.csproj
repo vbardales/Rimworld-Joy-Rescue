@@ -1,0 +1,33 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <RimWorldManagedDir Condition="'$(RimWorldManagedDir)' == ''">C:\Program Files (x86)\Steam\steamapps\common\RimWorld\RimWorldWin64_Data\Managed</RimWorldManagedDir>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="JoyRescue">
+      <HintPath>..\Mod\Assemblies\JoyRescue.dll</HintPath>
+    </Reference>
+    <Reference Include="Assembly-CSharp">
+      <HintPath>$(RimWorldManagedDir)\Assembly-CSharp.dll</HintPath>
+      <Private>true</Private>
+    </Reference>
+    <Reference Include="UnityEngine.CoreModule">
+      <HintPath>$(RimWorldManagedDir)\UnityEngine.CoreModule.dll</HintPath>
+      <Private>true</Private>
+    </Reference>
+  </ItemGroup>
+  <Target Name="BuildMod" BeforeTargets="ResolveReferences">
+    <MSBuild Projects="..\Source\JoyRescue.csproj" Targets="Restore;Build" Properties="Configuration=$(Configuration)" />
+  </Target>
+  <Target Name="CheckGamePath" BeforeTargets="ResolveReferences">
+    <Error Condition="!Exists('$(RimWorldManagedDir)\Assembly-CSharp.dll')" Text="Set RimWorldManagedDir to the installed game's Managed directory." />
+  </Target>
+  <Target Name="CopyGameRuntime" AfterTargets="Build">
+    <ItemGroup>
+      <GameRuntime Include="$(RimWorldManagedDir)\*.dll" Exclude="$(RimWorldManagedDir)\mscorlib.dll;$(RimWorldManagedDir)\System*.dll;$(RimWorldManagedDir)\netstandard.dll" />
+    </ItemGroup>
+    <Copy SourceFiles="@(GameRuntime)" DestinationFolder="$(TargetDir)" SkipUnchangedFiles="true" />
+  </Target>
+</Project>

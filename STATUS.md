@@ -10,18 +10,22 @@ licence_at:   original work, MIT
 dependencies: declared
 showcase:     complete
 tested_on:    2026-08-29
+unit_tested_on: 2026-09-12
 workshop:
 remaining:
   - unverified: the 2026-08-29 run proves the defs are generated and the load is clean, nothing
     more. The current build is younger than that run, and was never launched.
   - unverified: pawn behaviour on a repaired building was never watched, and the settings window
     was never opened in game.
-  - unverified: no off-game test suite. The mode heuristic, the `baseChance` toggle and the
-    `workerInt` reset are unchecked outside the game.
+  - unverified: initial off-game suite passes 49 cases for settings, mode heuristic, missing
+    job/giver guards and editor rules. The `baseChance` toggle, full retargeting and `workerInt` reset remain
+    unchecked. See Tests/README.md for commands and scope.
+  - defect: numeric mode overrides 99 and -1 do not fall back to Auto; two opt-in regression
+    tests reproduce this. No production fix applied yet.
   - feature: never published to the Workshop. The GitHub repository is filled now, the Steam item
     does not exist.
 session:      local_06dd178f-bf2c-4af0-8dd6-02a211cafcac
-updated:      2026-09-12, detached from the monorepo
+updated:      2026-09-12, test coverage reviewed and initial automated suite added
 ---
 
 # Joy Rescue — status
@@ -46,6 +50,24 @@ The mod is an original work. It owes nothing to another mod: not a name, not an 
 idea traceable to one. Malay Themed Expansion is what revealed the problem, having shipped two
 recreation buildings no colonist can use, but nothing of it is reused here. Hence
 `licence: original`.
+
+## Automated testing — 2026-09-12
+
+The scenario review added 19 cases and a coverage matrix in `Tests/SCENARIOS.md`.
+The first executable suite passes 49/49 nominal cases against the compiled mod and
+the installed RimWorld assemblies. The separate `--regressions` run passes 49/51:
+the two failures reproduce undefined numeric modes (`99`, `-1`) being accepted.
+This defect remains unfixed; the test work changes no production logic.
+
+The tests cover settings, identity, the mode heuristic, incomplete entry guards,
+the editor's mode cycle and activity labels. They do not yet cover generation,
+weight toggling, full retargeting, worker invalidation, persistence or actual pawn
+behaviour. The runner uses .NET 8 and data-only ThingDef fixtures without Unity
+graphics initialization. Commands and limitations are in `Tests/README.md`.
+
+The Release build completed with no warnings or errors. Test outputs and local
+game dependencies stay under `.build/`, outside the published mod folder.
+`tested_on` above remains the last in-game check; `unit_tested_on` records this suite.
 
 ## What it is made of
 
