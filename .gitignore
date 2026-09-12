@@ -1,0 +1,25 @@
+# Build intermediates.
+# Source/Directory.Build.props sends them outside the mod folder: they must never end up back
+# inside it, since a Workshop uploader sends Mod/ as it stands, with no exclusion possible.
+.build/
+Source/obj/
+Source/bin/
+
+# Development environments
+.vs/
+.vscode/
+.idea/
+*.user
+*.suo
+*.csproj.user
+
+# System
+Thumbs.db
+desktop.ini
+.DS_Store
+
+# Claude Code session worktrees and local settings. A session creates its worktree in the
+# current directory, so sometimes inside this one, and each is a full copy of the repository.
+# Until this folder became a repository of its own the rule lived in the monorepo's .gitignore,
+# a file this repository does not carry.
+.claude/

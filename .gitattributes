@@ -1,0 +1,21 @@
+# Normalise line endings in the repository, while each machine keeps its own.
+#
+# The monorepo this folder came out of carries a file like this one, and it does not reach
+# here: a repository needs its own copy. The types listed below are the ones actually tracked
+# in this mod, counted rather than guessed.
+
+* text=auto
+
+# ---------- Text ----------
+
+*.cs     text diff=csharp
+*.xml    text
+*.md     text
+*.csproj text
+*.props  text
+LICENSE  text
+
+# ---------- Binaries: neither normalised nor diffed as text ----------
+
+*.png binary
+*.dll binary
