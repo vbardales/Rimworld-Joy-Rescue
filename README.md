@@ -59,6 +59,18 @@ furniture. Those buildings are therefore **listed but disabled by default**, wit
 detection is done by reflection over the assemblies of the originating `ModContentPack` alone
 (those of its dependencies are not in there).
 
+## Settings
+
+Open **Options → Mod options → Joy Rescue**. Repairs and mode changes apply to new
+activity selections immediately. Creating recreation types and reassigning buildings
+or activities require saving settings and restarting RimWorld. Settings are global,
+not per save; existing custom names are preserved when changing the interface language.
+
+An optional `JoyRescue_Settings` MainButtons entry opens this same settings dialog.
+It is hidden by default, and its standard `buttonVisible` field can be exposed by
+MainButtons customization tools. Such tools are not required for the primary settings
+entry. Actual RIMMSQOL integration is pending in-game acceptance; see `Tests/MANUAL.md`.
+
 ## Building
 
 ```

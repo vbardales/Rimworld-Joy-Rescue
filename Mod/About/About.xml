@@ -20,7 +20,11 @@ Everything found is listed in the mod settings, one line per building, with an o
 
 This matters more than it looks: recreation tolerance is tracked per type, and expectations ask for up to 6 different types. A recreation type that no giver can produce is a type your colony simply does not have.
 
-No save data. Can be added to or removed from an ongoing game.</description>
+No save data. Can be added to or removed from an ongoing game.
+
+Credits: created by nelim; powered by Harmony. Showcase artwork was generated with AI.
+
+[url=https://github.com/vbardales/Rimworld-Joy-Rescue]Source code on GitHub[/url]</description>
   <modDependencies>
     <li>
       <packageId>brrainz.harmony</packageId>

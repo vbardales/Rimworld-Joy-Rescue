@@ -1,54 +1,74 @@
-# Tests automatisés JoyRescue
+# Joy Rescue automated tests
 
-Première tranche exécutée le 12 septembre 2026 : **49/49 cas nominaux passent**.
-La commande de régression exécute aussi deux cas R01 : **49/51 passent**, les
-valeurs numériques `99` et `-1` sont acceptées au lieu de revenir à `Auto`.
-Le défaut est reproduit, pas corrigé dans cette tranche.
+## Current commands
 
-## Exécution sous Windows
-
-Prérequis : SDK .NET 8, RimWorld installé, dépendances NuGet de compilation du mod
-accessibles ou déjà en cache. Depuis la racine du dépôt :
+Prerequisites: .NET 8 SDK, installed RimWorld, and cached or accessible NuGet build
+dependencies. Run from the repository root:
 
 ```powershell
 dotnet build Tests/JoyRescue.Tests.csproj -c Release
 & ./.build/tests/bin/Release/net8.0/JoyRescue.Tests.exe
-# Inclut les deux assertions de régression actuellement en échec :
+# Backward-compatible alias; regressions now run by default:
 & ./.build/tests/bin/Release/net8.0/JoyRescue.Tests.exe --regressions
+pwsh -NoProfile -File Tests/Test-Xml.ps1
+pwsh -NoProfile -File ../scripts/Check-DefInjected.ps1 -TransMod ./Mod
 ```
 
-Pour une installation du jeu ailleurs :
+For a different game location, pass
+`-p:RimWorldManagedDir=D:\Games\RimWorld\RimWorldWin64_Data\Managed` to the build.
+The build compiles production net48 and the net8.0 runner. Exit 0 means success;
+exit 1 means a failed assertion. `dotnet test` does not discover this custom runner.
+Game runtime dependencies are copied only under ignored `.build/tests/`, never Mod/.
 
-```powershell
-dotnet build Tests/JoyRescue.Tests.csproj -c Release '-p:RimWorldManagedDir=D:\Games\RimWorld\RimWorldWin64_Data\Managed'
-```
+## Scope and limitations
 
-La compilation reconstruit le mod net48, puis le programme de tests net8.0.
-Le runner affiche chaque cas et retourne **0 en réussite, 1 en échec**. Il s'agit
-d'un petit exécutable sans framework de test supplémentaire : `dotnet test` ne
-découvre pas ces cas. Les dépendances réelles du jeu sont copiées uniquement sous
-`.build/tests/`, ignoré par Git et extérieur au dossier publié `Mod/`.
+Tests invoke the compiled production DLL and installed Verse/RimWorld types, without
+loading or writing the player's preferences or saves. ThingDef fixtures use
+`RuntimeHelpers.GetUninitializedObject` to avoid Unity shader initialization; they
+supply only the relevant fields. This does not validate constructor defaults or
+complete in-game definitions. .NET 8 can load the required netstandard 2.1 dependencies
+but is not Unity/Mono. Private editor methods are invoked through reflection.
 
-## Ce que ces résultats prouvent
+Baseline coverage: U01–U16, U20, U27 and ActivityName in U33. R01 is now mandatory.
+An additional test binds the distributed shortcut definition to its compiled worker and
+checks that it inherits native visibility. This is a contract test, not a reveal/hide
+interaction test: calling Visible here initializes Unity save paths and cannot run in
+this data-only environment. The attempted run is preserved in
+`.build/fix-2026-09-13/visibility-runtime-attempt.txt`; use F13 for interaction.
+There is no line/branch coverage measurement. SettingsIntegration.cs now executes full
+Retarget transitions (including worker invalidation) in EN and FR, live weight restoration,
+real generation and reassignment, editor helpers and Scribe serialization. The current
+suite passes **95/95**; results are in `.build/settings-2026-09-13/results.txt`.
+Manual acceptance is in MANUAL.md and remains unexecuted.
 
-`Program.cs` teste directement les classes de la DLL JoyRescue compilée, sans
-recopier les règles de production. Les classes Verse/RimWorld sont celles de
-l'installation locale. Les paramètres sont des instances neuves par cas ; aucune
-partie ni préférence du joueur n'est chargée ou modifiée.
+The fixtures initialize real Verse language objects from the distributed Keyed files,
+capability DefOf bindings and the custom-type discovery cache. They use minimal definitions
+and clear their databases between cases; globals they change are restored on disposal.
+Unity profiling and unrelated date/colonist text decoration are disabled in the fixtures.
+Generation/reassignment tests use Verse's Log.LockMessages to avoid the Unity log sink:
+these tests check resulting definitions, not clean in-game logs. Scribe tests use the real
+saver, extractor and loader through all loading phases, writing only `.build/` files.
+No production settings, translation, serialization or generation method is mocked/patched.
+The explicit Publicizer assembly attribute permits the unchanged private-member accesses
+on .NET 8 as well as the intended Mono environment.
 
-Le constructeur de ThingDef charge des shaders Unity : les fixtures utilisent
-`RuntimeHelpers.GetUninitializedObject` et renseignent explicitement les seuls
-champs nécessaires. Cela ne vérifie ni les valeurs par défaut du constructeur,
-ni la validité d'une def complète dans le jeu. Le runtime .NET 8 permet de charger
-les dépendances netstandard 2.1, mais ne remplace pas Unity/Mono.
+Pass --trace-exceptions for first-chance exception diagnostics when investigating a runner
+initialization issue; the normal command does not enable this verbose diagnostic output.
 
-Couverture initiale : U01–U16, U20, U27 et la partie ActivityName de U33.
-Les méthodes privées de l'éditeur sont appelées par réflexion, sans modifier leur visibilité.
-Pas encore de mesure de couverture de lignes.
-Les transitions complètes Retarget, `workerInt`, `baseChance`, génération,
-sérialisation et autres règles d'éditeur restent à automatiser avec leur environnement
-initialisé. Voir `SCENARIOS.md` pour la revue et les nouveaux cas identifiés.
+The XML suite checks metadata, the exact final GitHub link, well-formed XML, nonempty
+unique keys, EN/FR parity, format strings, literal translation calls and shortcut
+resources. Static checks do not prove UI layout, actual game language loading or
+customization-tool integration. DefInjected validation checks paths against the game
+and target definitions, not exhaustive gameplay behavior.
 
-Les cas R01 sont volontairement séparés pour conserver une commande nominale
-utilisable tout en fournissant une reproduction en échec. Ils ne sont ni ignorés
-silencieusement, ni transformés en assertions acceptant le défaut.
+## Historical results preserved
+
+2026-09-12 baseline, reproduced by the 2026-09-13 pre-fix audit: **49/49 nominal,
+49/51 with R01, 13/13 XML**. Undefined numeric modes `99` and `-1` were accepted
+instead of Auto. These two failures were genuine reproductions, not ignored tests
+or assertions changed to accept the defect. They were opt-in at that time and now
+run by default. Initial outputs remain under `.build/tests/`; the pre-fix audit
+outputs remain under `.build/audit-2026-09-13/`.
+
+See STATUS.md for the fixed revision/worktree, current results and evidence paths.
+A passing off-game suite never certifies the manual acceptance scenarios.

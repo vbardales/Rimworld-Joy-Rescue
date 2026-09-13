@@ -1,4 +1,7 @@
 ---
+localization: complete
+translation_en: complete
+translation_fr: complete
 mod:          Joy Rescue
 packageId:    nelim.joyrescue
 repo:         Rimworld-Joy-Rescue
@@ -7,25 +10,27 @@ detached:     yes
 stage:        done
 licence:      original
 licence_at:   original work, MIT
+license_spdx: MIT
+license_files: LICENSE, Mod/LICENSE
 dependencies: declared
 showcase:     complete
+settings_audit: complete
+audit_revision: 2e44782bacb1903e1931f15b62fb2ac6db1fb785
+audit_worktree: dirty
+automated_tests: passed
+xml_tests: passed
 tested_on:    2026-08-29
-unit_tested_on: 2026-09-12
+unit_tested_on: 2026-09-13
 workshop:
 remaining:
-  - unverified: the 2026-08-29 run proves the defs are generated and the load is clean, nothing
-    more. The current build is younger than that run, and was never launched.
-  - unverified: pawn behaviour on a repaired building was never watched, and the settings window
-    was never opened in game.
-  - unverified: initial off-game suite passes 49 cases for settings, mode heuristic, missing
-    job/giver guards and editor rules. The `baseChance` toggle, full retargeting and `workerInt` reset remain
-    unchecked. See Tests/README.md for commands and scope.
-  - defect: numeric mode overrides 99 and -1 do not fall back to Auto; two opt-in regression
-    tests reproduce this. No production fix applied yet.
-  - feature: never published to the Workshop. The GitHub repository is filled now, the Steam item
-    does not exist.
+  - unverified: execute MANUAL.md F01-F14 in RimWorld, including actual pawn behavior,
+      logs, FR/EN UI, new game and existing save, settings persistence and shared activities.
+  - unverified: MainButtons reveal/hide/open and RIMMSQOL integration require the game
+      runtime; only the native definition/worker contract is verified off-game.
+  - unverified: engine-specific mod-pack detection, full load/short hashes, save tolerance
+      migration and log rendering are not certified by the isolated definition runner.
 session:      local_06dd178f-bf2c-4af0-8dd6-02a211cafcac
-updated:      2026-09-12, test coverage reviewed and initial automated suite added
+updated:      2026-09-13, settings integration and regressions passed; ready for gameplay acceptance
 ---
 
 # Joy Rescue — status
@@ -33,7 +38,352 @@ updated:      2026-09-12, test coverage reviewed and initial automated suite add
 Kept at the root, never inside `Mod/`, so Steam never receives it. Maintained by the session
 that holds this mod, not by the sweep that first wrote it.
 
-## Where it stands
+## Current settings validation — 2026-09-13
+
+**Stage: `preOptions` → `done`.** The literal user workflow is applied: the settings
+source/definition audit and applicable off-game behavior tests now pass (`options`),
+localization checks remain complete (`l10n`), dependency inspection passes (`preTest`),
+and written functional scenarios plus successful executable/XML suites establish `done`.
+This means ready for final in-game acceptance, **not** `tested`. `tested_on` remains the
+historical August date; this work does not reuse it as current-version gameplay evidence.
+
+Revision: `2e44782bacb1903e1931f15b62fb2ac6db1fb785` plus the current uncommitted worktree.
+Changes from earlier turns were preserved; no commit, push, publication or image change.
+Distributed root remains `Mod/`, linked to RimWorld/Mods as established by the audit.
+Current DLL and the copy used by the test runner have the same SHA-256:
+`1D3013B90D01A51B1D656284F5CBA071EF6E825D9CB9DF273A255AAFF0C65E7B`.
+
+### Executed results and evidence
+
+Evidence directory: `.build/settings-2026-09-13/` (local, ignored). The previous audit
+and first-fix results remain intact in their earlier directories.
+
+| Check | Actual result |
+| --- | --- |
+| `dotnet build Tests/JoyRescue.Tests.csproj -c Release --no-restore` | Exit 0, zero warnings/errors; build.txt |
+| `./.build/tests/bin/Release/net8.0/JoyRescue.Tests.exe` | Exit 0, **95/95 PASS**; results.txt |
+| `pwsh -NoProfile -File Tests/Test-Xml.ps1` | Exit 0, **18/18 PASS**; xml.txt |
+| Native DefInjected paths | Earlier **2 keys, 0 errors** validation retained: neither MainButtonDef nor its translations changed in this continuation |
+| `git diff --check` | PASS |
+| In-game / RIMMSQOL | **Not executed**; no integration version certified |
+
+The 95 cases comprise the prior 52 plus 43 new integration/contract cases. Some cases
+exercise several related scenarios; the scenario IDs are not a claim of exhaustive
+line/branch coverage. See the current matrix in Tests/SCENARIOS.md.
+
+### Settings audit: complete within the user-defined off-game gate
+
+Settings inventory, global scope and access routes are unchanged from the correction
+record below. The primary route uses the Mod subclass; the hidden optional MainButtons
+worker opens the same Dialog_ModSettings and Mod instance. No extra dependency was added.
+Actual render/open/reveal/hide interaction remains in final gameplay acceptance.
+
+Verified with the real delivered production DLL and installed Verse/RimWorld classes:
+
+- All nine source/target mode pairs in EN and FR: driver/giver classes, capacities,
+  participants, chair/bed flags, translated job reports, stable object identity and
+  worker cache invalidation. Both same-mode reapplication and mode changes are covered.
+- Live individual, type and own-code global toggles; explicit-choice precedence;
+  changing mode while disabled; seat-option toggling; external weight restoration,
+  zero-weight preservation, repeated suppression and late-arriving givers.
+- Actual generation in all three modes; custom kinds and activity/building assignment
+  precedence; repeated scans and retention of original external weights.
+- Editor pending names/choices, reference cleanup, grouping, all three sort modes,
+  activity counters, SetAll and cache invalidation. These are helper tests, not UI drawing.
+- Real Scribe save/extract/load/finalization for all persisted fields, including a
+  non-ASCII name with XML-special characters; old empty settings load defaults and
+  usable non-null collections. Files stay inside .build; player settings are untouched.
+- Earlier numeric-mode/default/reset checks remain passing. No new player options
+  were invented merely to satisfy the gate.
+
+### Defects reproduced and fixed during this continuation
+
+1. **R02 / D39:** reassigning one giver changed a shared job's recreation kind while
+   leaving another giver/building unchanged. The targeted activity now receives an
+   isolated copy of a shared job; both conflicting assignment orders pass.
+2. **R03:** a repeated scan classified its own generated givers as external coverage
+   and lost repair tracking. Existing generated jobs/givers are reused by identity;
+   stale references from a full reload are discarded. External weights are retained
+   across replays, and newly supplied external coverage supersedes an old repair.
+3. **R04:** the usable-kind count included disabled covered buildings. It now checks
+   positive-weight givers serving the building with the matching recreation kind.
+4. **D40:** duplicate occurrences of a reassigned building were only partly removed.
+   All matching occurrences are now detached.
+5. **U36:** invalidating editor caches left tooltips cached. All relevant caches now
+   clear, and UI settings application refreshes both ordering and tooltips.
+
+Pre-fix reproductions are retained as reproduced-4-defects.txt and
+reproduced-tooltip-cache.txt. The original assertions now pass; they were not weakened.
+Generation also clears HasRun before work begins, tested with a controlled failed replay
+(D41). Its exception message now accurately states that definitions may be partly updated;
+this is not a rollback mechanism and the exact in-game log rendering remains unverified.
+
+The .NET runner exposed a separate build contract omission: GenerateAssemblyInfo=false
+prevented Publicizer's generated IgnoresAccessChecksTo attribute from being emitted.
+Source/AssemblyInfo.cs now explicitly supplies the existing Publicizer attribute for
+Assembly-CSharp. Private worker invalidation and definition operations execute successfully
+against the unmodified installed assembly; a compiled-attribute assertion also passes.
+The earlier .NET FieldAccessException is not described as an observed Mono gameplay failure.
+
+### Test-environment boundaries
+
+Fixtures initialize actual language objects from the distributed resources, the two
+required capability definitions and the custom type's discovery entry. They require empty
+definition databases, restore changed globals, and clear their test definitions/state on
+cleanup. They do not mock or patch production settings, Scribe, Retarget or Generate.
+Unity profiling and unrelated date/colonist text decoration are disabled in the fixtures.
+Generation tests temporarily use Verse's native Log.LockMessages to avoid Unity log calls;
+therefore these results cannot establish clean in-game logs. The Scribe tests use the actual
+saver and loader through all phases, but do not load a colony or test tolerance migration.
+Initial runtime setup failures and an optional first-chance trace are preserved separately.
+
+### Remaining final acceptance
+
+Tests/MANUAL.md retains F01-F13 and adds F14 for shared activity jobs. Execute the
+applicable scenarios on a new game and a copied existing save, in FR and EN, observing
+actual recreation gain, positions/reservations, logs, persistence and restart behavior.
+Exercise MainButtons/RIMMSQOL with its version recorded; no universal compatibility is
+inferred from source inspection or the contract test. No playable game session or native
+RimWorld UI was controlled during this work.
+
+Other unimplemented robustness fixtures in SCENARIOS.md remain a backlog, not implicit
+passes. They are distinguished from the representative applicable settings checks above
+and from final in-game requirements. No new concrete defect is left open by this suite.
+
+## Historical first correction record — 2026-09-13
+
+The user authorized fixes after the audit. All confirmed defects from that audit have
+been corrected. Stage moves from `dansMonoRepo` to **`preOptions`**. This is the literal
+workflow stage after Preview/description verification, not a claim of complete settings
+validation or final gameplay acceptance. `settings_audit` remains `partial` because
+applicable off-game behavior/serialization tests identified by the audit are still missing.
+The independently checked localization resources pass; no gameplay result is inferred.
+
+Base revision remains `2e44782bacb1903e1931f15b62fb2ac6db1fb785` with uncommitted local
+changes. The preexisting About.xml, STATUS.md and test-document changes were incorporated;
+test scripts/scenarios and historical results were retained. No commit, push, Workshop
+publication or image change occurred. The same distributed root `Mod/` is used.
+
+### Corrections delivered
+
+- Added English ATTRIBUTION.md and CHANGELOG.md and identical distribution copies.
+  Existing LICENSE copies remain identical. Translated README/SCENARIOS/MANUAL test
+  documentation into English, preserving every scenario ID and historical result.
+- About.xml now ends with the exact Steam-formatted Source code on GitHub link,
+  after project/Harmony/AI credits; the verified repository target is unchanged.
+- RawMode rejects undefined enum values, including 99 and -1, and falls back to Auto.
+  Both regressions now run by default and also verify the resulting heuristic mode.
+- SummaryTip now uses placeholder {0} in EN/FR and receives UsableKindCount explicitly.
+- Custom-kind names use the existing translated suggestion when the settings UI creates
+  them. Stored names, including player edits, are never retranslated during loading.
+- Added JoyRescue_Settings MainButtonDef with buttonVisible=false and validWithoutMap=true.
+  Its worker uses RimWorld.Dialog_ModSettings with JoyRescueMod.Instance, the same
+  settings instance, UI and WriteSettings path used by the main Mod options dialog.
+  No customization dependency, forced visibility override or separate settings store.
+- Added native French MainButtonDef label/description injections; English is provided
+  by source Def fields, with no redundant English DefInjected file.
+- Strengthened XML checks for the final link, translation call-site argument counts,
+  shortcut definition/resources and matching distribution documents. Added an executable
+  definition-to-worker binding/native visibility inheritance test. Added manual F13 for
+  actual shortcut visibility, shared values and customization-tool persistence.
+
+### Executed verification
+
+Current evidence is in `.build/fix-2026-09-13/`; pre-fix evidence is unchanged.
+
+| Check | Result |
+| --- | --- |
+| `dotnet build Tests/JoyRescue.Tests.csproj -c Release --no-restore` | PASS, exit 0, zero warnings/errors; production DLL rebuilt into Mod/Assemblies |
+| `./.build/tests/bin/Release/net8.0/JoyRescue.Tests.exe` | PASS, exit 0, **52/52**, including both formerly failing R01 cases and shortcut contract |
+| `pwsh -NoProfile -File Tests/Test-Xml.ps1` | PASS, exit 0, **18/18**, including call-site arity and new Def XML |
+| `pwsh -NoProfile -File ../scripts/Check-DefInjected.ps1 -TransMod ./Mod` | PASS, exit 0, **2 keys, 0 errors**, 11587 definitions indexed |
+| In-game acceptance and RIMMSQOL | **Not executed**, no integration version certified |
+
+Delivered DLL SHA-256:
+`ECBED57B8F23E6AF0DBCC2E52732D75630E72B2EB5B85FCC4B30B0C856659000`.
+Build/test logs are build.txt and tests.txt; XML and injection logs are xml.txt and definjected.txt in that same directory.
+
+The attempted direct Visible call in the off-game runner failed when Verse.ModsConfig
+initialized Unity save paths (`ECall methods must be packaged into a system module`).
+It is preserved in visibility-runtime-attempt.txt as an **environment limitation**, not
+as an observed game defect. The final additional test checks the compiled worker binding,
+default flag and inherited native Visible property, and does not claim runtime visibility.
+Source inspection of the installed RimWorld 1.6 MainButtonWorker confirms Visible returns
+def.buttonVisible; Dialog_ModSettings delegates drawing and saving to the same Mod instance.
+Actual activation/rendering/reveal/hide remain F13, not a passing mocked integration.
+
+### Settings and localization disposition
+
+Settings defaults/override behavior/mode validation/reset pass their executable cases.
+The UI contract is implemented and compiled. Applicable actual-effect tests for weights,
+full Retarget/worker reset and Scribe persistence remain unexecuted, so `options` is not
+certified. These are missing verifications, not newly asserted defects or a requirement
+to add more player options. Existing R02–R04 hypotheses retain their unverified status.
+
+The localization inventory now includes the shortcut Def. All owned literal translation
+calls are covered by nonempty EN/FR resources; call arguments meet positional placeholders.
+The two native injection paths resolve. The hardcoded generated suggestion is removed.
+Proper name Joy Rescue, IDs, technical logs and saved user names remain justified exclusions.
+The original six-source inventory plus the new shortcut worker was reviewed. Resource
+validation is `complete` independently of the pending settings gate; FR/EN rendering,
+PreResolve language behavior and persistence remain part of final in-game validation.
+
+### Cumulative stage and next gate
+
+Standalone/public/pushed baseline, identifiers and MIT notices remain established from
+this session's live audit. Required English documentation is now present. Known production
+regressions are fixed, build passes, icon/Preview artifacts are unchanged and retain their
+direct visual validation. Description and original-title naming now pass. Therefore the
+cumulative stage is `preOptions`. To reach `options`, implement and execute the applicable
+off-game behavior/persistence cases above; do not use the 52-case suite as proof of those
+uncovered paths. Final in-game tests will still be required for `tested`.
+
+## Historical pre-fix workflow audit — 2026-09-13
+
+This is the preserved pre-fix audit snapshot, superseded by the correction record above. Previous stage: `done`.
+Retained stage: `dansMonoRepo`, the workflow baseline before the first fully satisfied
+transition. **This is not a claim that the repository is physically in the monorepo**:
+`detached: yes` remains true. The literal workflow names are used here, not the older
+`port`/`showcase` shorthand. No transition to `horsMonoRepo` or later is cumulatively
+complete because its required documentation is incomplete. No repository move is needed.
+
+### Scope and preservation
+
+Audited standalone repository: `C:\Users\nelim\Documents\rimworld\JoyRescue`.
+Distributed root: its `Mod/` directory. The installed `RimWorld/Mods/JoyRescue` NTFS
+junction was inspected and points to this exact `Mod/` directory.
+Revision: `2e44782bacb1903e1931f15b62fb2ac6db1fb785`, plus the existing local changes:
+modified `Mod/About/About.xml`, `STATUS.md`, `Tests/README.md`; untracked
+`Tests/MANUAL.md` and `Tests/Test-Xml.ps1`. These were included in the audit and preserved.
+Only this status document and ignored audit/build outputs were written by the audit.
+No production fix, new feature, image generation, commit, push or publication was performed.
+Historical test outputs remain intact. `tested_on: 2026-08-29` is historical only.
+
+Read the parent `AGENTS.md`, `PUBLISHING.md`, `STYLE_RIMWORLD.md`, `MOD_SETTINGS.md`
+and `TRANSLATIONS.md`. The supplied audit prompt overrides conflicting instructions:
+in-game settings interaction is a `tested` requirement, not an `options` prerequisite.
+
+### Ordered transition findings
+
+| Transition | Finding in the current files |
+| --- | --- |
+| dansMonoRepo → horsMonoRepo | **Defect found.** `ATTRIBUTION.md` and `CHANGELOG.md` are absent. `Tests/README.md`, `Tests/SCENARIOS.md` and `Tests/MANUAL.md` are French documentation. The prompt requires initialized English documentation. Independent passes: standalone Git root, public GitHub repository, configured origin, pushed commit, initialized STATUS, coherent identifiers and MIT notices. |
+| horsMonoRepo → ModIcon générée | **Partially validated.** Release build passes and distributed DLL is current; PNG icon passes direct inspection and dimensions. Development cannot be certified finished with the reproduced R01 defect still open. |
+| ModIcon générée → Preview générée | **Artifact validated independently.** Preview is a readable 896×504 PNG, 585587 bytes, below both 900 KB and 1 MB. Direct visual review found no concrete camera or composition defect. No historical generation report or screenshot comparison is required. |
+| Preview générée → preOptions | **Defect found.** English About description ends with `Source code and issue tracker: https://github.com/vbardales/Rimworld-Joy-Rescue`, not the required final `[url=https://github.com/vbardales/Rimworld-Joy-Rescue]Source code on GitHub[/url]`. URL target itself is correct and verified. Naming passes: Joy Rescue is an original public mod; no prefix, continuation suffix, status tag or linking word needs special treatment. |
+| preOptions → options | **Defect found / required tests incomplete.** Useful settings and primary access implementation exist, but no MainButtonDef, MainTabWindow or runtime shortcut registration exists anywhere in the sources/distributed files. R01 fails; effect and serialization coverage is incomplete. See Settings audit. |
+| options → l10n | **Defect found.** Catalog checks pass, but the SummaryTip argument contract is broken in EN/FR and an owned generated default label bypasses localization. See Translation audit. |
+| l10n → preTest | **Dependency declarations validated independently by source/metadata inspection.** Harmony is used and required, with matching loadAfter. RimWorld 1.6 is targeted. DLC entries only express order, not mandatory dependencies. Malay Themed Expansion, Shared Joys and customization tools are not required by the code. No LoadFolders or conditional XML patches exist. |
+| preTest → done | **Not validated.** Twelve manual scenarios have prerequisites/actions/expected results; automated nominal tests and XML checks pass, but the complete regression command fails two cases and applicable settings tests remain unimplemented/unexecuted. |
+| done → tested | **Not verified.** No in-game scenario was executed in this audit. Current-version logs, FR/EN UI, actual pawn behavior, settings persistence, optional shortcut integration, new game and existing save coverage remain pending. The historical August load check does not certify the current version. |
+
+GitHub was checked live with `gh repo view ... --json name,visibility,url,defaultBranchRef`
+and `git ls-remote origin HEAD`: PUBLIC, default branch main, remote HEAD equal to the
+revision above. The sandbox initially blocked network/config access; a permitted retry
+succeeded. The repository is `vbardales/Rimworld-Joy-Rescue`, display name Joy Rescue,
+folder JoyRescue, package ID nelim.joyrescue. Their differences are conventional, not defects.
+The recorded original-work rationale is consistent with the inspected source: game/Harmony
+APIs are referenced, no third-party assembly is bundled. Root and distributed MIT notices
+are identical (copyright 2026 nelim). This audit does not infer a license for dependencies.
+
+### Build and executable evidence
+
+New logs: `.build/audit-2026-09-13/` (ignored, local evidence).
+
+| Command | Observed result | Evidence |
+| --- | --- | --- |
+| `dotnet build Tests/JoyRescue.Tests.csproj -c Release --no-restore` | Exit 0; builds production net48 and test net8.0; zero warnings/errors | `build.txt` |
+| `./.build/tests/bin/Release/net8.0/JoyRescue.Tests.exe` | Exit 0; 49/49 PASS | `nominal.txt` |
+| Same executable with `--regressions` | Exit 1; 49/51 PASS; R01 values 99 and -1 fail, returning the undefined value instead of Auto | `regressions.txt` |
+| `pwsh -NoProfile -File Tests/Test-Xml.ps1` | Exit 0; 13/13 PASS | `xml.txt` |
+
+Initial sandbox build could not read the local Microsoft SDK directory. Retrying with
+permitted SDK access passed; this was an environment restriction, not a code defect.
+SDK: .NET 8.0.424. Installed game assembly file version: 1.6.9676.17735.
+Resolved build references: Krafs.Rimworld.Ref 1.6.4871, Lib.Harmony 2.4.2,
+Krafs.Publicizer 2.3.2 (build-only).
+Production DLL SHA-256 before and after build, and test-copy SHA-256, are all:
+`398FC2A294BE632D874BF6FED60B199304FAFFE6E56814C73E6FA2525247192F`.
+Thus these test results concern the delivered DLL, not an older executable.
+
+### Settings audit
+
+`settings_audit: partial`. Settings are relevant: repair toggles per building, handling
+mods with their own code, watching-seat requirement, forced interaction mode, custom
+recreation types, building/activity reassignment, disabled types, sort order and reset.
+The Mod subclass implements SettingsCategory, DoSettingsWindowContents and WriteSettings;
+settings are global ModSettings, serialized through Scribe, rather than per-save data.
+Toggles/mode changes call ApplySettings immediately; custom definitions/reassignments need
+startup, with translated restart notices and an explicit save button.
+
+Defaults and reset are exercised by the nominal suite: own-code rescue false, watching
+chair true, Auto via missing overrides, empty collections, sort 0 and next ID 1. Explicit
+per-building overrides, heuristic modes, incomplete-entry guards, mode cycling and activity
+label cleanup also pass. The UI cycles mode/sort choices rather than accepting free numeric
+input, but persisted invalid modes still fail the mandatory robustness check R01.
+
+Missing MainButtons support is an observed implementation defect, not an unperformed
+integration test. No RIMMSQOL or other customization integration was tested. Runtime UI
+interaction is deferred to `tested` under the user's rule and is not itself an options blocker.
+Applicable off-game coverage still missing: actual weight restoration, full Retarget and
+worker invalidation, generation/reassignment interactions, and Scribe save/load/upgrade
+behavior. The existing scenario matrix identifies these; planned tests are not passing tests.
+R02–R04 and other scenario hypotheses remain unverified, not newly certified defects.
+
+### Translation audit
+
+`localization`, `translation_en`, `translation_fr`: `partial`.
+Reviewed the four Keyed files and all six C# source files, including UI helpers,
+generated jobs/types, settings and patch diagnostics. EN/FR catalogs have matching,
+nonempty keys and matching placeholder sets; every literal owned Translate key is present.
+MainButton texts cannot be certified while its implementation is absent.
+
+**Confirmed defects beyond the passing XML script:**
+
+- `Source/JoyRescueMod.cs:74` calls `JoyRescue.Settings.SummaryTip.Translate()` with zero
+  arguments, while both catalogs contain `{4}`. The call cannot supply the required value.
+  The audit establishes the source/resource mismatch; it does not claim to have observed
+  the exact rendered failure in game. The XML script synthesizes sufficient arguments
+  from the resource and therefore does not test call-site arity.
+- `Source/JoyRescueMod.cs:161` creates the default player-visible name `Recreation ` + id
+  in hardcoded English. User-entered names are exempt, but this default is authored by
+  the mod and appears before any user input. The existing translated NewKindLabel key
+  is unused. Persistence of a user rename must be preserved when addressing this defect.
+
+Generated report strings use the three translated Report keys with a building-label
+argument. Generated job/giver labels inherit building labels; custom names are user data
+once edited. Proper title Joy Rescue, internal IDs, punctuation and technical logs are
+not missing translations. No owned static Def XML or DefInjected resources exist:
+Check-DefInjected is **not applicable**, not skipped as an assumed success. The actual
+language resolution of generated labels/reports during PreResolve and FR/EN UI rendering
+remain for in-game validation. No reused literal vanilla translation keys were found.
+
+### Visual audit and optional recommendations
+
+Directly opened the distributed Preview and ModIcon. Icon: PNG 128×128, 21116 bytes,
+winking orange mascot with recreation motif. Preview: worn recreation room, warm lit
+chess table versus a cold dark table, high oblique view, readable title/summary and amber
+rule. No visible clipping or concrete camera concern. Original artwork exists as
+`Art/Preview-source.png`; no generation history is needed to verify the delivered PNGs.
+There is no secondary-colored suffix/tag in this simple title, so no accent/secondary
+collision was observed; no artificial tag is required. The older dark veil is explicitly
+allowed by the style guide. No measured contrast ratio or separate 268/32-pixel review
+is claimed.
+
+Optional on a future overlay refresh: use the guide's experimental version badge and
+retain palette/composition files (currently absent). These are not elevated into new
+blocking criteria based on absent historical authoring evidence. No image was regenerated.
+
+### Strict next transition
+
+To establish `horsMonoRepo`, initialize English `ATTRIBUTION.md` and `CHANGELOG.md`, with
+accurate original-work/dependency/asset credits and distribution copies where applicable,
+and translate the existing test documentation into English while preserving its results.
+The autonomous repository, public visibility, pushed commit, identifiers and MIT copies
+already pass and need no recreation. Later settings/localization/code fixes and final
+in-game checks remain separately recorded above; Workshop publication is not a gate here.
+
+## Historical position before the 2026-09-13 audit
 
 The work is finished and the showcase is complete: preview, mod icon, and the full-resolution
 source under `Art/`. The folder left the monorepo on 2026-09-12 and is now a repository of its
@@ -52,6 +402,19 @@ recreation buildings no colonist can use, but nothing of it is reused here. Henc
 `licence: original`.
 
 ## Automated testing — 2026-09-12
+
+Publication audit: keep the original title `Joy Rescue`, with no continuation or
+fork suffix. The GitHub URL appears both in the metadata URL field and in the
+visible About.xml description. The project's license is **MIT**, copyright
+2026 nelim, recorded in `LICENSE` and `Mod/LICENSE`; `licence: original` describes
+provenance, not a separate license. This does not relicense third-party dependencies.
+
+`Tests/MANUAL.md` contains 12 functional acceptance scenarios with prerequisites,
+actions and expected results. They have not been executed. `Tests/Test-Xml.ps1`
+checks XML parsing, metadata, the GitHub link, duplicate/empty translation keys,
+FR/EN parity, formatting placeholders and literal translation calls in C#.
+All 13 XML checks pass. There are no gameplay Def XML files in this mod: its defs
+are generated by C#, so these XML checks do not validate their runtime behaviour.
 
 The scenario review added 19 cases and a coverage matrix in `Tests/SCENARIOS.md`.
 The first executable suite passes 49/49 nominal cases against the compiled mod and

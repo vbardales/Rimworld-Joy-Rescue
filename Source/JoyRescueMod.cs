@@ -45,7 +45,7 @@ namespace JoyRescue
         public override void WriteSettings()
         {
             base.WriteSettings();
-            JoyRescueGenerator.ApplySettings();
+            ApplySettingsAndRefresh();
         }
 
         public override void DoSettingsWindowContents(Rect inRect)
@@ -71,7 +71,7 @@ namespace JoyRescue
                 JoyRescueGenerator.Entries.Count,
                 EnabledCount(),
                 UsableKindCount()));
-            TooltipHandler.TipRegion(summaryRect, "JoyRescue.Settings.SummaryTip".Translate());
+            TooltipHandler.TipRegion(summaryRect, "JoyRescue.Settings.SummaryTip".Translate(UsableKindCount()));
 
             var beforeOwnCode = Settings.rescueModsWithOwnCode;
             var beforeChair = Settings.requireChairForWatching;
@@ -87,7 +87,7 @@ namespace JoyRescue
             if (beforeOwnCode != Settings.rescueModsWithOwnCode
                 || beforeChair != Settings.requireChairForWatching)
             {
-                JoyRescueGenerator.ApplySettings();
+                ApplySettingsAndRefresh();
             }
 
             // Five buttons on one row rather than four plus a separate sort row: that is thirty pixels
@@ -127,7 +127,7 @@ namespace JoyRescue
                     delegate
                     {
                         Settings.Reset();
-                        JoyRescueGenerator.ApplySettings();
+                        ApplySettingsAndRefresh();
                     },
                     destructive: true));
             }
@@ -154,11 +154,10 @@ namespace JoyRescue
                     "JoyRescue.Settings.AddKind".Translate()))
             {
                 var id = Settings.nextCustomKindId++;
-                // A deliberate literal, not a Translate: this label is persistent DATA, renamable, and
-                // not interface text. Putting it through Translate froze it in the language of the day,
-                // and displayed the raw key when that key was not loaded yet - which is exactly what
-                // showed up.
-                Settings.customKinds.Add(new CustomJoyKind(id.ToString(), "Recreation " + id));
+                // Translate only the initial suggestion, while the settings UI is open and language
+                // resources are loaded. Thereafter preserve the saved, player-editable name.
+                Settings.customKinds.Add(new CustomJoyKind(id.ToString(),
+                    "JoyRescue.Settings.NewKindLabel".Translate(id).Resolve()));
                 InvalidateCaches();
             }
 
@@ -312,7 +311,7 @@ namespace JoyRescue
             {
                 if (isOff) Settings.disabledKinds.Remove(kind.defName);
                 else Settings.disabledKinds.Add(kind.defName);
-                JoyRescueGenerator.ApplySettings();
+                ApplySettingsAndRefresh();
             }
             rect.width -= 134f;
 
@@ -511,7 +510,7 @@ namespace JoyRescue
                 if (enabled != wasEnabled)
                 {
                     Settings.SetEnabled(entry, enabled);
-                    JoyRescueGenerator.ApplySettings();
+                    ApplySettingsAndRefresh();
                 }
             }
 
@@ -527,7 +526,7 @@ namespace JoyRescue
                 if (Widgets.ButtonText(modeRect, ModeButtonLabel(entry, rawMode)))
                 {
                     Settings.SetMode(entry, NextMode(rawMode));
-                    JoyRescueGenerator.ApplySettings();
+                    ApplySettingsAndRefresh();
                 }
                 TooltipHandler.TipRegion(modeRect, "JoyRescue.Settings.ModeTip".Translate());
                 rightEdge = modeRect.x - 6f;
@@ -776,11 +775,19 @@ namespace JoyRescue
             return false;
         }
 
+        private void ApplySettingsAndRefresh()
+        {
+            JoyRescueGenerator.ApplySettings();
+            InvalidateCaches();
+        }
+
         private void InvalidateCaches()
         {
             byKindCache = null;
             kindsCache = null;
             giversByKindCache = null;
+            tipCache = null;
+            tipsCounted = -1;
             entriesCounted = -1;
         }
 
@@ -939,7 +946,7 @@ namespace JoyRescue
             {
                 Settings.SetEnabled(entry, value);
             }
-            JoyRescueGenerator.ApplySettings();
+            ApplySettingsAndRefresh();
         }
 
         private static int EnabledCount()
@@ -955,7 +962,10 @@ namespace JoyRescue
             var kinds = new HashSet<JoyKindDef>();
             foreach (var e in JoyRescueGenerator.AllEntries)
             {
-                if (e.covered || Settings.IsEnabled(e)) kinds.Add(e.joyKind);
+                if (DefDatabase<JoyGiverDef>.AllDefsListForReading.Any(g =>
+                        g.baseChance > 0f && g.joyKind == e.joyKind
+                        && g.thingDefs != null && g.thingDefs.Contains(e.building)))
+                    kinds.Add(e.joyKind);
             }
             return kinds.Count;
         }

@@ -79,7 +79,8 @@ namespace JoyRescue
         public RescueMode RawMode(RescueEntry entry)
         {
             if (modeOverrides.TryGetValue(entry.Key, out var raw)
-                && Enum.TryParse<RescueMode>(raw, out var mode))
+                && Enum.TryParse<RescueMode>(raw, out var mode)
+                && Enum.IsDefined(typeof(RescueMode), mode))
             {
                 return mode;
             }

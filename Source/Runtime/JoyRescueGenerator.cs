@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using RimWorld;
 using Verse;
 using Verse.AI;
@@ -56,9 +57,21 @@ namespace JoyRescue
 
         public static void Generate()
         {
+            HasRun = false;
+            // A replay on the same databases must reuse its repairs, not mistake its own
+            // givers for third-party coverage. Discard stale references after a full reload.
+            var previous = AllEntries.Concat(Entries).Distinct().Where(e =>
+                    DefDatabase<ThingDef>.GetNamedSilentFail(e.Key) == e.building
+                    && e.job != null && e.giver != null && e.job.generated && e.giver.generated
+                    && DefDatabase<JobDef>.GetNamedSilentFail(e.job.defName) == e.job
+                    && DefDatabase<JoyGiverDef>.GetNamedSilentFail(e.giver.defName) == e.giver)
+                .ToDictionary(e => e.Key);
+            var previousGivers = new HashSet<JoyGiverDef>(previous.Values.Select(e => e.giver));
             Entries.Clear();
             AllEntries.Clear();
-            OriginalChances.Clear();
+            foreach (var stale in OriginalChances.Keys.Where(g =>
+                         DefDatabase<JoyGiverDef>.GetNamedSilentFail(g.defName) != g).ToList())
+                OriginalChances.Remove(stale);
             JoyBuildingsSeen = 0;
             AlreadyCovered = 0;
 
@@ -75,6 +88,7 @@ namespace JoyRescue
             var covered = new HashSet<ThingDef>();
             foreach (var giver in DefDatabase<JoyGiverDef>.AllDefsListForReading)
             {
+                if (previousGivers.Contains(giver)) continue;
                 if (giver.thingDefs == null) continue;
                 foreach (var td in giver.thingDefs)
                 {
@@ -91,21 +105,20 @@ namespace JoyRescue
                 JoyBuildingsSeen++;
                 var isCovered = covered.Contains(td);
 
-                var entry = new RescueEntry
-                {
-                    building = td,
-                    joyKind = td.building.joyKind,
-                    sourceMod = td.modContentPack?.Name ?? "?",
-                    covered = isCovered,
-                    sourceShipsJoyCode = isCovered
-                        ? false
-                        : ModShipsJoyCode(td.modContentPack, joyCodeCache),
-                };
+                previous.TryGetValue(td.defName, out var entry);
+                entry = entry ?? new RescueEntry();
+                entry.building = td;
+                entry.joyKind = td.building.joyKind;
+                entry.sourceMod = td.modContentPack?.Name ?? "?";
+                entry.covered = isCovered;
+                entry.sourceShipsJoyCode = !isCovered && ModShipsJoyCode(td.modContentPack, joyCodeCache);
 
                 AllEntries.Add(entry);
 
                 if (isCovered)
                 {
+                    // Newly supplied external coverage supersedes an earlier repair.
+                    if (entry.giver != null) entry.giver.baseChance = 0f;
                     AlreadyCovered++;
                     continue;
                 }
@@ -115,7 +128,14 @@ namespace JoyRescue
 
             foreach (var entry in Entries)
             {
-                BuildDefsFor(entry);
+                if (entry.job == null || entry.giver == null) BuildDefsFor(entry);
+                else
+                {
+                    entry.job.joyKind = entry.giver.joyKind = entry.joyKind;
+                    entry.job.joySkill = SkillFor(entry.joyKind);
+                    entry.job.joyXpPerTick = entry.job.joySkill != null ? 0.002f : 0f;
+                    entry.giver.thingDefs = new List<ThingDef> { entry.building };
+                }
             }
 
             ApplySettings();
@@ -361,16 +381,20 @@ namespace JoyRescue
 
                 if (giver.joyKind == kind) continue;
 
-                // One job can serve several activities. Moving it takes them all along, which is
-                // silent and surprising: say so in the log rather than hiding it or refusing the
-                // move outright.
+                // Isolate a shared job before changing its kind. Otherwise untouched givers
+                // would select one recreation type but credit another through the shared job.
                 if (giver.jobDef != null)
                 {
-                    foreach (var other in DefDatabase<JoyGiverDef>.AllDefsListForReading)
+                    if (DefDatabase<JoyGiverDef>.AllDefsListForReading.Any(other =>
+                            other != giver && other.jobDef == giver.jobDef))
                     {
-                        if (other == giver || other.jobDef != giver.jobDef) continue;
-                        Log.Message($"[Joy Rescue] {giver.defName} -> {kind.defName}: job "
-                                  + $"{giver.jobDef.defName} also serves {other.defName}, which follows along.");
+                        var isolated = (JobDef)typeof(object).GetMethod("MemberwiseClone",
+                            BindingFlags.Instance | BindingFlags.NonPublic).Invoke(giver.jobDef, null);
+                        isolated.defName = "JoyRescue_Activity_" + giver.defName;
+                        isolated.shortHash = 0;
+                        isolated.modContentPack = JoyRescueMod.Instance?.Content;
+                        AddDef(isolated);
+                        giver.jobDef = isolated;
                     }
                     giver.jobDef.joyKind = kind;
                 }
@@ -415,7 +439,7 @@ namespace JoyRescue
 
                 foreach (var giver in DefDatabase<JoyGiverDef>.AllDefsListForReading)
                 {
-                    giver.thingDefs?.Remove(building);
+                    giver.thingDefs?.RemoveAll(td => td == building);
                 }
 
                 building.building.joyKind = kind;

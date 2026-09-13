@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <MainButtonDef>
+    <defName>JoyRescue_Settings</defName>
+    <label>Joy Rescue</label>
+    <description>Configure recreation repairs and recreation types.</description>
+    <workerClass>JoyRescue.MainButtonWorker_JoyRescueSettings</workerClass>
+    <buttonVisible>false</buttonVisible>
+    <validWithoutMap>true</validWithoutMap>
+    <order>1000</order>
+  </MainButtonDef>
+</Defs>

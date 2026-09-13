@@ -1,235 +1,238 @@
-# JoyRescue — scénarios de tests
+# Joy Rescue test scenarios
 
-Statut : première suite automatisée disponible ; voir `Tests/README.md` pour les
-résultats et le périmètre exact. Les autres scénarios restent à implémenter.
-Scénarios établis à partir du code présent dans `Source/`.
+Scenarios describe intended behavior, not completed tests. See README.md and STATUS.md
+for actual results. P0 protects behavior/data; P1 covers normal use; P2 covers presentation
+and diagnostics. Run parameterized variants separately.
 
-Chaque ligne décrit les données initiales, l'action et les assertions attendues.
-P0 : protection du fonctionnement et des données ; P1 : comportement courant ;
-P2 : présentation et diagnostic. Les cas paramétrés doivent être exécutés séparément.
+## Test organization
 
-## Organisation de la future suite
+Unit cases use minimal definitions without a pawn or map. Definition integration cases
+use Verse static services and are not isolated unit tests. Gameplay cases exercise actual
+loading, reservations, movement and recreation gain.
 
-- **Unitaires** : règles de paramètres, heuristique, configuration des jobs et logique
-  de l'éditeur. Employer des définitions minimales sans carte ni colon.
-- **Intégration des définitions** : génération, réaffectations, réflexion et sauvegarde.
-  Ces tests utilisent les services statiques de Verse ; ils ne sont pas des tests
-  unitaires isolés, même s'ils peuvent s'exécuter sans partie jouable.
-- **En jeu** : chargement, réservation, déplacement et satisfaction du loisir.
+For static fixtures, reset settings, Entries, AllEntries, OriginalChances, counters and
+HasRun. Isolate DefDatabase collections and clean up even after failed assertions; never
+run these cases concurrently. Use distinct mod packs for Joy Rescue and third-party givers:
+two null packs compare equal in ApplyDisabledKinds and would hide the behavior under test.
+Initialize languages and required DefOf objects for translated reports/capacities/skills.
+Reference assemblies alone do not constitute an executable Verse environment. Private
+editor rules may be tested by reflection, without exposing them in the production API.
 
-Pour les tests touchant les statiques, réinitialiser les paramètres, `Entries`,
-`AllEntries`, `OriginalChances`, les compteurs et `HasRun` entre les cas. Isoler les
-`DefDatabase<T>` et restaurer l'état dans le nettoyage, même après une assertion échouée.
-Ne pas exécuter ces cas en parallèle. Utiliser des packs distincts pour JoyRescue et
-le mod tiers : deux `modContentPack` nuls seraient considérés comme égaux par
-`ApplyDisabledKinds` et masqueraient le comportement à vérifier.
+## Settings and identity
 
-Les méthodes privées peuvent être couvertes par leurs points d'entrée publics ;
-les règles privées de l'éditeur nécessiteront une extraction testable ou un accès
-de test. Fixer la langue et initialiser les DefOf nécessaires pour les cas utilisant
-les traductions, capacités et compétences. Les assemblages de référence du projet
-ne suffisent pas à prouver la disponibilité d'un runtime Verse pour les tests.
+Source: JoyRescueSettings.cs, CustomJoyKind.cs, Runtime/RescueEntry.cs.
 
-## Tests unitaires — paramètres et identité
+| ID | Priority | Given / action | Expected |
+| --- | --- | --- | --- |
+| U01 | P1 | Read fresh settings | own-code rescue false, chair true, collections empty, sort 0, next ID 1. |
+| U02 | P0 | Own-code entry yes/no and global option true/false; call DefaultEnabled | Only own-code with global false is disabled. |
+| U03 | P0 | Explicit true/false opposite the default; call IsEnabled | Explicit choice wins in either direction. |
+| U04 | P1 | Existing override; SetEnabled to default | Override removed; default applies. |
+| U05 | P1 | Two entries; change one away from default | Only its key saved; other entry unchanged. |
+| U06 | P0 | Two own-code entries, one explicitly off; enable global option | Unspecified entry enabled; explicit off preserved. |
+| U07 | P1 | Missing, Auto, invalid or empty stored mode; RawMode then ModeFor | Auto then heuristic mode. |
+| U08 | P1 | Each valid explicit mode; SetMode/RawMode/ModeFor | Explicit mode preserved, overrides heuristic. |
+| U09 | P1 | Saved explicit mode; SetMode Auto | Override removed; heuristic restored. |
+| U10 | P1 | All settings/collections populated; Reset, then repeat | U01 defaults restored; no old custom type or assignment remains. |
+| U11 | P2 | Building defName A, label filled/empty/null | Key always A; nonempty label used, otherwise A. |
+| U12 | P1 | CustomJoyKind("7", "Music"); inspect then rename | JoyRescue_Kind_7, supplied label, needsThing true; identity survives rename. |
 
-Sources : `JoyRescueSettings.cs`, `CustomJoyKind.cs`, `Runtime/RescueEntry.cs`.
+## Mode selection and reconfiguration
 
-| ID | Priorité | Étant donné | Quand | Alors |
-|---|---|---|---|---|
-| U01 | P1 | Des paramètres neufs | Lire leurs valeurs | `rescueModsWithOwnCode=false`, `requireChairForWatching=true`, collections vides, tri à 0 et prochain identifiant à 1. |
-| U02 | P0 | Entrée avec/sans code de loisir dans son mod ; option globale vraie/fausse | Appeler `DefaultEnabled` pour les quatre combinaisons | Seule l'entrée avec code propre et option globale fausse est désactivée. |
-| U03 | P0 | Une surcharge explicite vraie puis fausse, opposée au défaut | Appeler `IsEnabled` | La décision explicite prime sur le défaut dans les deux sens. |
-| U04 | P1 | Une entrée avec une surcharge existante | Appeler `SetEnabled` avec la valeur par défaut | La clé est supprimée ; `IsEnabled` revient au défaut. |
-| U05 | P1 | Deux entrées distinctes | Changer une entrée avec `SetEnabled` vers une valeur différente du défaut | Seule sa clé est enregistrée et l'autre entrée reste inchangée. |
-| U06 | P0 | Deux entrées avec code propre, l'une sans surcharge, l'autre explicitement désactivée | Activer `rescueModsWithOwnCode` | La première devient active ; la seconde reste désactivée. |
-| U07 | P1 | Mode absent, `Auto`, texte invalide ou vide | Lire `RawMode`, puis `ModeFor` | `RawMode` retourne `Auto` ; `ModeFor` applique l'heuristique. |
-| U08 | P1 | Chacun des trois modes explicites valides | Appeler `SetMode`, `RawMode` et `ModeFor` | Le mode est conservé et prime sur l'heuristique. |
-| U09 | P1 | Un mode explicite enregistré | Appeler `SetMode(..., Auto)` | La surcharge est supprimée et le mode redevient automatique. |
-| U10 | P1 | Toutes les options modifiées et toutes les collections remplies | Appeler `Reset` | Toutes les valeurs initiales de U01 sont restaurées, sans ancienne réaffectation ni type personnalisé. |
-| U11 | P2 | Bâtiment de `defName=A` et label renseigné, vide ou nul | Lire `Key` et `BuildingLabel` | La clé vaut toujours `A` ; le label renseigné est utilisé, sinon `A`. |
-| U12 | P1 | `CustomJoyKind("7", "Musique")` | Lire ses propriétés | `DefName=JoyRescue_Kind_7`, label conservé et `needsThing=true` ; renommer le label ne change pas l'identité. |
+Source: Runtime/JoyRescueGenerator.cs, Heuristic and Retarget.
 
-## Tests unitaires — sélection et changement de mode
+| ID | Priority | Given / action | Expected |
+| --- | --- | --- | --- |
+| U13 | P0 | Interaction cell, Television or other kind; Heuristic | InteractionCell wins over kind. |
+| U14 | P1 | No interaction cell, Television | Watch. |
+| U15 | P1 | No cell; other/null kind or null building properties on non-null ThingDef | SitAdjacent in all cases. |
+| U16 | P1 | Same structure, different activity-like names/labels | Same heuristic result; names do not select modes. |
+| U17 | P0 | Entry with job/giver; apply every mode | Matrix below and resolvedMode match target. |
+| U18 | P0 | Cached worker; each of six transitions between distinct modes | Target classes, capacities, participants, seating/bed/report; workerInt null. |
+| U19 | P0 | Watch, chair option true then false; reapply | desireSit follows option; eight participants/bed retained; worker invalidated. |
+| U20 | P1 | Missing job, giver, then both; Retarget | No exception or partial resolvedMode change. |
+| U21 | P1 | Configured entry; repeat same mode | Same settings and job/giver instances; worker invalidated. |
 
-Source : `Runtime/JoyRescueGenerator.cs`, méthodes `Heuristic` et `Retarget`.
+Generated entries start with requireChair=false. Reports must include the building label.
 
-| ID | Priorité | Étant donné | Quand | Alors |
-|---|---|---|---|---|
-| U13 | P0 | Cellule d'interaction déclarée ; type `Television` ou autre | Appeler `Heuristic` | `InteractionCell` dans les deux cas : la cellule prime sur le type. |
-| U14 | P1 | Sans cellule d'interaction, type `Television` | Appeler `Heuristic` | `Watch`. |
-| U15 | P1 | Sans cellule, type différent, type nul ou propriétés `building` nulles | Appeler `Heuristic` sur un `ThingDef` non nul | `SitAdjacent` pour chaque cas. |
-| U16 | P1 | Deux définitions de même structure avec des noms évoquant des activités différentes | Appeler `Heuristic` | Même résultat : ni le label ni le nom du bâtiment ne décident du mode. |
-| U17 | P0 | Une entrée avec job et giver | Appliquer chaque mode | Toutes les valeurs de la matrice ci-dessous sont respectées et `resolvedMode` correspond au mode demandé. |
-| U18 | P0 | Entrée déjà configurée dans un mode et worker déjà en cache | Effectuer chacune des six transitions entre modes distincts | Classes, capacités, nombre de participants, options de siège/lit et rapport correspondent au mode cible ; `workerInt` est nul. |
-| U19 | P0 | Entrée `Watch`, option de siège vraie puis fausse | Réappliquer `Watch` | `desireSit` suit l'option ; huit participants et usage depuis un lit restent autorisés ; worker invalidé. |
-| U20 | P1 | Job nul, giver nul, puis les deux nuls | Appeler `Retarget` | Aucune exception ni modification partielle de `resolvedMode`. |
-| U21 | P1 | Entrée déjà configurée | Réappliquer le même mode | Configuration identique, mêmes objets job/giver ; worker invalidé pour permettre sa recréation. |
+| Field | InteractionCell | SitAdjacent | Watch |
+| --- | --- | --- | --- |
+| giverClass | JoyGiver_InteractBuildingInteractionCell | JoyGiver_InteractBuildingSitAdjacent | JoyGiver_WatchBuilding |
+| driverClass | JobDriver_WatchBuilding | JobDriver_SitFacingBuilding | JobDriver_WatchBuilding |
+| joyMaxParticipants | 1 | 2 | 8 |
+| canDoWhileInBed | false | false | true |
+| desireSit | false | false | requireChairForWatching |
+| requiredCapacities | Sight, Manipulation | Sight, Manipulation | Sight |
+| Report key | JoyRescue.Report.Using | JoyRescue.Report.Playing | JoyRescue.Report.Watching |
 
-Matrice attendue pour les entrées générées (`requireChair=false` à la création) :
+## Detection and generation integration
 
-| Champ | InteractionCell | SitAdjacent | Watch |
-|---|---|---|---|
-| `giverClass` | `JoyGiver_InteractBuildingInteractionCell` | `JoyGiver_InteractBuildingSitAdjacent` | `JoyGiver_WatchBuilding` |
-| `driverClass` | `JobDriver_WatchBuilding` | `JobDriver_SitFacingBuilding` | `JobDriver_WatchBuilding` |
-| `joyMaxParticipants` | 1 | 2 | 8 |
-| `canDoWhileInBed` | false | false | true |
-| `desireSit` | false | false | `requireChairForWatching` |
-| `requiredCapacities` | Sight, Manipulation | Sight, Manipulation | Sight |
-| Clé du rapport traduit | `JoyRescue.Report.Using` | `JoyRescue.Report.Playing` | `JoyRescue.Report.Watching` |
+Source: Runtime/JoyRescueGenerator.cs, public Generate entry point.
 
-Vérifier également que chaque rapport inclut le label du bâtiment.
+| ID | Priority | Given / action | Expected |
+| --- | --- | --- | --- |
+| D01 | P1 | Empty databases; Generate | Empty lists/counters, HasRun true, Nothing to rescue report. |
+| D02 | P0 | Recreation building without giver; Generate | One entry in each list, linked job/giver, seen 1, covered 0. |
+| D03 | P0 | Building in existing giver.thingDefs; Generate | AllEntries only, covered true, covered count 1; no new job/giver. |
+| D04 | P1 | Several givers cover same building, including zero weight | Single covered entry; weight does not affect detection. |
+| D05 | P0 | Separately: no building properties, no joyKind, wrong category, blueprint, frame, entityDefToBuild, seat; include valid witness | Excluded defs absent from lists/counters; witness detected. |
+| D06 | P1 | Null thingDefs, then list with null entry | No exception; valid references counted. |
+| D07 | P0 | Orphan A; Generate | Unique JoyRescue_A and JoyRescue_Giver_A; building/job/giver kind equal; only A served; duration 4000, active weight 2, requireChair false. |
+| D08 | P1 | Gaming_Cerebral, Telescope, Gaming_Dexterity, HighCulture, other orphans | Intellectual, Intellectual, Shooting, Artistic, no skill respectively; XP/tick .002 with skill, otherwise 0. |
+| D09 | P0 | Source pack with JoyGiver then JobDriver subclass | Own-code warning; repair listed, giver weight 0 by default; explicit enable gives 2. |
+| D10 | P1 | No relevant code, null pack, or code only in dependency pack | No own-code warning; enabled by default; source ? for null pack. |
+| D11 | P1 | GetTypes raises ReflectionTypeLoadException with partial types | Non-null types examined; relevant subclass still detected. |
+| D12 | P1 | Other pack-inspection exception | Warning includes pack name; scan continues without propagated exception. |
+| D13 | P1 | Multiple buildings from same pack; instrument inspection | One inspection per pack per generation, shared by orphan entries. |
 
-## Tests d'intégration des définitions — détection et génération
+## Live activation integration
 
-Source : `Runtime/JoyRescueGenerator.cs`, entrée publique `Generate`.
+Entry point: ApplySettings. Capture definition identities, counts and indices before each
+action; settings application must not create or remove definitions.
 
-| ID | Priorité | Étant donné | Quand | Alors |
-|---|---|---|---|---|
-| D01 | P1 | Bases de définitions vides | Générer | Listes et compteurs vides, `HasRun=true`, rapport « Nothing to rescue ». |
-| D02 | P0 | Bâtiment avec type de loisir, sans giver | Générer | Une entrée dans chaque liste, un job et un giver liés au bâtiment ; compteur vu à 1 et couvert à 0. |
-| D03 | P0 | Bâtiment déjà présent dans `thingDefs` d'un giver | Générer | Présent seulement dans `AllEntries`, `covered=true`, compteur couvert à 1 ; aucun job/giver supplémentaire pour lui. |
-| D04 | P1 | Plusieurs givers couvrant le même bâtiment, dont un à poids nul | Générer | Une seule entrée couverte, aucun doublon ; le poids ne modifie pas la détection de couverture. |
-| D05 | P0 | Cas séparés : pas de propriétés building, pas de joyKind, mauvaise catégorie, blueprint, frame, `entityDefToBuild` non nul, siège | Générer | Chaque définition exclue est absente des listes et compteurs ; un bâtiment valide témoin reste détecté. |
-| D06 | P1 | Giver avec `thingDefs=null`, puis liste contenant une valeur nulle | Générer | Pas d'exception ; les références valides sont prises en compte. |
-| D07 | P0 | Un orphelin `A` | Générer | `JoyRescue_A` et `JoyRescue_Giver_A` existent une fois ; même joyKind sur bâtiment, job et giver ; `thingDefs` contient uniquement A ; durée 4000, poids 2 si actif, `requireChair=false`. |
-| D08 | P1 | Orphelins de types `Gaming_Cerebral`, `Telescope`, `Gaming_Dexterity`, `HighCulture`, autre | Générer | Compétences respectives Intellectual, Intellectual, Shooting, Artistic, aucune ; XP/tick de 0.002 avec compétence, sinon 0. |
-| D09 | P0 | Mod source contenant un sous-type de `JoyGiver`, puis de `JobDriver` | Générer | `sourceShipsJoyCode=true`, entrée réparable listée, giver créé mais poids nul par défaut. Une activation explicite lui donne le poids 2. |
-| D10 | P1 | Mod sans code concerné, pack nul, ou code présent uniquement dans un pack de dépendance | Générer | Aucune alerte de code propre ; réparation active par défaut ; source `?` si pack nul. |
-| D11 | P1 | Assemblage dont `GetTypes` lève `ReflectionTypeLoadException` avec types partiellement disponibles | Inspecter pendant la génération | Les types non nuls sont examinés ; un sous-type concerné reste détecté. |
-| D12 | P1 | Inspection du pack levant une autre exception | Générer | Avertissement avec nom du pack ; scan poursuivi sans exception propagée. |
-| D13 | P1 | Plusieurs bâtiments du même pack | Générer avec inspection instrumentée | Une seule inspection du pack par génération, résultat partagé par ses entrées orphelines. |
+| ID | Priority | Given / action | Expected |
+| --- | --- | --- | --- |
+| D14 | P0 | Active repair; disable/re-enable | Weight 2 → 0 → 2; same defs/indices. |
+| D15 | P0 | JoyRescue/vanilla/third-party givers with weights 2/3/4 share type; disable type | All zero; unrelated types unchanged. |
+| D16 | P0 | Disabled type with original external weights 3/4/0; re-enable | Restore 3/4/0; initially inactive giver stays inactive. |
+| D17 | P0 | Individually disabled entry, then disabled type; re-enable type | Entry remains zero; other allowed givers restored. |
+| D18 | P0 | Disabled type; individually enable entry | Still zero: disabled type takes precedence. |
+| D19 | P0 | Remembered external weights; repeatedly apply while disabled, then enable | Originals not overwritten with zero; correctly restored. |
+| D20 | P1 | Unknown disabled kind, giver without kind, entry without giver | No exception; unrelated valid givers unaffected. |
 
-## Tests d'intégration des définitions — activation à chaud
+## Custom kinds and reassignment integration
 
-Entrée publique : `ApplySettings`. Capturer avant chaque action les références,
-effectifs et indices des définitions pour vérifier qu'aucune suppression ni création
-n'a lieu pendant l'application des paramètres.
+| ID | Priority | Given / action | Expected |
+| --- | --- | --- | --- |
+| D21 | P0 | Custom ID/label, needsThing true/false; Generate | Correct JoyRescue_Kind_<id>; preexisting defs preserved. |
+| D22 | P1 | Null custom entry, empty/null ID/label, existing ID; separate runs | Invalid entries/IDs skipped; missing label falls back to defName; existing def neither duplicated nor overwritten. |
+| D23 | P0 | New type and assignment saved before startup; Generate | Type exists before reassignment; building/new job/giver use it in one pass. |
+| D24 | P0 | Shared giver serves A/B on X; assign A to Y | A detached and repaired on Y; B/shared giver/job stay X. |
+| D25 | P1 | Assign covered building to current kind | No detach/new giver. |
+| D26 | P1 | Missing building/properties, then missing target kind | Invalid source skipped; missing target warning includes IDs; building/coverage unchanged. |
+| D27 | P0 | Activity job and buildings on X; assign activity Y | Giver/job/buildings move together; no new giver for covered buildings. |
+| D28 | P1 | Activity without job, null thingDefs, null/no-kind entries | No exception; only eligible buildings changed. |
+| D29 | P1 | Missing activity, then missing target kind | Missing activity skipped; missing target warned; defs unchanged. |
+| D30 | P0 | Activity assigned Y, one building specifically Z | Activity/other buildings stay Y; specific building detached and repaired on Z. |
 
-| ID | Priorité | Étant donné | Quand | Alors |
-|---|---|---|---|---|
-| D14 | P0 | Réparation active | Désactiver puis réactiver son entrée | Poids 2 → 0 → 2 ; mêmes defs et indices. |
-| D15 | P0 | Type partagé par un giver JoyRescue, vanilla et tiers avec poids 2, 3 et 4 | Désactiver le type | Tous passent à 0 ; les autres types restent inchangés. |
-| D16 | P0 | Type désactivé avec poids originaux 3, 4 et 0 sur des givers externes | Réactiver le type | Poids restaurés à 3, 4 et 0 ; aucune activation artificielle d'un giver initialement nul. |
-| D17 | P0 | Entrée désactivée individuellement, puis son type désactivé | Réactiver le type | L'entrée reste à 0 ; les autres givers autorisés sont restaurés. |
-| D18 | P0 | Type encore désactivé | Activer individuellement une de ses entrées | Son poids reste à 0 : la désactivation du type prime. |
-| D19 | P0 | Poids externes mémorisés | Appliquer plusieurs fois les paramètres pendant la désactivation, puis réactiver | Les valeurs originales ne sont pas remplacées par 0 et sont correctement restaurées. |
-| D20 | P1 | Type inconnu dans `disabledKinds`, giver sans joyKind, entrée sans giver | Appliquer les paramètres | Aucune exception ; les givers valides non concernés conservent leur comportement. |
+## Editor logic without Unity drawing
 
-## Tests d'intégration des définitions — types personnalisés et réaffectations
+Source: JoyRescueMod.cs.
 
-| ID | Priorité | Étant donné | Quand | Alors |
-|---|---|---|---|---|
-| D21 | P0 | Type personnalisé avec identifiant et label, `needsThing` vrai puis faux | Générer | Une def `JoyRescue_Kind_<id>` avec les valeurs prévues ; définitions préexistantes conservées. |
-| D22 | P1 | Élément personnalisé nul, identifiant nul/vide, label nul/vide, identifiant déjà existant | Générer chaque cas | Élément/identifiant invalide ignoré ; label manquant remplacé par le defName ; def existante non dupliquée ni écrasée. |
-| D23 | P0 | Nouveau type et réaffectation vers lui enregistrés avant démarrage | Générer | Type créé avant la réaffectation ; bâtiment, nouveau job et giver portent ce type en un seul passage. |
-| D24 | P0 | Un giver partagé par A et B sur type X ; A réaffecté vers Y | Générer | A retiré des givers qui le listaient et réparé sur Y ; B, le giver partagé et son job restent sur X. |
-| D25 | P1 | Réaffectation d'un bâtiment vers son type actuel | Générer | Aucun détachement ni nouveau giver pour un bâtiment déjà couvert. |
-| D26 | P1 | Bâtiment absent ou sans propriétés building ; puis cible de type absente | Générer | Source invalide ignorée ; cible absente signalée avec identifiants dans un avertissement, bâtiment et couverture inchangés. |
-| D27 | P0 | Activité avec job et plusieurs bâtiments sur X | Réaffecter l'activité à Y puis générer | Giver, job et bâtiments concernés passent à Y, sans nouveau giver pour les bâtiments couverts. |
-| D28 | P1 | Activité sans job, liste `thingDefs` nulle, ou liste avec éléments nuls/sans joyKind | Réaffecter puis générer | Pas d'exception ; giver et seuls bâtiments admissibles sont modifiés. |
-| D29 | P1 | Activité inexistante, puis type cible inexistant | Générer | Activité absente ignorée ; cible absente avertie et defs inchangées. |
-| D30 | P0 | Activité réaffectée vers Y et l'un de ses bâtiments spécifiquement vers Z | Générer | L'activité et ses autres bâtiments restent sur Y ; bâtiment particulier détaché et réparé sur Z. |
+| ID | Priority | Given / action | Expected |
+| --- | --- | --- | --- |
+| U22 | P1 | Building/activity overrides to two kinds; purge one | Only matching targets removed; count sums both dictionaries. |
+| U23 | P1 | Existing and pending custom types; KindChoices | All offered, label-sorted; only unmaterialized entries pending, no duplicates. |
+| U24 | P2 | Existing/pending type, empty label, unknown ID; resolve name | Available label else defName, including before restart. |
+| U25 | P1 | No changes/new type/different assignment/already applied; PendingRestart | false/true/true/false; cover buildings and activities. |
+| U26 | P1 | Assignment source building/activity disappeared | PendingRestart false with no other changes. |
+| U27 | P2 | Each current mode; NextMode | Auto → InteractionCell → SitAdjacent → Watch → Auto. |
+| U28 | P2 | Covered/orphan entries across kinds; group | One group per kind; orphans first then label order. |
+| U29 | P2 | Different building counts, including ties; sort by count/name | Count descending with name tie-break; alphabetical mode by name only. |
+| U30 | P2 | No-active-giver kinds, orphan kinds, covered-only kinds, active kinds without building | State order follows these categories, name within each. |
 
-## Tests unitaires de la logique de l'éditeur
+## Diagnostics and persistence
 
-Source : `JoyRescueMod.cs`. Tester les règles indépendamment du dessin Unity.
+| ID | Level | Priority | Given / action | Expected |
+| --- | --- | --- | --- | --- |
+| D31 | Integration | P1 | Save/reload nontrivial settings/custom type | Options, dictionaries, kinds, needsThing, sort and next ID preserved. |
+| D32 | Integration | P1 | Load older settings missing new fields | Defaults restored; all collections non-null and usable. |
+| U31 | Unit | P2 | Report with zero orphans then multiple sources/states | Accurate counters; no-own-code first, then source/label order; ID/kind/mode/individual state/warning included. |
+| D33 | Integration | P0 | Controlled Generate exception through postfix | No propagation; Joy Rescue error includes original exception. Does not prove rollback of prior mutations. |
 
-| ID | Priorité | Étant donné | Quand | Alors |
-|---|---|---|---|---|
-| U22 | P1 | Réaffectations de bâtiments et d'activités vers deux types | Purger les références à un type | Seules ses références disparaissent ; nombre retourné égal au total supprimé dans les deux dictionnaires. |
-| U23 | P1 | Types existants et personnalisés en attente | Construire `KindChoices` | Tous sont proposés, triés par label ; seuls les types non matérialisés portent `pending=true`, aucun doublon avec une def existante. |
-| U24 | P2 | Type existant, personnalisé en attente, label vide, identifiant inconnu | Résoudre le nom | Label disponible utilisé ; sinon defName, y compris avant redémarrage. |
-| U25 | P1 | Aucun changement, nouveau type, réaffectation différente, ou réaffectation déjà appliquée | Calculer `PendingRestart` séparément | Faux, vrai, vrai, faux respectivement ; couvrir bâtiments et activités. |
-| U26 | P1 | Réaffectation dont le bâtiment ou l'activité source a disparu | Calculer `PendingRestart` sans autre changement | Faux : cette source absente est ignorée. |
-| U27 | P2 | Chaque mode courant | Demander `NextMode` | Cycle Auto → InteractionCell → SitAdjacent → Watch → Auto. |
-| U28 | P2 | Plusieurs entrées couvertes et orphelines de plusieurs types | Grouper les entrées | Un groupe par type, orphelins avant couverts puis tri par label. |
-| U29 | P2 | Types avec différents nombres de bâtiments, dont des égalités | Trier par nombre puis par nom | Nombre décroissant avec nom en départage ; mode alphabétique uniquement par nom. |
-| U30 | P2 | Types sans giver actif, avec orphelin, uniquement couverts, actifs sans bâtiment | Trier par état | Cet ordre de catégories est respecté, avec tri par nom dans chaque catégorie. |
+## Regression contracts
 
-## Diagnostic et persistance
+These are intended guarantees; do not change assertions to legitimize a defect.
 
-| ID | Niveau | Priorité | Étant donné / action | Résultat attendu |
-|---|---|---|---|---|
-| D31 | Intégration | P1 | Sauvegarder puis recharger des paramètres non triviaux et un type personnalisé | Options, dictionnaires, types, `needsThing`, tri et compteur d'identifiants préservés. |
-| D32 | Intégration | P1 | Charger des paramètres anciens sans les champs ajoutés | Valeurs par défaut restaurées, toutes les collections non nulles et utilisables. |
-| U31 | Unitaire | P2 | Produire `Report` avec zéro orphelin, puis plusieurs sources et états | Compteurs exacts ; tri sans code propre avant avec code propre, puis source et label ; identifiant, type, mode, état individuel et avertissement présents. |
-| D33 | Intégration | P0 | Provoquer une exception contrôlée dans `Generate`, appeler le postfix | Exception non propagée et journal d'erreur avec préfixe Joy Rescue et exception d'origine. Ce cas ne prouve pas un rollback des mutations déjà faites. |
+| ID | Priority | Scenario | Expected / outstanding question |
+| --- | --- | --- | --- |
+| R01 | P1 | Stored mode 99 or -1 | Auto fallback. Failed in the September 12 baseline and September 13 audit; now fixed and always tested. |
+| R02 | P0 | Reassign giver with job shared by another giver | Selected/credited types coherent. A shared job is now cloned for the reassigned giver. Reproduced and fixed; automated PASS. |
+| R03 | P0 | Generate twice on same databases | Repair tracking and disabling remain possible. Own generated givers are now distinguished from external coverage and reused. Reproduced and fixed; automated PASS. |
+| R04 | P1 | Disable all givers of kind with covered buildings; count usable kinds | Type no longer counted. Count now uses positive matching giver weights. Reproduced and fixed; automated PASS. |
 
-## Régressions à préciser avant implémentation
+## Additional gameplay checks
 
-Ces cas expriment des garanties souhaitables et peuvent échouer avec le code actuel.
-Ne pas les transformer en tests validant automatiquement le comportement existant.
+1. Load one orphan per mode: PreResolve generation, references, indices and short hashes
+   valid; recreation selection causes no DefMap errors.
+2. Observe actual use and correct recreation credit, positions and capacities, with no
+   repeated errors.
+3. Watch with seat/bed/no seat according to option; group recreation with enough and
+   insufficient cells.
+4. Change mode/disable repair during play; new selections follow settings, without
+   requiring an already running job to stop immediately.
+5. Create/assign a kind, restart once; availability and existing saved tolerances preserved.
+6. Open editor in FR/EN: labels, pending states, warnings, sorting and reset agree with changes.
 
-| ID | Priorité | Scénario | Attendu souhaité et point à vérifier |
-|---|---|---|---|
-| R01 | P1 | Charger `modeOverrides[A]="99"` | Revenir au mode automatique pour une valeur hors enum. `Enum.TryParse` accepte actuellement les valeurs numériques non définies ; `resolvedMode` peut donc devenir 99. |
-| R02 | P0 | Réaffecter un giver dont le job est partagé avec un autre giver | Aucun désaccord entre type choisi et type crédité pour les activités affectées. Le code modifie le job partagé mais seulement le giver ciblé et ses bâtiments ; les autres reçoivent un message sans être synchronisés. Décider entre propagation cohérente et séparation du job. |
-| R03 | P0 | Appeler `Generate` deux fois sur la même base de defs | Conserver le suivi des réparations et la capacité de les désactiver après le second passage. Les givers créés au premier passage peuvent rendre les bâtiments « déjà couverts » au second et vider `Entries`. |
-| R04 | P1 | Désactiver tous les givers d'un type ayant des bâtiments couverts, puis compter les types utilisables | Ne plus compter ce type comme utilisable. `UsableKindCount` se fonde actuellement sur la couverture et l'activation individuelle, sans consulter les poids effectifs ni `disabledKinds`. |
+## Additions from the September 12 coverage review
 
-## Vérifications en jeu complémentaires
+The first plan covered generator rules but missed some editor rules and sequential
+interactions. This is an inspection-based functional inventory, not measured line/branch
+coverage or a guarantee for all third-party mods.
 
-Ces vérifications ne remplacent pas les tests précédents et ne sont pas unitaires.
+| ID | Level | Priority | Given / action | Expected |
+| --- | --- | --- | --- | --- |
+| U32 | Unit | P2 | Same-kind givers with positive/zero/negative weights and another kind; count | ActiveGiverCount counts strictly positive matching weights; TotalGiverCount counts all matching. |
+| U33 | Unit | P2 | TargetA/B/C reports, punctuation, duplicates, null report/job; Activities/ActivityName | Tokens removed without damaging TargetAlpha; reports cleaned/deduplicated; defName fallback. |
+| U34 | Unit | P2 | Lists of 0/1/8/9 items; Join | Up to 8 displayed; thereafter 8 and exact remaining count. |
+| U35 | Unit | P2 | Several kinds and giver without kind; GiversByKind | No-kind skipped; others grouped and sorted by activity name. |
+| U36 | Unit | P2 | Filled caches; change state/name/assignment without count change; invalidate/read | Groups/order/tooltips current; no stale cached values. |
+| U37 | Unit | P1 | Repairs including own-code; SetAll false then true | All choices updated and weights applied; preexisting coverage unchanged; disabled kind stays zero. |
+| U38 | Unit | P2 | Multiple same-kind buildings and disabled repairs; count | EnabledCount counts individual choices; UsableKindCount counts distinct kinds; R04 covers effective weights. |
+| D34 | Integration/UI | P1 | Create/delete pending kind then create another | ID not reused, old assignments purged, new identity distinct; counter persists. |
+| D35 | Integration/UI | P1 | Assign, select current kind, Revert; building/activity variants | Dictionary added/removed as appropriate; no live def mutation; cache/pending display current. |
+| D36 | Integration/UI | P0 | Delete materialized custom kind | Def/indices retained this session; assignments purged; separately inspect removal impact on saved tolerances at reload. |
+| D37 | Integration/UI | P1 | Rename materialized kind; save/restart | Check name before/after restart; CreateCustomKinds skips existing kinds. Establish live rename contract before final assertion. |
+| D38 | Integration/UI | P1 | Save by button and closing dialog | Persistence and ApplySettings invoked; values survive reopen. |
+| D39 | Integration | P0 | Two activities sharing job assigned conflicting kinds | Coherent result regardless of dictionary insertion order; shared job isolation preserves each requested kind; both insertion orders pass. |
+| D40 | Integration | P0 | Building occurs twice in thingDefs; reassign | Every occurrence detached so new-kind repair can happen. Reproduced and fixed using RemoveAll; automated PASS. |
+| D41 | Integration | P0 | Successful generation followed by failure after mutation | No false scan-success signal or claim of rollback; check HasRun and partial state. |
+| D42 | Integration | P1 | Generated name collides with existing def | No duplicate; check AddDef replacement's reference impact. Must never replace after DefMaps allocation. |
+| D43 | Integration | P1 | Remove applied override; restart from original XML defs | Original kind restored; compare ApplySettings alone, which does not replay assignments. |
+| D44 | Integration | P1 | Change mode while entry disabled; apply then enable | Target mode/worker updated while weight remains zero until enable. |
+| D45 | Integration | P0 | Disable kind; add giver before reapplication | New giver neutralized; original weight remembered/restored when re-enabled. |
 
-1. Charger avec un orphelin de chaque mode : génération au PreResolve, références,
-   indices et short hashes valides, puis recherche de loisir sans erreur de DefMap.
-2. Observer un colon utiliser réellement chaque bâtiment et recevoir le bon type de
-   loisir ; vérifier positions, capacités requises et absence d'erreurs répétées.
-3. Tester Watch avec sièges, lit et sans siège selon l'option ; tester une activité
-   de groupe avec assez de cellules disponibles, puis avec trop peu de places.
-4. Changer le mode et désactiver une réparation en cours de partie : les nouvelles
-   sélections suivent les paramètres. Ne pas exiger l'arrêt immédiat d'un job en cours.
-5. Créer un type, l'affecter, redémarrer une fois et vérifier sa disponibilité ainsi
-   que la conservation des tolérances des types déjà présents dans la sauvegarde.
-6. Ouvrir l'éditeur en français et en anglais : libellés, états en attente,
-   avertissements, tri et réinitialisation cohérents après les changements.
+## Coverage baseline and current extensions
 
-## Compléments issus de la revue d'exhaustivité du 12 septembre 2026
+| Area | Scenarios | September 12 automated coverage |
+| --- | --- | --- |
+| Settings/identity | U01–U12 | 26 parameterized cases |
+| Heuristic | U13–U16 | 9 cases |
+| Reconfiguration | U17–U21, D44 | U20 only, 3 cases |
+| Invalid settings | R01 | 2 failing opt-in cases; fixed and mandatory since September 13 |
+| Repeated reset | U10 | Included |
+| Detection/generation | D01–D13, D42 | Not implemented |
+| Live activation | D14–D20, D45 | Not implemented |
+| Kinds/reassignment | D21–D30, D34–D37, D39–D40, D43 | Not implemented |
+| Editor/counts/caches | U22–U30, U32–U38, D35, D38 | U27: 4; U33 ActivityName: 7; rest pending |
+| Reports/persistence/errors | U31, D31–D33, D41 | Not implemented |
+| Replay/shared jobs/usable kinds | R02–R04 | Inspection hypotheses, not reproduced |
+| Actual game/saves | Gameplay 1–6, D36 | Requires in-game execution |
 
-La première version couvrait les principales règles du générateur, mais pas toutes
-les règles de l'éditeur ni plusieurs interactions entre changements successifs.
-Cette revue est une couverture fonctionnelle par inspection, pas une mesure de
-couverture de lignes/branches et pas une garantie d'exhaustivité de tous les mods tiers.
+Baseline nominal total: 49 (26 settings, 9 heuristic, 3 guards, 11 editor); with R01,
+51. A scenario may represent multiple cases. Current shortcut/localization checks are
+also described in README.md, MANUAL.md F13 and STATUS.md; no planned case is implicitly PASS.
+## Current settings integration results — 2026-09-13
 
-| ID | Niveau | Priorité | Données et action | Attendu |
-|---|---|---|---|---|
-| U32 | Unitaire | P2 | Givers de même type à poids positif, nul, négatif, et giver d'un autre type ; calculer compteurs | `ActiveGiverCount` compte uniquement les poids strictement positifs du type ; `TotalGiverCount` les compte tous. |
-| U33 | Unitaire | P2 | Rapports avec TargetA/B/C, ponctuation finale, doublons, rapport nul et job absent ; calculer Activities/ActivityName | Jetons retirés sans supprimer un mot comme TargetAlpha ; rapports nettoyés et dédupliqués dans Activities ; repli sur defName dans ActivityName si nécessaire. |
-| U34 | Unitaire | P2 | Listes de 0, 1, 8 et 9 éléments ; appeler Join | Jusqu'à 8 éléments affichés ; au-delà, 8 éléments et nombre exact d'éléments supplémentaires. |
-| U35 | Unitaire | P2 | Givers de plusieurs types, dont un sans type ; construire GiversByKind | Giver sans type ignoré, autres regroupés par type et triés par nom d'activité. |
-| U36 | Unitaire | P1 | Caches remplis ; modifier état, nom ou affectation sans changer le nombre d'entrées ; invalider et relire | Groupes, ordre et infobulles reflètent les nouvelles données ; pas de valeur obsolète conservée par un cache. |
-| U37 | Unitaire | P1 | Plusieurs réparations, dont une avec code propre ; SetAll(false), puis SetAll(true) | Choix de toutes les réparations mis à jour, poids effectifs appliqués, couverture préexistante inchangée ; un type désactivé reste à poids nul. |
-| U38 | Unitaire | P2 | Plusieurs bâtiments du même type et réparations désactivées ; compter les éléments | EnabledCount compte les choix individuels, UsableKindCount compte les types distincts ; compléter par R04 pour les poids effectifs. |
-| D34 | Intégration/UI | P1 | Créer, supprimer un type en attente, puis en créer un autre | Identifiant non réutilisé ; réaffectations de l'ancien purgées, nouvelle identité distincte ; compteur préservé après sauvegarde. |
-| D35 | Intégration/UI | P1 | Sélectionner une réaffectation, choisir le type courant, puis utiliser Revert ; cas bâtiment et activité | Dictionnaire enregistré puis supprimé selon l'action ; defs non mutées à chaud ; caches invalidés et affichage pending cohérent. |
-| D36 | Intégration/UI | P0 | Supprimer un type personnalisé déjà matérialisé | Def et indices conservés durant la session ; références aux réaffectations purgées. Vérifier séparément au rechargement l'impact de sa disparition sur les tolérances sauvegardées. |
-| D37 | Intégration/UI | P1 | Renommer un type déjà matérialisé puis sauvegarder/redémarrer | Vérifier le nom affiché avant et après redémarrage ; le code actuel ignore les types déjà présents pendant CreateCustomKinds. Préciser le contrat de renommage à chaud avant une assertion définitive. |
-| D38 | Intégration/UI | P1 | Sauvegarder par bouton et par fermeture des paramètres | Persistance et ApplySettings déclenchés ; à la réouverture, choix conservés. |
-| D39 | Intégration | P0 | Deux activités partageant un job, réaffectées vers des types contradictoires | Résultat cohérent quel que soit l'ordre d'insertion des paramètres ; préciser stratégie de conflit avec R02. |
-| D40 | Intégration | P0 | Même bâtiment présent deux fois dans une liste thingDefs ; le réaffecter | Toutes ses occurrences doivent être détachées pour permettre sa réparation sur le nouveau type. `List.Remove` n'en supprime actuellement qu'une : cas de robustesse à confirmer. |
-| D41 | Intégration | P0 | Génération réussie, puis nouvelle génération échouant après une mutation | Aucun faux signal de scan réussi ni rapport affirmant un rollback inexistant ; vérifier `HasRun` et état partiel. |
-| D42 | Intégration | P1 | Collision d'un nom de def générée avec une def existante | Pas de doublon ; vérifier explicitement l'impact du remplacement actuel par AddDef sur les références. Ce remplacement ne doit jamais être utilisé après allocation des DefMaps. |
-| D43 | Intégration | P1 | Retirer une surcharge déjà appliquée puis redémarrer sur les defs XML d'origine | Type d'origine restauré ; comparaison avec simple ApplySettings, qui ne rejoue pas les réaffectations. |
-| D44 | Intégration | P1 | Option mode modifiée pour une entrée désactivée ; appliquer, puis réactiver | Mode cible déjà cohérent et worker invalidé ; poids nul jusqu'à réactivation. |
-| D45 | Intégration | P0 | Désactiver un type, ajouter un nouveau giver de ce type avant réapplication | Nouveau giver neutralisé ; valeur initiale mémorisée et restaurée à la réactivation. |
+**95/95 total PASS**, against the delivered rebuilt DLL. The September 12 matrix above
+is retained as history, not current coverage. New cases in SettingsIntegration.cs:
 
-### Matrice de couverture actuelle
+| Area | Executed scope |
+| --- | --- |
+| Reconfiguration | U17–U21: all 9 source/target combinations in both EN and FR (18 cases), exact reports, capacities/classes/participants/seat flags and worker reset |
+| Effects | D14–D20, D44–D45 grouped into interaction cases: individual/type/global own-code toggles, seat changes, external positive/zero weights, repeated suppression and newly added givers |
+| Generation | Three orphan modes (D02/D07), real job/giver registration; D23/D24/D30 custom types and building override precedence; generated short-hash assignment during full game loading remains a gameplay check |
+| Reassignment | R02 and D40 reproduced then fixed; D39 tested in both insertion orders; shared-job isolation preserves other activities |
+| Replay | R03 reproduced then fixed; same identities, disabled-type weight restoration and new external coverage tested; D41 verifies cleared HasRun on a controlled failed replay |
+| Editor | U22–U24 name/choice/purge helpers, U28–U30 grouping and all sort modes, U32 active/total counters, U36 tooltip invalidation, U37 SetAll and disabled-type precedence, R04 effective availability |
+| Persistence | D31 full real Scribe round trip with escaped non-ASCII custom name and every persisted field; D32 old empty configuration; all loader phases run |
+| Build contract | Explicit Assembly-CSharp private-access attribute present in compiled mod |
 
-| Zone | Scénarios | Automatisation initiale |
-|---|---|---|
-| Paramètres et identité | U01–U12 | Oui, 26 cas paramétrés |
-| Heuristique | U13–U16 | Oui, 9 cas |
-| Reconfiguration | U17–U21, D44 | U20 seulement, 3 cas ; moteur/traductions à initialiser pour les autres |
-| Valeurs de paramètres invalides | R01 | 2 cas qui échouent avec le code actuel, commande dédiée |
-| Reset répété | U10 | Inclus dans son cas |
-| Détection et génération | D01–D13, D42 | À implémenter |
-| Activation à chaud | D14–D20, D45 | À implémenter |
-| Types et réaffectations | D21–D30, D34–D37, D39–D40, D43 | À implémenter |
-| Éditeur, compteurs, caches | U22–U30, U32–U38, D35, D38 | U27 : 4 cas ; U33 : 7 cas ActivityName ; reste à implémenter |
-| Rapport, persistance, erreurs | U31, D31–D33, D41 | À implémenter |
-| Rejeu, jobs partagés, types utilisables | R02–R04 | Soupçons issus du code, non reproduits automatiquement |
-| Cycle réel RimWorld et sauvegardes | Vérifications en jeu 1–6, D36 | À effectuer en jeu |
-
-Le total de la suite nominale est de 49 cas : 26 pour U01–U12, 9 pour
-l'heuristique, 3 pour U20 et 11 pour l'éditeur. Une ligne de scénario peut
-correspondre à plusieurs cas.
+These are representative applicable technical/functional checks, not implementation of
+every planned robustness fixture. Remaining engine-specific cases include real mod loading,
+reflection over third-party packs, complete error-log capture, UI interaction, save tolerances
+and removal/rename effects across actual game restarts. They are not certified by this runner.
+D33's catch/log behavior and D41's exact log display remain for engine validation; only the
+controlled failure state is asserted off-game. No assertion was weakened to accept R02–R04,
+D40 or the stale-tooltip defect. Reproduction logs are preserved under
+`.build/settings-2026-09-13/`, with the current results and build logs alongside them.

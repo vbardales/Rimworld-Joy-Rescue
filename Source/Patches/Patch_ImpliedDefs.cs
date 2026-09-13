@@ -22,7 +22,7 @@ namespace JoyRescue
             {
                 // An exception here would abort the whole game load: log it and let RimWorld
                 // start with nothing rescued rather than break the session.
-                Log.Error("[Joy Rescue] generation failed, no recreation building was rescued:\n" + ex);
+                Log.Error("[Joy Rescue] generation failed; definitions may be partially updated:\n" + ex);
             }
         }
     }

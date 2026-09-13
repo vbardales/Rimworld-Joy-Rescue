@@ -1,13 +1,15 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.IO;
+using System.Xml.Linq;
 using JoyRescue;
 using RimWorld;
 using Verse;
 
 // Small dependency-free test runner. Exercises the compiled mod and real game types.
 // No game startup, mocks, network packages, or writes to the player's settings.
-internal static class Program
+internal static partial class Program
 {
     private static readonly List<(string name, Action body)> Cases = new List<(string, Action)>();
     private static void Test(string name, Action body) => Cases.Add((name, body));
@@ -45,6 +47,8 @@ internal static class Program
     }
     private static int Main(string[] args)
     {
+        if (args.Contains("--trace-exceptions"))
+            AppDomain.CurrentDomain.FirstChanceException += (_, e) => Console.Error.WriteLine("TRACE " + e.Exception);
         Test("U01 defaults", () => Defaults(new JoyRescueSettings()));
         foreach (bool code in new[] { false, true })
         foreach (bool global in new[] { false, true })
@@ -186,8 +190,7 @@ internal static class Program
         Test("U33 activity without job", () =>
             Equal("Activity", Editor<string>("ActivityName", new JoyGiverDef { defName = "Activity" })));
 
-        // Desired behaviour, deliberately opt-in while this production defect remains unfixed.
-        if (args.Contains("--regressions"))
+        // Always run the regression; retain --regressions as a compatible command-line alias.
             foreach (string raw in new[] { "99", "-1" })
                 Test($"R01 undefined numeric mode {raw}", () =>
                 {
@@ -195,8 +198,35 @@ internal static class Program
                     var e = Entry();
                     s.modeOverrides[e.Key] = raw;
                     Equal(RescueMode.Auto, s.RawMode(e));
+                    Equal(RescueMode.SitAdjacent, s.ModeFor(e));
                 });
 
+        Test("Settings shortcut definition binds to a worker with native visibility", () =>
+        {
+            var root = new DirectoryInfo(AppContext.BaseDirectory);
+            while (root != null && !File.Exists(Path.Combine(root.FullName, "Source", "JoyRescue.csproj")))
+                root = root.Parent;
+            if (root == null) throw new Exception("Cannot find repository for distributed definition check");
+            var xml = XDocument.Load(Path.Combine(root.FullName, "Mod", "Defs", "MainButtonDefs", "JoyRescue.xml"))
+                .Root.Element("MainButtonDef");
+            var workerType = typeof(JoyRescueMod).Assembly.GetType((string)xml.Element("workerClass"), true);
+            var def = new MainButtonDef
+            {
+                defName = (string)xml.Element("defName"),
+                workerClass = workerType,
+                buttonVisible = bool.Parse((string)xml.Element("buttonVisible")),
+                validWithoutMap = bool.Parse((string)xml.Element("validWithoutMap"))
+            };
+            Equal(false, def.buttonVisible);
+            Equal(true, def.validWithoutMap);
+            Equal(workerType, def.Worker.GetType());
+            Equal(def, def.Worker.def);
+            // Calling Visible initializes ModsConfig and Unity save paths, unavailable in this
+            // data-only runner. Verify inheritance here; exercise actual reveal/hide in F13.
+            Equal(typeof(MainButtonWorker), workerType.GetProperty("Visible").GetMethod.DeclaringType);
+        });
+
+        RegisterSettingsIntegrationTests();
         int failures = 0;
         foreach (var test in Cases)
         {

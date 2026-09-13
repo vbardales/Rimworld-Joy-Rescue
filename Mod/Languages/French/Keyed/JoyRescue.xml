@@ -9,7 +9,7 @@
   <JoyRescue.Settings.NothingToRescue>Tous les bâtiments de loisir de votre liste de mods sont déjà desservis. Rien à réparer.</JoyRescue.Settings.NothingToRescue>
 
   <JoyRescue.Settings.Summary>{0} bâtiments, {1} utilisables, {2} orphelins, {3} réparés, {4} types exploitables</JoyRescue.Settings.Summary>
-  <JoyRescue.Settings.SummaryTip>Les {4} types exploitables sont ceux qui proviennent d'un bâtiment réellement utilisable.
+  <JoyRescue.Settings.SummaryTip>Les {0} types exploitables sont ceux qui proviennent d'un bâtiment réellement utilisable.
 
 Les attentes en réclament jusqu'à six différents, et la tolérance se compte par type : dix tables d'échecs n'en font toujours qu'un.</JoyRescue.Settings.SummaryTip>
 

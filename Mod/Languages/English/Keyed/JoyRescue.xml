@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
 
-  <!-- Rapports de job. Convention vanilla : minuscule, point final. -->
+  <!-- Job reports follow vanilla conventions: lowercase and a final period. -->
   <JoyRescue.Report.Playing>playing {0}.</JoyRescue.Report.Playing>
   <JoyRescue.Report.Using>using {0}.</JoyRescue.Report.Using>
   <JoyRescue.Report.Watching>watching {0}.</JoyRescue.Report.Watching>
@@ -10,7 +10,7 @@
   <JoyRescue.Settings.NothingToRescue>Every recreation building in your modlist is already served by a recreation giver. Nothing to fix.</JoyRescue.Settings.NothingToRescue>
 
   <JoyRescue.Settings.Summary>{0} buildings, {1} usable, {2} orphaned, {3} rescued, {4} types you can actually get</JoyRescue.Settings.Summary>
-  <JoyRescue.Settings.SummaryTip>The {4} types come from buildings a colonist can actually use.
+  <JoyRescue.Settings.SummaryTip>The {0} types come from buildings a colonist can actually use.
 
 Expectations ask for up to six different ones, and tolerance is counted per type: ten chess tables still count as one.</JoyRescue.Settings.SummaryTip>
 
