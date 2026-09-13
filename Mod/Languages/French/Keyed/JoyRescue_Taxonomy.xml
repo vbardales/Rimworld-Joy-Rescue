@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <JoyRescue.Taxonomy.Enable>Utiliser les correctifs de loisirs communs (redémarrage requis)</JoyRescue.Taxonomy.Enable>
+  <JoyRescue.Taxonomy.Tooltip>Applique des règles explicites aux activités liées aux bâtiments au démarrage de RimWorld. Vos affectations manuelles sont prioritaires. Les activités modifiées ou partagées incompatibles sont ignorées et signalées. Les comportements, durées et gains sont conservés. Désactiver rétablit les affectations originales après redémarrage ; les types conservés et la tolérance transférée ne sont pas supprimés. La remise à zéro conserve aussi les identités des types après utilisation de ce préréglage. Enregistrez avant de redémarrer.</JoyRescue.Taxonomy.Tooltip>
+  <JoyRescue.Taxonomy.Summary>Correctifs communs de cette session : {0} appliqués, {1} ignorés (détails dans le journal).</JoyRescue.Taxonomy.Summary>
+  <JoyRescue.Taxonomy.Video>jeux vidéo et simulations</JoyRescue.Taxonomy.Video>
+  <JoyRescue.Taxonomy.Creative>création récréative</JoyRescue.Taxonomy.Creative>
+  <JoyRescue.Taxonomy.Wellbeing>bien-être sensoriel</JoyRescue.Taxonomy.Wellbeing>
+  <JoyRescue.Taxonomy.Reset>Réinitialiser les activités et désactiver les correctifs communs ? Les types de loisirs existants et leur ordre seront conservés pour les sauvegardes. Redémarrez pour rétablir les affectations originales.</JoyRescue.Taxonomy.Reset>
+</LanguageData>

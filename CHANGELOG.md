@@ -2,6 +2,16 @@
 
 ## Unreleased — 2026-09-13
 
+- Add an opt-in common recreation fix set with 230 exact package/giver rules,
+  applied after restart and guarded against structural changes and shared conflicts.
+- Preserve manual choices, original drivers, durations, weights and rewards.
+- Add three retained custom type identities with English/French initial labels.
+- Transfer tolerance once per source/target pair with per-pawn save markers;
+  retain original types and prevent repeated or cascading transfers.
+- Retain custom-type ordering after using the preset, including during Reset.
+- Add 23 automated cases; the executable suite now passes 118 cases.
+
+
 - Isolate shared jobs when reassigning activities, preserving other activities' types.
 - Preserve generated repair identities and original external weights across repeated scans.
 - Detach all duplicate building references during reassignment.

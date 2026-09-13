@@ -15,7 +15,7 @@ license_files: LICENSE, Mod/LICENSE
 dependencies: declared
 showcase:     complete
 settings_audit: complete
-audit_revision: 2e44782bacb1903e1931f15b62fb2ac6db1fb785
+audit_revision: 1953b6d589e8873ca6748a7e1ba3ab0e341c3db0 plus common-taxonomy worktree
 audit_worktree: dirty
 automated_tests: passed
 xml_tests: passed
@@ -23,6 +23,7 @@ tested_on:    2026-08-29
 unit_tested_on: 2026-09-13
 workshop:
 remaining:
+  - unverified: common preset F15-F19 gameplay, translated layout, actual Harmony save-load hook and full mod-pack compatibility remain pending; see Tests/TAXONOMY.md.
   - unverified: execute MANUAL.md F01-F14 in RimWorld, including actual pawn behavior,
       logs, FR/EN UI, new game and existing save, settings persistence and shared activities.
   - unverified: MainButtons reveal/hide/open and RIMMSQOL integration require the game
@@ -30,7 +31,7 @@ remaining:
   - unverified: engine-specific mod-pack detection, full load/short hashes, save tolerance
       migration and log rendering are not certified by the isolated definition runner.
 session:      local_06dd178f-bf2c-4af0-8dd6-02a211cafcac
-updated:      2026-09-13, settings integration and regressions passed; ready for gameplay acceptance
+updated:      2026-09-13, common taxonomy fix set verified offline; gameplay acceptance pending
 ---
 
 # Joy Rescue — status
@@ -455,3 +456,39 @@ but a living source, `forbidden` a written refusal, `original` owing nothing to 
 
 `remaining`: `feature` for something missing from a first release, `defect` for a known fault
 left unfixed, `unverified` for what could not be checked.
+
+## Common taxonomy fix set — 2026-09-13
+
+Placement: Joy Rescue, the original compatibility/settings engine. Joy Preservation's
+private assets and authoritative standalone repository were not changed. No commit,
+push, repository visibility or publication operation accompanies this implementation.
+The historical registry and decompilation evidence stay outside delivery commits.
+
+Settings audit: complete under the user's source/automated-test precedence. One useful
+opt-in global setting selects the common fix set, default false, applied on full restart.
+Primary and hidden-shortcut access continue to use the same Mod settings instance.
+Pending-restart detection, settings persistence, stable custom-kind identities/reset
+retention and manual-choice precedence are covered by the executable suite. No new
+shortcut or mandatory dependency was introduced. Actual UI/game/RIMMSQOL checks remain
+in the final gameplay gate; `done` means ready for that acceptance, not `tested`.
+
+The initial 304 inventory candidates were narrowed to 224 rules by excluding 80 legacy
+rows without a reliable package ID, then supplemented with six freshly checked rules
+for the detached WA-Amusement Renew and ZARS Tribal Reborn Renew (230 total). Rules only update compatible building activity
+chains. Unsupported drivers, changed structures and shared conflicts remain untouched
+and are logged. See Tests/TAXONOMY.md for exclusions and save-transfer semantics.
+
+Automated evidence: .build/taxonomy-build.txt, .build/taxonomy-results.txt and
+.build/taxonomy-xml.txt. Production and test builds succeeded without warnings/errors;
+118/118 executable cases and 20/20 XML/resource checks pass. This includes the earlier
+95 cases plus 23 taxonomy cases, with real Scribe serialization in an isolated runner.
+It does not certify the actual Harmony lifecycle in Unity, player saves or load order.
+
+Translation audit after settings validation: new checkbox, tooltip, summary, reset
+message and three initial type names use matching English/French Keyed resources.
+The unchanged MainButtonDef and French DefInjected paths pass the existing XML suite.
+Saved custom names remain user-editable names, preserving the established behavior.
+Translated in-game layout is unverified (F15/F19), independently of complete static
+localization/EN/FR coverage. No workflow stage beyond `done` is claimed.
+
+Delivered DLL SHA-256: `e7dd9ffe1a0fd1612a1f3586d617f530eaff4ec25804fed64b49dac87393156f`.

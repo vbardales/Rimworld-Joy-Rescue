@@ -20,3 +20,13 @@ Joy Rescue is original work by **nelim**, distributed under the MIT license in
 The MIT grant covers this project's own material. It does not relicense RimWorld,
 Harmony, other mods, or build dependencies. No affiliation with Ludeon Studios or
 the authors of the mentioned mods is implied.
+
+## Compatibility rule data
+
+The common recreation preset references package IDs, definition names and structural
+relationships found in installed recreation mods. Its rule table and implementation
+are authored for Joy Rescue. No referenced mod code, art or extracted assets are
+redistributed. The optional `JoyPreservation.JobDriver_PlayMahjong` visual adapter was
+inspected to verify that it retains the vanilla play behavior; its private third-party
+implementation is not included. These references neither relicense those mods nor
+change their distribution permissions.

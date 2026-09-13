@@ -73,6 +73,18 @@ namespace JoyRescue
                 UsableKindCount()));
             TooltipHandler.TipRegion(summaryRect, "JoyRescue.Settings.SummaryTip".Translate(UsableKindCount()));
 
+            var beforeTaxonomy = Settings.commonTaxonomy;
+            listing.CheckboxLabeled("JoyRescue.Taxonomy.Enable".Translate(), ref Settings.commonTaxonomy,
+                "JoyRescue.Taxonomy.Tooltip".Translate());
+            if (Settings.commonTaxonomy && !beforeTaxonomy)
+            {
+                CommonTaxonomy.EnsureKinds(Settings);
+                InvalidateCaches();
+            }
+            var taxonomyRect = listing.GetRect(24f);
+            Widgets.Label(taxonomyRect, "JoyRescue.Taxonomy.Summary".Translate(
+                CommonTaxonomy.Applied.Count, CommonTaxonomy.Diagnostics.Count));
+
             var beforeOwnCode = Settings.rescueModsWithOwnCode;
             var beforeChair = Settings.requireChairForWatching;
 
@@ -117,13 +129,15 @@ namespace JoyRescue
                     "JoyRescue.Settings.LogReport".Translate()))
             {
                 Log.Message(JoyRescueGenerator.Report());
+                Log.Message(CommonTaxonomy.Report());
                 Messages.Message("JoyRescue.Settings.LogReportDone".Translate(), MessageTypeDefOf.TaskCompletion, false);
             }
             if (Widgets.ButtonText(new Rect(buttonRow.x + quarter * 3f, buttonRow.y, quarter - 6f, buttonRow.height),
                     "JoyRescue.Settings.Reset".Translate()))
             {
                 Find.WindowStack.Add(Dialog_MessageBox.CreateConfirmation(
-                    "JoyRescue.Settings.ConfirmReset".Translate(),
+                    (Settings.customKinds.Any(CommonTaxonomy.Reserved)
+                        ? "JoyRescue.Taxonomy.Reset".Translate() : "JoyRescue.Settings.ConfirmReset".Translate()),
                     delegate
                     {
                         Settings.Reset();
@@ -178,7 +192,7 @@ namespace JoyRescue
                 Text.Anchor = TextAnchor.UpperLeft;
                 GUI.color = Color.white;
 
-                if (Widgets.ButtonText(new Rect(row.xMax - 130f, row.y, 128f, row.height - 2f),
+                if (!Settings.customKinds.Any(CommonTaxonomy.Reserved) && Widgets.ButtonText(new Rect(row.xMax - 130f, row.y, 128f, row.height - 2f),
                         "JoyRescue.Settings.RemoveKind".Translate()))
                 {
                     // Deleting a type without cleaning up what had been assigned to it left reassignments
@@ -753,6 +767,7 @@ namespace JoyRescue
         /// </summary>
         private static bool PendingRestart()
         {
+            if (Settings.commonTaxonomy != CommonTaxonomy.AppliedEnabled) return true;
             foreach (var custom in Settings.customKinds)
             {
                 if (DefDatabase<JoyKindDef>.GetNamedSilentFail(custom.DefName) == null) return true;

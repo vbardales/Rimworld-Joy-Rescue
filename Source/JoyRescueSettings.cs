@@ -13,6 +13,8 @@ namespace JoyRescue
         /// </summary>
         public bool rescueModsWithOwnCode;
 
+        public bool commonTaxonomy;
+
         /// <summary>
         /// "Television" mode: require a chair or a bed, the way the base game does. False lets
         /// pawns watch standing up, which keeps a rescued screen from going unused for want of a
@@ -103,10 +105,11 @@ namespace JoyRescue
         public void Reset()
         {
             rescueModsWithOwnCode = false;
+            commonTaxonomy = false;
             requireChairForWatching = true;
             enabledOverrides.Clear();
             modeOverrides.Clear();
-            customKinds.Clear();
+            if (!customKinds.Exists(CommonTaxonomy.Reserved)) customKinds.Clear();
             kindOverrides.Clear();
             giverKindOverrides.Clear();
             disabledKinds.Clear();
@@ -117,6 +120,7 @@ namespace JoyRescue
         public override void ExposeData()
         {
             base.ExposeData();
+            Scribe_Values.Look(ref commonTaxonomy, "commonTaxonomy", false);
             Scribe_Values.Look(ref rescueModsWithOwnCode, "rescueModsWithOwnCode", false);
             Scribe_Values.Look(ref requireChairForWatching, "requireChairForWatching", true);
             Scribe_Collections.Look(ref enabledOverrides, "enabledOverrides", LookMode.Value, LookMode.Value);

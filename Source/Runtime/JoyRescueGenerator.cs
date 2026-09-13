@@ -77,7 +77,9 @@ namespace JoyRescue
 
             // Player-created types have to exist before anything else: a reassignment may target
             // one, and the scan has to be able to count them.
+            if (JoyRescueMod.Settings.commonTaxonomy) CommonTaxonomy.EnsureKinds(JoyRescueMod.Settings);
             CreateCustomKinds();
+            CommonTaxonomy.Apply(JoyRescueMod.Settings);
 
             // Then the reassignments. They rewrite the building's joyKind and detach it from its
             // givers: it becomes an orphan again, and the repair pass below builds it a giver of
@@ -146,6 +148,7 @@ namespace JoyRescue
             // when there is nothing to repair: without that, a silent mod is indistinguishable
             // from a broken one.
             Log.Message(Report());
+            Log.Message(CommonTaxonomy.Report());
         }
 
         /// <summary>

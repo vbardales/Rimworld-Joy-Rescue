@@ -27,3 +27,6 @@ defName. If a witness is unavailable, report BLOCKED, not PASS.
 Run applicable cases on a new game and an existing save. Inspect logs after each
 interaction and repeat affected regressions after any fix. These cases supplement
 SCENARIOS.md; off-game success does not mark them PASS.
+## Common preset F15-F19
+
+See [TAXONOMY.md](TAXONOMY.md) for additional EN/FR, conflict, behavior and save acceptance cases. These are not yet executed.

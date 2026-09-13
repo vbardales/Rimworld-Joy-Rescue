@@ -6,7 +6,7 @@ using Verse;
 namespace JoyRescue
 {
     /// <summary>
-    /// The mod's only patch. See <see cref="JoyRescueGenerator"/> for why it hooks precisely
+    /// Definition generation hook. See <see cref="JoyRescueGenerator"/> for why it hooks precisely
     /// here and nowhere else.
     /// </summary>
     [HarmonyPatch(typeof(DefGenerator), nameof(DefGenerator.GenerateImpliedDefs_PreResolve))]

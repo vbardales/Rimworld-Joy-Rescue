@@ -4,15 +4,15 @@ Makes usable again the recreation buildings their own mod left inert.
 
 ## The problem
 
-In RimWorld, `<building><joyKind>` on a `ThingDef` is **nothing but a display label**. What makes
+In RimWorld, `<building><joyKind>` on a `ThingDef` declares its recreation type and contributes to map availability; it does not schedule an activity by itself. What makes
 a building actually usable is a `JoyGiverDef` whose `<thingDefs>` list contains that building,
 plus the `JobDef` that goes with it. Plenty of mods write the label and stop there: the building
 gets built, looks the part, and nobody ever uses it.
 
 This matters more than it looks. **Recreation tolerance is tracked per type**
 (`Need_Joy.tolerances`), and expectations ask for up to **6 different types**
-(`ExpectationDef.joyKindsNeeded`, from 2 to 6). The base game offers only 8, of which just 4 come
-from buildings. A recreation type no giver can produce is a type the colony simply does not have.
+(`ExpectationDef.joyKindsNeeded`, from 2 to 6). The installed 1.6 Core declares 10 types; equipment, activities and optional DLC
+provide different access routes. A recreation type no giver can produce is a type the colony simply does not have.
 
 ## What the mod does
 
@@ -71,6 +71,23 @@ It is hidden by default, and its standard `buttonVisible` field can be exposed b
 MainButtons customization tools. Such tools are not required for the primary settings
 entry. Actual RIMMSQOL integration is pending in-game acceptance; see `Tests/MANUAL.md`.
 
+## Common recreation fix set
+
+An optional preset in **Mod options -> Joy Rescue** applies exact, guarded corrections
+at the next restart. It is off by default. Save settings before restarting. It
+reclassifies compatible activities together with their jobs and equipment, preserving
+drivers, durations and rewards. Manual assignments win; changed or conflicting shared
+activities are skipped and reported through the existing Log report button.
+
+The preset includes three saved types: video games and simulations, creative recreation,
+and sensory wellbeing. Their initial names are localized; subsequent edits remain user
+names. Once used, custom types and their order are retained, including on Reset, to
+avoid shifting save indices. Turning the preset off restores original assignments after
+restart, subject to manual choices, while retaining types and transferred tolerance.
+
+This is a guarded correction set, not a universal remapping of every mod or ingestion
+system. See [scope, save behavior and acceptance scenarios](Tests/TAXONOMY.md).
+
 ## Building
 
 ```
@@ -82,9 +99,14 @@ without being copied.
 
 ## Saves
 
-No data added. The mod can be added to or removed from an ongoing game. The one reservation:
-removing the mod while a colonist is running a generated job loses that job on load, which
-RimWorld handles like any other missing def.
+The common preset records per-pawn tolerance-transfer markers when saving. Each accepted
+source/target transfer uses the maximum rather than a sum and runs once. Newly saved
+pawns do not receive a legacy transfer on their first reload. This has automated Scribe
+evidence; complete existing-save/gameplay validation remains pending.
+
+Removing Joy Rescue can lose a generated job currently being performed and removes
+its custom type definitions. Do not interpret offline tests as certification for every
+mod-list change or saved colony. See Tests/TAXONOMY.md for the precise scope.
 
 ## Licence
 

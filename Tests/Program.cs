@@ -39,6 +39,7 @@ internal static partial class Program
     private static void Defaults(JoyRescueSettings s)
     {
         Equal(false, s.rescueModsWithOwnCode);
+        Equal(false, s.commonTaxonomy);
         Equal(true, s.requireChairForWatching);
         Equal(0, s.kindSortMode);
         Equal(1, s.nextCustomKindId);
@@ -227,6 +228,7 @@ internal static partial class Program
         });
 
         RegisterSettingsIntegrationTests();
+        RegisterTaxonomyTests();
         int failures = 0;
         foreach (var test in Cases)
         {
