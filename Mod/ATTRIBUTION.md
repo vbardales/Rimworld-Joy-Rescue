@@ -1,6 +1,6 @@
 # Attribution
 
-Joy Rescue is original work by **nelim**, distributed under the MIT license in
+Joy Rescue is original work by **Nelim**, distributed under the MIT license in
 `LICENSE`. The same notice accompanies the distributed mod in `Mod/LICENSE`.
 
 - **RimWorld**, by Ludeon Studios, provides the game APIs and the recreation givers

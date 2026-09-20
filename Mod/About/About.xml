@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ModMetaData>
   <name>Joy Rescue</name>
-  <author>nelim</author>
+  <author>Nelim</author>
   <packageId>nelim.joyrescue</packageId>
   <url>https://github.com/vbardales/Rimworld-Joy-Rescue</url>
   <supportedVersions>
@@ -22,7 +22,7 @@ This matters more than it looks: recreation tolerance is tracked per type, and e
 
 No save data. Can be added to or removed from an ongoing game.
 
-Credits: created by nelim; powered by Harmony. Showcase artwork was generated with AI.
+Credits: created by Nelim; powered by Harmony. Showcase artwork was generated with AI.
 
 [url=https://github.com/vbardales/Rimworld-Joy-Rescue]Source code on GitHub[/url]</description>
   <modDependencies>

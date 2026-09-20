@@ -285,7 +285,7 @@ succeeded. The repository is `vbardales/Rimworld-Joy-Rescue`, display name Joy R
 folder JoyRescue, package ID nelim.joyrescue. Their differences are conventional, not defects.
 The recorded original-work rationale is consistent with the inspected source: game/Harmony
 APIs are referenced, no third-party assembly is bundled. Root and distributed MIT notices
-are identical (copyright 2026 nelim). This audit does not infer a license for dependencies.
+are identical (copyright 2026 Nelim). This audit does not infer a license for dependencies.
 
 ### Build and executable evidence
 
@@ -407,7 +407,7 @@ recreation buildings no colonist can use, but nothing of it is reused here. Henc
 Publication audit: keep the original title `Joy Rescue`, with no continuation or
 fork suffix. The GitHub URL appears both in the metadata URL field and in the
 visible About.xml description. The project's license is **MIT**, copyright
-2026 nelim, recorded in `LICENSE` and `Mod/LICENSE`; `licence: original` describes
+2026 Nelim, recorded in `LICENSE` and `Mod/LICENSE`; `licence: original` describes
 provenance, not a separate license. This does not relicense third-party dependencies.
 
 `Tests/MANUAL.md` contains 12 functional acceptance scenarios with prerequisites,
