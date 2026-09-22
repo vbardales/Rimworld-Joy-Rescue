@@ -15,7 +15,7 @@ license_files: LICENSE, Mod/LICENSE
 dependencies: declared
 showcase:     complete
 settings_audit: complete
-audit_revision: 6695ae3d407590a86918be81c226afbd0c1e527f
+audit_revision: 868ceb3e534dd1d36da9ce9ce532f943fce1bc9e
 audit_worktree: clean
 automated_tests: passed
 xml_tests: passed
@@ -43,13 +43,32 @@ remaining:
   - unverified: engine-specific mod-pack detection, full load/short hashes, save tolerance
       migration and log rendering are not certified by the isolated definition runner.
 session:      local_06dd178f-bf2c-4af0-8dd6-02a211cafcac
-updated:      2026-09-22, 0.1.0 PublishId committed; static release audit and offline tests rerun
+updated:      2026-09-22, ordered AUDIT.md verification rerun; stage done retained
 ---
 
 # Joy Rescue — status
 
 Kept at the root, never inside `Mod/`, so Steam never receives it. Maintained by the session
 that holds this mod, not by the sweep that first wrote it.
+
+## Ordered workflow audit — 2026-09-22
+
+**Audited revision:** `868ceb3` (clean worktree before this status record). The repository
+root is autonomous and its actual distributed directory is `Mod/`.
+
+| Transition | Result |
+| --- | --- |
+| `dansMonoRepo → horsMonoRepo` | **Validated.** Git root, public GitHub origin, English root/distribution documentation, coherent Joy Rescue / `nelim.joyrescue` identity, MIT notices, and original-work attribution are present. |
+| `horsMonoRepo → ModIcon → Preview → preOptions` | **Validated.** The distributed DLL builds; `ModIcon.png` is 128×128; `Preview.png` is a directly reviewed, readable 896×504 PNG of 585,587 bytes. The English description and final repository link are present. |
+| `preOptions → options` | **Validated offline.** Useful settings are implemented through the Mod options page. `JoyRescue_Settings` uses the same settings instance and has `buttonVisible=false`; the executable suite covers defaults, validation, effects, persistence, and the native shortcut contract. In-game interaction remains a later criterion. |
+| `options → l10n → preTest` | **Validated offline.** EN/FR Keyed resources and native French MainButton injection pass the resource/call-argument checks; Harmony is the only hard dependency, while DLC entries are load ordering. No LoadFolders or conditional patches exist. |
+| `preTest → done` | **Validated.** Written scenarios exist, the delivered DLL and test copy share SHA-256 `E7DD9FFE1A0FD1612A1F3586D617F530EAFF4EC25804FED64B49DAC87393156F`, and the current rerun is 118/118 executable tests plus 20/20 XML tests. |
+| `done → tested` | **Not verified.** No RimWorld instance was launched by this audit. Functional scenarios, logs, EN/FR rendered UI, persistence in a game, hidden-shortcut reveal through RIMMSQOL, new/existing saves, and Workshop self-subscription remain unobserved. |
+| `tested → prepublished → published` | **Not established.** The maintainer-reported Workshop ID is recorded, but the unverified gameplay gate already blocks advancement; the outstanding remote tag/release/push and publication handoff are listed above. |
+
+This audit deliberately made no code, image, Steam, or game-session change. It retains
+independent static validations while assigning global `stage: done`, the last transition
+whose mandatory criteria are currently evidenced.
 
 ## Publication audit — 2026-09-22
 
