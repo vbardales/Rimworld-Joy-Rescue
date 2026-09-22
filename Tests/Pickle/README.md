@@ -29,4 +29,5 @@ run replaces them.
 `Tests/MANUAL.md` F01-F12 and F14 remain required acceptance scenarios for actual orphan
 buildings, seats, group reservations, third-party own-code detection, reassignment, tolerance
 transfer, and new/existing saves. They require named witness buildings/mods and cannot be
-truthfully replaced by a fabricated generic fixture. Record a missing witness as BLOCKED.
+truthfully replaced by a fabricated generic fixture. The saved-game handoff for F10-F12 and
+F14 is [Fixtures/README.md](Fixtures/README.md). Record a missing witness as BLOCKED.
