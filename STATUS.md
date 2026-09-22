@@ -15,14 +15,26 @@ license_files: LICENSE, Mod/LICENSE
 dependencies: declared
 showcase:     complete
 settings_audit: complete
-audit_revision: 1953b6d589e8873ca6748a7e1ba3ab0e341c3db0 plus common-taxonomy worktree
-audit_worktree: dirty
+audit_revision: 6695ae3d407590a86918be81c226afbd0c1e527f
+audit_worktree: clean
 automated_tests: passed
 xml_tests: passed
 tested_on:    2026-08-29
 unit_tested_on: 2026-09-13
-workshop:
+workshop:     3806137974 (Joy Rescue 0.1.0, published by maintainer; public/subscription check unverified)
 remaining:
+  - defect: the distributed About description lacks the mandatory IF I GO QUIET,
+      AI-GENERATED (with actual tool names), THANKS, and attribution/license sections.
+      Because the Workshop item already exists, correct the Steam description directly
+      before its next update; changing About.xml alone cannot synchronize it.
+  - defect: PUBLICATION.md is absent, so the capture order, adult-content decision,
+      dependency/DLC declaration, release notes, and individualized thank-you messages
+      were not recorded in the repository before publication.
+  - unverified: 0.1.0 has no Git tag or GitHub release and commit 6695ae3 is not pushed
+      (local main is ahead of origin/main by one); the published item is therefore not
+      yet reproducible from the remote repository.
+  - unverified: self-subscription to Workshop item 3806137974 and its public visibility
+      were reported by the maintainer but were not independently observed in this audit.
   - unverified: common preset F15-F19 gameplay, translated layout, actual Harmony save-load hook and full mod-pack compatibility remain pending; see Tests/TAXONOMY.md.
   - unverified: execute MANUAL.md F01-F14 in RimWorld, including actual pawn behavior,
       logs, FR/EN UI, new game and existing save, settings persistence and shared activities.
@@ -31,13 +43,40 @@ remaining:
   - unverified: engine-specific mod-pack detection, full load/short hashes, save tolerance
       migration and log rendering are not certified by the isolated definition runner.
 session:      local_06dd178f-bf2c-4af0-8dd6-02a211cafcac
-updated:      2026-09-13, common taxonomy fix set verified offline; gameplay acceptance pending
+updated:      2026-09-22, 0.1.0 PublishId committed; static release audit and offline tests rerun
 ---
 
 # Joy Rescue — status
 
 Kept at the root, never inside `Mod/`, so Steam never receives it. Maintained by the session
 that holds this mod, not by the sweep that first wrote it.
+
+## Publication audit — 2026-09-22
+
+The maintainer reported that **Joy Rescue 0.1.0** was published and supplied Workshop
+ID `3806137974`. `Mod/About/PublishedFileId.txt` contains exactly that ID and is committed
+in `6695ae3` (`Publish JoyRescue 0.1.0`). The repository’s current stage remains
+`done`, rather than `published`: the ordered workflow requires the published commit to
+be pushed, a matching Git tag and GitHub release, a recorded pre-publication handoff,
+and an observed self-subscription/public-visibility check. None is evidenced in the
+current repository. This preserves the reported Workshop fact without certifying the
+unobserved transition.
+
+### Rechecked offline release evidence
+
+| Check | Actual result |
+| --- | --- |
+| `dotnet build Tests/JoyRescue.Tests.csproj -c Release --no-restore` | Exit 0; zero warnings/errors |
+| `.build/tests/bin/Release/net8.0/JoyRescue.Tests.exe` | Exit 0; **118/118 PASS** |
+| `pwsh -NoProfile -File Tests/Test-Xml.ps1` | Exit 0; **20/20 PASS** |
+| Distributed/test DLL SHA-256 | Both `E7DD9FFE1A0FD1612A1F3586D617F530EAFF4EC25804FED64B49DAC87393156F` |
+| `git diff --check` | PASS |
+
+GitHub was queried live: `vbardales/Rimworld-Joy-Rescue` is public on `main`, but
+`origin/main` remains `6e6c48c`; there are no remote tags or releases. The current local
+branch is ahead by the PublishId commit. Steam’s item page could not be retrieved through
+the available public client, so its public visibility and subscription behavior remain
+unverified rather than inferred from the identifier.
 
 ## Current settings validation — 2026-09-13
 
