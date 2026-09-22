@@ -72,6 +72,25 @@ whose mandatory criteria are currently evidenced.
 
 ## Pickle suite written — 2026-09-22
 
+### F14 witness preparation and queue check
+
+The test-only `Tests/Pickle/WitnessMod/Mod` now declares two named givers serving vanilla
+Chess and Game of Ur tables through the same `Play_Chess` job. Features `03`/`04` write
+opposite assignment orders, and `05` checks distinct job identities and credited kinds in
+a second game process. The writer preserves the prior WSL settings file; the reader restores
+it after its scenario. These files passed XML parsing, all ten local Cucumber expressions
+compiled, and the companion assembly built with zero warnings/errors (SHA-256
+`91A88B1B90B1BB18764B6BE43FCF7687D2475D6C9959596FD79FAE0329659D58`). No gameplay
+run or saved-colony fixture has been produced from them yet.
+
+F10's fixture is a global Mod settings XML, not an `.rws`; F12 needs a metadata capture, not a
+save. F11 still requires a live generated job in a copied save. The fixture handoff was
+corrected accordingly. The RIMMSQOL feature tests Joy Rescue's button integration only;
+the visibility choice across restart is RIMMSQOL's own contract.
+
+At the read-only Pickle status check on 2026-09-22 22:16 local time, WorkStudio held the WSL
+game and lock, with ten other tickets queued. No Joy Rescue ticket was created or game launched.
+
 `Tests/Pickle/` now supplies the development-only companion
 `nelim.joyrescue.pickletests`. Its minimal English/French feature covers the rendered Mod
 options dialog, default hidden/non-greyed shortcut, shortcut activation into the same dialog,

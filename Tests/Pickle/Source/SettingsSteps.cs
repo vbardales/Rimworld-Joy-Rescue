@@ -93,7 +93,7 @@ namespace JoyRescue.PickleSteps
 
         // These scenarios must never retain an audit value in the shared WSL profile.  The
         // backup also survives a killed run: the next scenario restores it before continuing.
-        [BeforeScenario]
+        [BeforeScenario("@joyrescue-sandbox")]
         public void BackUpAndReset(PickleContext ctx)
         {
             var settingsPath = SettingsPath(ctx);
@@ -105,7 +105,7 @@ namespace JoyRescue.PickleSteps
             Mod(ctx).WriteSettings();
         }
 
-        [AfterScenario]
+        [AfterScenario("@joyrescue-sandbox")]
         public void Restore(PickleContext ctx)
         {
             if (File.Exists(BackupPath(ctx))) RestoreBackup(ctx);

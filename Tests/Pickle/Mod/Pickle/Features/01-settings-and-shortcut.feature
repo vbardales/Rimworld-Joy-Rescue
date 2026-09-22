@@ -1,7 +1,7 @@
 # F09 and F13 from Tests/MANUAL.md.  These checks use a running game because the offline
 # suite cannot show the rendered Dialog_ModSettings or a MainButton worker opening it.
 # Dialog_ModSettings pauses ticks, so the local opening steps wait for frames instead.
-@review
+@review @joyrescue-sandbox
 Feature: Joy Rescue settings and its hidden shortcut work in the running game
 
   Background:

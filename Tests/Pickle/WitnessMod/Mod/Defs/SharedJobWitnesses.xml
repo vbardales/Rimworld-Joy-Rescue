@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <!-- Both witnesses use vanilla buildings and the same vanilla job definition.
+       Their own giver names make the two reassignment targets unambiguous. -->
+  <JoyGiverDef>
+    <defName>JoyRescueWitness_PlayChess</defName>
+    <giverClass>JoyGiver_InteractBuildingSitAdjacent</giverClass>
+    <baseChance>2</baseChance>
+    <thingDefs><li>ChessTable</li></thingDefs>
+    <jobDef>Play_Chess</jobDef>
+    <joyKind>Gaming_Cerebral</joyKind>
+    <requiredCapacities><li>Manipulation</li></requiredCapacities>
+  </JoyGiverDef>
+  <JoyGiverDef>
+    <defName>JoyRescueWitness_PlayUr</defName>
+    <giverClass>JoyGiver_InteractBuildingSitAdjacent</giverClass>
+    <baseChance>2</baseChance>
+    <thingDefs><li>GameOfUrBoard</li></thingDefs>
+    <jobDef>Play_Chess</jobDef>
+    <joyKind>Gaming_Cerebral</joyKind>
+    <requiredCapacities><li>Manipulation</li></requiredCapacities>
+  </JoyGiverDef>
+</Defs>

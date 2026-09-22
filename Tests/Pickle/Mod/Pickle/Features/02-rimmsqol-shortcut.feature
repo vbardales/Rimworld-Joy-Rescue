@@ -1,6 +1,6 @@
 # F13's optional integration.  The shared companion drives RIMMSQOL's real settings store;
 # it is staged only by wsl-deps.avec-rimmsqol.map and leaves no visibility choice behind.
-@review @rimmsqol @requires:MalteSchulze.RIMMSqol @requires:nelim.pickletools.rimmsqol
+@review @joyrescue-sandbox @rimmsqol @requires:MalteSchulze.RIMMSqol @requires:nelim.pickletools.rimmsqol
 Feature: RIMMSQOL reveals and hides the Joy Rescue shortcut
 
   Background:
