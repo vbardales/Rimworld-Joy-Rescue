@@ -70,6 +70,28 @@ This audit deliberately made no code, image, Steam, or game-session change. It r
 independent static validations while assigning global `stage: done`, the last transition
 whose mandatory criteria are currently evidenced.
 
+## Pickle suite written — 2026-09-22
+
+`Tests/Pickle/` now supplies the development-only companion
+`nelim.joyrescue.pickletests`. Its minimal English/French feature covers the rendered Mod
+options dialog, default hidden/non-greyed shortcut, shortcut activation into the same dialog,
+and a sandboxed `requireChairForWatching` write/reopen cycle. The dedicated RIMMSQOL pass
+uses the shared `nelim.pickletools.rimmsqol` companion to list, reveal, hide and forget
+`JoyRescue_Settings`, then opens the real Joy Rescue dialog through the revealed bar button.
+Every `@review` capture still needs human inspection when played.
+
+`dotnet build Tests/Pickle/Source/JoyRescue.PickleSteps.csproj -c Release` succeeds with
+zero warnings/errors; the staged `JoyRescue.PickleSteps.dll` SHA-256 is
+`331120D4BA13E7E7A1ABA895E0EF29575584E07FB826B5697AB0807D03EEE7F2`.
+All seven local Cucumber expressions compile against the installed Pickle engine. The shared
+RIMMSQOL checker resolves this suite's RIMMSQOL lines; its overall failure is two unrelated,
+pre-existing ScreenshotStudio lines with no staged `ScreenshotStudio` expression, not a Joy
+Rescue feature failure. No Pickle run has been queued or launched.
+
+F01-F12 and F14 remain the required behavior acceptance matrix in `Tests/MANUAL.md`: they need
+real, named orphan/covered/own-code witnesses and actual saves. They are deliberately not
+replaced by a fabricated fixture, and remain **unverified** until a pass can stage those witnesses.
+
 ## Publication audit — 2026-09-22
 
 The maintainer reported that **Joy Rescue 0.1.0** was published and supplied Workshop
