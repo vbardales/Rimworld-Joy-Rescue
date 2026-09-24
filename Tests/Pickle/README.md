@@ -85,3 +85,11 @@ A queued ticket can wait for hours behind other mods and can vanish. Observe it 
 background watcher (Claude's Monitor tool, the counterpart of a Codex heartbeat) and report
 only on a meaningful change: the lock taken, the run finished, a failure, or a needed human
 action. Watching does not reserve the machine and does not replace the run itself.
+
+Use one watcher for all of the mod's tickets, not one per ticket. It finds them by the mod name
+in the ticket file rather than by a label, so a ticket queued later is picked up without a new
+watcher, and it follows every `*queue.stdout.log` kept next to the evidence. A watcher lasts at
+most 30 minutes: re-arm it when it expires, and read the log it names on a ticket that vanishes.
+A launcher keeps running when its background task is reported stopped after a session restart,
+so check the process before treating its ticket as lost. A launcher stops touching its ticket
+once it holds the lock, so a stale ticket is a warning only while the run is still queued.
