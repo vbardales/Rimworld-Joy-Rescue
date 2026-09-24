@@ -26,7 +26,7 @@ remaining:
   - blocking (done -> tested), gates given by the owner on 2026-09-24: (1) no scenario left in
       @wip: MET, none of the 10 Pickle scenarios in the 5 features carries the tag;
       (2) every conditional scenario has run: NOT MET. Of the 6 that carry a @requires tag, 03 has
-      played and passed (2026-09-24), 05 has played and failed on a test defect (fixed, requeued),
+      played and passed (2026-09-24), 05 has played and failed on a test defect (fixed, resubmitted as one pair),
       and 04 and the three RIMMSQOL scenarios of 02 have not played; the 4 unconditional ones of
       01 have not played either;
       (3) no manual test left to validate, all green: NOT MET, F01-F14 in Tests/MANUAL.md and
@@ -131,6 +131,14 @@ writer refuses to save an assignment whose kind does not exist in the running ga
 mistake fails at the writer, where it is cheap to read, rather than after a restart. The
 companion assembly was rebuilt with zero warnings and errors. Evidence is trimmed to the summary,
 the JUnit file and the logs of both launches (`docs/runs/README.md` has the line).
+
+The relaunch queued at 13:12 (ticket 47600, launched directly) never ran: its launcher died with a
+session restart and the TicketDispatcher found the ticket gone at 16:35. It was redeposited at
+16:39 through the dispatcher's worker as request `20260924-163956-958-a63d`, one pair only, `03`
+then `05` (chess then ur), which is what checks the fix. A second request for the reverse order
+(`04` then `05`) was withdrawn before it started: the owner's rule is several small tickets, and a
+ticket for a fix runs as few scenarios as possible, while the reverse order belongs to the final
+pass that runs everything.
 
 `Tests/Pickle/` now supplies the development-only companion
 `nelim.joyrescue.pickletests`. Its minimal English/French feature covers the rendered Mod

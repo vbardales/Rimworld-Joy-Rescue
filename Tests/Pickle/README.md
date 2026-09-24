@@ -13,22 +13,25 @@ hidden shortcut opening that window, and whether RIMMSQOL can reveal this mod's 
 | Minimal English | `-Language English` | `01-settings-and-shortcut.feature` | Settings window renders; the shortcut is hidden (not greyed); its worker opens the same dialog; a Boolean setting persists through close/reopen. |
 | Minimal French | `-Language French` | `01-settings-and-shortcut.feature` | The same settings surface in the French startup language; review the screenshot for raw keys, fallback text and clipping. |
 | RIMMSQOL | `-DepMap wsl-deps.avec-rimmsqol.map -Language English -Filter 02-rimmsqol-shortcut.feature` | `02-rimmsqol-shortcut.feature` | RIMMSQOL lists and reveals `JoyRescue_Settings`; the revealed button opens Joy Rescue settings. Hiding/forgetting only cleans up the test. Visibility persistence across a restart belongs to RIMMSQOL's own suite. |
-| Shared job, both orders | `-DepMap wsl-deps.shared-job.map -Filter 03-shared-job-write-chess-then-ur.feature -Then 05-shared-job-read.feature,04-shared-job-write-ur-then-chess.feature,05-shared-job-read.feature`, under `-Command` (see below) | `03`, `05`, `04`, `05` | The two loaded witnesses share a job before writing; after a real restart, both assigned kinds have independent jobs (`03` then `05`), then the same check in reverse insertion order (`04` then `05`). Four launches under one queue ticket; `-EvidenceDir` keeps `seq1` to `seq4`, which spares a second wait behind the queue. |
+| Shared job A then B | `-DepMap wsl-deps.shared-job.map -Filter 03-shared-job-write-chess-then-ur.feature -Then 05-shared-job-read.feature` | `03`, `05` | The two loaded witnesses share a job before writing; after a real restart, both assigned kinds have independent jobs. |
+| Shared job B then A | `-DepMap wsl-deps.shared-job.map -Filter 04-shared-job-write-ur-then-chess.feature -Then 05-shared-job-read.feature` | `04`, `05` | Same check in reverse insertion order. |
 
-Run only through the shared harness, never by launching RimWorld directly:
+Queue every pass through the dispatcher, one ticket per pass. Never launch RimWorld directly, and
+do not keep a `Run-PickleWsl.ps1` process of your own alive:
 
 ```powershell
-powershell.exe -ExecutionPolicy Bypass -File scripts/Run-PickleWsl.ps1 -Mod JoyRescue -Language English
-powershell.exe -ExecutionPolicy Bypass -File scripts/Run-PickleWsl.ps1 -Mod JoyRescue -Language French
-powershell.exe -ExecutionPolicy Bypass -File scripts/Run-PickleWsl.ps1 -Mod JoyRescue -DepMap wsl-deps.avec-rimmsqol.map -Language English -Filter 02-rimmsqol-shortcut.feature
-powershell.exe -NoProfile -ExecutionPolicy Bypass -Command "& 'scripts/Run-PickleWsl.ps1' -Mod JoyRescue -DepMap wsl-deps.shared-job.map -Filter 03-shared-job-write-chess-then-ur.feature -Then 05-shared-job-read.feature,04-shared-job-write-ur-then-chess.feature,05-shared-job-read.feature -EvidenceDir JoyRescue/Tests/Pickle/Evidence/F14-<date> -MaxWaitMinutes 720"
+powershell.exe -ExecutionPolicy Bypass -File Rimworld-Ticket-Dispatcher/scripts/Submit-PickleRun.ps1 -Mod JoyRescue -Owner local_<id> -Label "minimal English" -Language English -EvidenceDir JoyRescue/Tests/Pickle/Evidence/<pass>
+powershell.exe -ExecutionPolicy Bypass -File Rimworld-Ticket-Dispatcher/scripts/Submit-PickleRun.ps1 -Mod JoyRescue -Owner local_<id> -Label "minimal French" -Language French -EvidenceDir JoyRescue/Tests/Pickle/Evidence/<pass>
+powershell.exe -ExecutionPolicy Bypass -File Rimworld-Ticket-Dispatcher/scripts/Submit-PickleRun.ps1 -Mod JoyRescue -Owner local_<id> -Label "RIMMSQOL shortcut" -DepMap wsl-deps.avec-rimmsqol.map -Language English -Filter 02-rimmsqol-shortcut.feature -EvidenceDir JoyRescue/Tests/Pickle/Evidence/<pass>
+powershell.exe -ExecutionPolicy Bypass -File Rimworld-Ticket-Dispatcher/scripts/Submit-PickleRun.ps1 -Mod JoyRescue -Owner local_<id> -Label "F14 chess then ur" -DepMap wsl-deps.shared-job.map -Language English -Filter 03-shared-job-write-chess-then-ur.feature -Then 05-shared-job-read.feature -EvidenceDir JoyRescue/Tests/Pickle/Evidence/<pass>
+powershell.exe -ExecutionPolicy Bypass -File Rimworld-Ticket-Dispatcher/scripts/Submit-PickleRun.ps1 -Mod JoyRescue -Owner local_<id> -Label "F14 ur then chess" -DepMap wsl-deps.shared-job.map -Language English -Filter 04-shared-job-write-ur-then-chess.feature -Then 05-shared-job-read.feature -EvidenceDir JoyRescue/Tests/Pickle/Evidence/<pass>
 ```
 
-The shared-job chain is the one command run with `-Command` instead of `-File`: under `-File`,
-PowerShell 5.1 binds `-Then a,b,c` as one string, so only `-Command` splits it into three
-filters. It hands back only 0 or 1: append `; exit $LASTEXITCODE` inside the quotes to keep the
-launcher's own code. Replace `<date>` with the run's date; a name already taken gets a numbered
-suffix.
+Several small tickets rather than one large one. A ticket for an exploration or a fix runs as few
+scenarios as possible: one feature file, or `-Filter '::<scenario name>'`. An initial or a final
+ticket runs every scenario, with no `-Filter`, still one pass per ticket. A shared-job pair is the
+smallest unit that means something: the writer and the reader must share one hold of the lock,
+which is what `-Then` is for. Replace `<pass>` with a folder name that is new for the run.
 
 Read `exitReason` before counts, compare discovered and played scenarios, inspect every
 `@review` capture. `-EvidenceDir` copies each reached `-Then` report to this mod as
@@ -87,7 +90,7 @@ message: `START` when the ticket takes the lock, `END` when it gives it back (th
 verdict), `LOST` when a ticket vanished without ever holding it, and `RUN_DONE` for a request
 dropped through `Submit-PickleRun.ps1`. It knows this session by `local_<id>`, taken from the
 ticket label or from a first message whose first line is `REGISTER local_<id> JoyRescue`, so a
-run is queued with `-Label "JoyRescue local_<id> <what is tested>"`.
+run is queued with `Submit-PickleRun.ps1 -Owner local_<id>`, which puts the id in the label.
 
 A queued ticket can wait for hours behind other mods. Read the verdict in the run's own report
 and log, never in a launcher's exit code: under `-Command` it is not handed on. A launcher keeps
