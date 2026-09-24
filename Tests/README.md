@@ -33,12 +33,12 @@ Baseline coverage: U01–U16, U20, U27 and ActivityName in U33. R01 is now manda
 An additional test binds the distributed shortcut definition to its compiled worker and
 checks that it inherits native visibility. This is a contract test, not a reveal/hide
 interaction test: calling Visible here initializes Unity save paths and cannot run in
-this data-only environment. The attempted run is preserved in
-`.build/fix-2026-09-13/visibility-runtime-attempt.txt`; use F13 for interaction.
+this data-only environment. The attempted run was recorded in a log
+(deleted 2026-09-24, superseded); use F13 for interaction.
 There is no line/branch coverage measurement. SettingsIntegration.cs now executes full
 Retarget transitions (including worker invalidation) in EN and FR, live weight restoration,
 real generation and reassignment, editor helpers and Scribe serialization. The current
-suite passes **95/95**; results are in `.build/settings-2026-09-13/results.txt`.
+suite passes **118/118**; results are in `.build/taxonomy-results.txt`.
 Manual acceptance is in MANUAL.md and remains unexecuted.
 
 The fixtures initialize real Verse language objects from the distributed Keyed files,
@@ -68,7 +68,7 @@ and target definitions, not exhaustive gameplay behavior.
 instead of Auto. These two failures were genuine reproductions, not ignored tests
 or assertions changed to accept the defect. They were opt-in at that time and now
 run by default. Initial outputs remain under `.build/tests/`; the pre-fix audit
-outputs remain under `.build/audit-2026-09-13/`.
+outputs were deleted on 2026-09-24 as superseded.
 
 See STATUS.md for the fixed revision/worktree, current results and evidence paths.
 A passing off-game suite never certifies the manual acceptance scenarios.

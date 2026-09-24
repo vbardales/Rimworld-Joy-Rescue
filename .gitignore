@@ -23,3 +23,14 @@ desktop.ini
 # Until this folder became a repository of its own the rule lived in the monorepo's .gitignore,
 # a file this repository does not carry.
 .claude/
+
+# Compiled DirectDraw textures. Never tracked here: a .dds is a build product of a PNG source,
+# and it is large. If one ever appears (game caches, tool output), it stays on disk.
+*.dds
+
+# Pickle run evidence (captures, films, reports, logs) stays on disk and out of git: it can reach
+# gigabytes and the disk is short. What is committed is one text line per run in docs/runs/.
+# Which files to keep after a run is in Tests/Pickle/README.md, "Evidence to keep".
+Tests/Pickle/Evidence/
+Tests/Pickle/runs/
+evidence/

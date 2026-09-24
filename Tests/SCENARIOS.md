@@ -234,5 +234,5 @@ reflection over third-party packs, complete error-log capture, UI interaction, s
 and removal/rename effects across actual game restarts. They are not certified by this runner.
 D33's catch/log behavior and D41's exact log display remain for engine validation; only the
 controlled failure state is asserted off-game. No assertion was weakened to accept R02–R04,
-D40 or the stale-tooltip defect. Reproduction logs are preserved under
-`.build/settings-2026-09-13/`, with the current results and build logs alongside them.
+D40 or the stale-tooltip defect. Reproduction logs
+were deleted on 2026-09-24 as superseded; the current results and build logs are `.build/taxonomy-*.txt`.

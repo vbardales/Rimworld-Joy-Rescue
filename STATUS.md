@@ -23,6 +23,14 @@ tested_on:    2026-08-29
 unit_tested_on: 2026-09-13
 workshop:     3806137974 (Joy Rescue 0.1.0, published by maintainer; public/subscription check unverified)
 remaining:
+  - blocking (done -> tested), gates given by the owner on 2026-09-24: (1) no scenario left in
+      @wip: MET, none of the 10 Pickle scenarios in the 5 features carries the tag;
+      (2) every conditional scenario has run: NOT MET, the 6 that carry a @requires tag (three
+      RIMMSQOL scenarios in 02, the shared-job witness in 03, 04 and 05) have never played in
+      game, and neither have the 4 unconditional ones of 01; the only queued run, F14 chess-then-ur
+      on 2026-09-22, ended infrastructure-error with 0 scenarios played;
+      (3) no manual test left to validate, all green: NOT MET, F01-F14 in Tests/MANUAL.md and
+      F15-F19 in Tests/TAXONOMY.md are all unexecuted. The stage stays done.
   - defect: the distributed About description lacks the mandatory IF I GO QUIET,
       AI-GENERATED (with actual tool names), THANKS, and attribution/license sections.
       Because the Workshop item already exists, correct the Steam description directly
@@ -31,7 +39,7 @@ remaining:
       dependency/DLC declaration, release notes, and individualized thank-you messages
       were not recorded in the repository before publication.
   - unverified: 0.1.0 has no Git tag or GitHub release and commit 6695ae3 is not pushed
-      (local main is ahead of origin/main by one); the published item is therefore not
+      (local main is ahead of origin/main; the `## [0.1.0]` section of CHANGELOG.md, which the CI reads for the release notes, exists since 2026-09-24); the published item is therefore not
       yet reproducible from the remote repository.
   - unverified: self-subscription to Workshop item 3806137974 and its public visibility
       were reported by the maintainer but were not independently observed in this audit.
@@ -43,7 +51,7 @@ remaining:
   - unverified: engine-specific mod-pack detection, full load/short hashes, save tolerance
       migration and log rendering are not certified by the isolated definition runner.
 session:      local_06dd178f-bf2c-4af0-8dd6-02a211cafcac
-updated:      2026-09-22, ordered AUDIT.md verification rerun; stage done retained
+updated:      2026-09-24, gates for tested applied, changelog started, evidence trimmed; stage done retained
 ---
 
 # Joy Rescue — status
@@ -89,7 +97,17 @@ corrected accordingly. The RIMMSQOL feature tests Joy Rescue's button integratio
 the visibility choice across restart is RIMMSQOL's own contract.
 
 At the read-only Pickle status check on 2026-09-22 22:16 local time, WorkStudio held the WSL
-game and lock, with ten other tickets queued. No Joy Rescue ticket was created or game launched.
+game and lock, with ten other tickets queued. No Joy Rescue ticket existed at that time.
+
+The later F14 chess-then-ur `-Then` run (PID 22208) did take `LOCK` and `STAGE`, then
+returned `infrastructure-error` / code 137 at 23:14 with **0 scenarios played**; `UNLOCK`
+followed. The reader launch did not run, no gameplay or F14 fixture was validated, and
+the shared report archive was pruned before its failed report could be recovered into this
+repository. The queue stdout log remains in `Tests/Pickle/Evidence/`. The shared launcher
+has since been corrected to copy an intermediate failed report (or a fresh `Player.log`
+if no report exists) to `-EvidenceDir` before stopping the sequence and releasing the lock.
+That correction has passed PowerShell syntax checking but has not yet been exercised by a
+new in-game run.
 
 `Tests/Pickle/` now supplies the development-only companion
 `nelim.joyrescue.pickletests`. Its minimal English/French feature covers the rendered Mod
@@ -105,7 +123,7 @@ zero warnings/errors; the staged `JoyRescue.PickleSteps.dll` SHA-256 is
 All seven local Cucumber expressions compile against the installed Pickle engine. The shared
 RIMMSQOL checker resolves this suite's RIMMSQOL lines; its overall failure is two unrelated,
 pre-existing ScreenshotStudio lines with no staged `ScreenshotStudio` expression, not a Joy
-Rescue feature failure. No Pickle run has been queued or launched.
+Rescue feature failure. That was the pre-run static assessment, not an in-game result.
 
 F01-F12 and F14 remain the required behavior acceptance matrix in `Tests/MANUAL.md`: they need
 real, named orphan/covered/own-code witnesses and actual saves. They are deliberately not
@@ -155,8 +173,11 @@ Current DLL and the copy used by the test runner have the same SHA-256:
 
 ### Executed results and evidence
 
-Evidence directory: `.build/settings-2026-09-13/` (local, ignored). The previous audit
-and first-fix results remain intact in their earlier directories.
+Evidence: the directories of this pass (`.build/settings-2026-09-13/`, `.build/fix-2026-09-13/`,
+`.build/audit-2026-09-13/`) were deleted on 2026-09-24. They described superseded builds (49, 52
+and 95 cases, other DLL hashes) and held decompiled game sources. The current build is proved by
+`.build/taxonomy-build.txt`, `.build/taxonomy-results.txt` (118/118) and `.build/taxonomy-xml.txt`
+(20/20), local and ignored.
 
 | Check | Actual result |
 | --- | --- |
@@ -289,7 +310,7 @@ publication or image change occurred. The same distributed root `Mod/` is used.
 
 ### Executed verification
 
-Current evidence is in `.build/fix-2026-09-13/`; pre-fix evidence is unchanged.
+Its evidence directory, `.build/fix-2026-09-13/`, was deleted on 2026-09-24 as superseded.
 
 | Check | Result |
 | --- | --- |
@@ -388,7 +409,7 @@ are identical (copyright 2026 Nelim). This audit does not infer a license for de
 
 ### Build and executable evidence
 
-New logs: `.build/audit-2026-09-13/` (ignored, local evidence).
+Its logs, `.build/audit-2026-09-13/`, were deleted on 2026-09-24 as superseded.
 
 | Command | Observed result | Evidence |
 | --- | --- | --- |

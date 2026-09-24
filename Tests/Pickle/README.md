@@ -22,13 +22,16 @@ Run only through the shared harness, never by launching RimWorld directly:
 powershell.exe -ExecutionPolicy Bypass -File scripts/Run-PickleWsl.ps1 -Mod JoyRescue -Language English
 powershell.exe -ExecutionPolicy Bypass -File scripts/Run-PickleWsl.ps1 -Mod JoyRescue -Language French
 powershell.exe -ExecutionPolicy Bypass -File scripts/Run-PickleWsl.ps1 -Mod JoyRescue -DepMap wsl-deps.avec-rimmsqol.map -Language English -Filter 02-rimmsqol-shortcut.feature
-powershell.exe -ExecutionPolicy Bypass -File scripts/Run-PickleWsl.ps1 -Mod JoyRescue -DepMap wsl-deps.shared-job.map -Filter 03-shared-job-write-chess-then-ur.feature -Then 05-shared-job-read.feature
-powershell.exe -ExecutionPolicy Bypass -File scripts/Run-PickleWsl.ps1 -Mod JoyRescue -DepMap wsl-deps.shared-job.map -Filter 04-shared-job-write-ur-then-chess.feature -Then 05-shared-job-read.feature
+powershell.exe -ExecutionPolicy Bypass -File scripts/Run-PickleWsl.ps1 -Mod JoyRescue -DepMap wsl-deps.shared-job.map -Filter 03-shared-job-write-chess-then-ur.feature -Then 05-shared-job-read.feature -EvidenceDir JoyRescue/Tests/Pickle/Evidence/F14-chess-then-ur-20260922
+powershell.exe -ExecutionPolicy Bypass -File scripts/Run-PickleWsl.ps1 -Mod JoyRescue -DepMap wsl-deps.shared-job.map -Filter 04-shared-job-write-ur-then-chess.feature -Then 05-shared-job-read.feature -EvidenceDir JoyRescue/Tests/Pickle/Evidence/F14-ur-then-chess-20260922
 ```
 
 Read `exitReason` before counts, compare discovered and played scenarios, inspect every
-`@review` capture, and copy reports out of the shared Pickle report directory before another
-run replaces them.
+`@review` capture. `-EvidenceDir` copies each reached `-Then` report to this mod as
+`seq1`, `seq2`, etc. before `UNLOCK`, including a failed launch that stops the chain.
+If no fresh report exists, it keeps only the current `Player.log` and `no-report.txt`.
+Retain only evidence needed for the verdict and remove superseded
+copies after review. Do not rely on the rolling shared archive.
 
 The F14 writer copies the existing Joy Rescue settings file to a named backup. The reader
 restores it in `AfterScenario`, including after a failed assertion. If a run stops between
@@ -41,3 +44,40 @@ buildings, seats, group reservations, third-party own-code detection, reassignme
 transfer, and new/existing saves. They require named witness buildings/mods and cannot be
 truthfully replaced by a fabricated generic fixture. The saved-game handoff for F10-F12 and
 F14 is [Fixtures/README.md](Fixtures/README.md). Record a missing witness as BLOCKED.
+
+## Evidence to keep
+
+The disk is short of space and a report about a superseded build proves nothing about the
+current one, so a run's evidence is kept small and only while it still proves something (root
+`AGENTS.md`, "Test evidence"). It lives on disk under `Tests/Pickle/Evidence/`, ignored by git,
+with one line per run in `docs/runs/README.md`. Nothing from it is committed, and no `.dds` is
+ever tracked.
+
+**Keep, once a run has been read:**
+
+- `summary.json` and `junit.xml` of the run: the raw result, tiny. Read `exitReason` first.
+- The captures that show what a person validates, minified to jpeg: the rendered settings
+  dialog in English and in French, the revealed RIMMSQOL button and the dialog it opens, and
+  the two job identities of the shared-job reader (`05`).
+- `Player.log` only when it holds an error or warning that the verdict depends on, or when a
+  run failed before any report existed (then it and `no-report.txt` are the whole evidence).
+
+**Delete:**
+
+- Any report of a superseded build: as soon as a newer run of the same scenario exists.
+- The full-size captures once their jpeg exists, every duplicate frame, the NDJSON log and the
+  full report (they weigh tens of megabytes).
+- The rolling shared archive copies of this mod: select what is needed, then remove that
+  archive. Leave the archives of other mods alone.
+- Offline suite outputs under `.build/` of an older build: keep only the latest
+  `taxonomy-*.txt` set, which matches the delivered DLL.
+
+Never delete a report a `STATUS.md` field still points to: repoint it first. List what goes
+and what stays before deleting.
+
+## Waiting on a queued ticket
+
+A queued ticket can wait for hours behind other mods and can vanish. Observe it with a
+background watcher (Claude's Monitor tool, the counterpart of a Codex heartbeat) and report
+only on a meaningful change: the lock taken, the run finished, a failure, or a needed human
+action. Watching does not reserve the machine and does not replace the run itself.
