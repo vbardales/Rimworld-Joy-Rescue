@@ -12,6 +12,10 @@ namespace JoyRescue.PickleSteps
     {
         private const string Chess = "JoyRescueWitness_PlayChess";
         private const string Ur = "JoyRescueWitness_PlayUr";
+        // Two kinds that exist in Core and differ from the witnesses' own Gaming_Cerebral. A kind that
+        // does not exist is skipped by the mod with a warning, so it must never be picked here.
+        private const string ChessKind = "Social";
+        private const string UrKind = "Gaming_Dexterity";
         private static readonly string ProcessMarker = Guid.NewGuid().ToString("N");
 
         private static string SettingsPath(PickleContext ctx)
@@ -54,6 +58,9 @@ namespace JoyRescue.PickleSteps
                 $"unknown order '{order}'");
             var settings = JoyRescueMod.Settings;
             ctx.Require(settings != null && JoyRescueMod.Instance != null, "Joy Rescue settings are unavailable");
+            foreach (var kind in new[] { ChessKind, UrKind })
+                ctx.Require(DefDatabase<JoyKindDef>.GetNamedSilentFail(kind) != null,
+                    $"recreation kind '{kind}' does not exist in this game: the mod would skip the assignment");
             var backup = BackupPath(ctx);
             ctx.Require(!File.Exists(backup),
                 $"a previous F14 settings backup remains at {backup}; inspect and restore it first");
@@ -62,13 +69,13 @@ namespace JoyRescue.PickleSteps
             settings.giverKindOverrides.Clear();
             if (order == "chess-then-ur")
             {
-                settings.giverKindOverrides.Add(Chess, "Artistic");
-                settings.giverKindOverrides.Add(Ur, "Gaming_Dexterity");
+                settings.giverKindOverrides.Add(Chess, ChessKind);
+                settings.giverKindOverrides.Add(Ur, UrKind);
             }
             else
             {
-                settings.giverKindOverrides.Add(Ur, "Gaming_Dexterity");
-                settings.giverKindOverrides.Add(Chess, "Artistic");
+                settings.giverKindOverrides.Add(Ur, UrKind);
+                settings.giverKindOverrides.Add(Chess, ChessKind);
             }
             JoyRescueMod.Instance.WriteSettings();
             File.WriteAllText(MarkerPath(ctx), ProcessMarker);
@@ -81,10 +88,10 @@ namespace JoyRescue.PickleSteps
                 "F14 writer did not run in a previous game process");
             var chess = Giver(ctx, Chess);
             var ur = Giver(ctx, Ur);
-            ctx.Assert(chess.joyKind?.defName == "Artistic",
-                $"{Chess} kind is {chess.joyKind?.defName}, expected Artistic");
-            ctx.Assert(ur.joyKind?.defName == "Gaming_Dexterity",
-                $"{Ur} kind is {ur.joyKind?.defName}, expected Gaming_Dexterity");
+            ctx.Assert(chess.joyKind?.defName == ChessKind,
+                $"{Chess} kind is {chess.joyKind?.defName}, expected {ChessKind}");
+            ctx.Assert(ur.joyKind?.defName == UrKind,
+                $"{Ur} kind is {ur.joyKind?.defName}, expected {UrKind}");
             ctx.Assert(chess.jobDef != null && ur.jobDef != null
                 && !ReferenceEquals(chess.jobDef, ur.jobDef),
                 $"witnesses still share job {chess.jobDef?.defName}/{ur.jobDef?.defName}");

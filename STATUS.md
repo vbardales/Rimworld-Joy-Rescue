@@ -25,10 +25,10 @@ workshop:     3806137974 (Joy Rescue 0.1.0, published by maintainer; public/subs
 remaining:
   - blocking (done -> tested), gates given by the owner on 2026-09-24: (1) no scenario left in
       @wip: MET, none of the 10 Pickle scenarios in the 5 features carries the tag;
-      (2) every conditional scenario has run: NOT MET, the 6 that carry a @requires tag (three
-      RIMMSQOL scenarios in 02, the shared-job witness in 03, 04 and 05) have never played in
-      game, and neither have the 4 unconditional ones of 01; the only queued run, F14 chess-then-ur
-      on 2026-09-22, ended infrastructure-error with 0 scenarios played;
+      (2) every conditional scenario has run: NOT MET. Of the 6 that carry a @requires tag, 03 has
+      played and passed (2026-09-24), 05 has played and failed on a test defect (fixed, requeued),
+      and 04 and the three RIMMSQOL scenarios of 02 have not played; the 4 unconditional ones of
+      01 have not played either;
       (3) no manual test left to validate, all green: NOT MET, F01-F14 in Tests/MANUAL.md and
       F15-F19 in Tests/TAXONOMY.md are all unexecuted. The stage stays done.
   - defect: the distributed About description lacks the mandatory IF I GO QUIET,
@@ -52,7 +52,7 @@ remaining:
   - unverified: engine-specific mod-pack detection, full load/short hashes, save tolerance
       migration and log rendering are not certified by the isolated definition runner.
 session:      local_06dd178f-bf2c-4af0-8dd6-02a211cafcac
-updated:      2026-09-24, gates for tested applied, changelog started, evidence trimmed; stage done retained
+updated:      2026-09-24, first in-game F14 run read, test defect fixed; stage done retained
 ---
 
 # Joy Rescue — status
@@ -109,6 +109,28 @@ has since been corrected to copy an intermediate failed report (or a fresh `Play
 if no report exists) to `-EvidenceDir` before stopping the sequence and releasing the lock.
 That correction has passed PowerShell syntax checking but has not yet been exercised by a
 new in-game run.
+
+### First in-game F14 run, 2026-09-24
+
+Ticket 52588, four launches under one hold of the lock (`03`, `05`, `04`, `05`), English, after
+about three and a half hours in a queue of nineteen. Launch 1 (`03`, the writer) **passed**, 1 of 1, and the
+game left with code 137 once its report was complete, which the launcher keeps. Launch 2 (`05`,
+the reader after a real restart) **failed**, 0 of 1, and the launcher stopped the chain, so `04`
+and the second `05` did not play.
+
+The failure is a defect of the test, not of the mod. The fixture assigned the recreation kind
+`Artistic` to the chess witness, and Core declares no such kind (its ten are Meditative, Social,
+Gaming_Dexterity, Gaming_Cerebral, Television, Telescope, HighCulture, Chemical, Gluttonous and
+Reading). After the restart the mod logged that it skipped the reassignment because the type does
+not exist, so the giver kept its own Gaming_Cerebral. The mod did what it should on a type it
+cannot find. What F14 asks, that two givers sharing a job keep their own kinds, was **not**
+tested by this run.
+
+`SharedJobSteps.cs` now assigns `Social` to chess and keeps `Gaming_Dexterity` for Ur, and the
+writer refuses to save an assignment whose kind does not exist in the running game, so the same
+mistake fails at the writer, where it is cheap to read, rather than after a restart. The
+companion assembly was rebuilt with zero warnings and errors. Evidence is trimmed to the summary,
+the JUnit file and the logs of both launches (`docs/runs/README.md` has the line).
 
 `Tests/Pickle/` now supplies the development-only companion
 `nelim.joyrescue.pickletests`. Its minimal English/French feature covers the rendered Mod
