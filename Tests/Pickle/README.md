@@ -13,8 +13,7 @@ hidden shortcut opening that window, and whether RIMMSQOL can reveal this mod's 
 | Minimal English | `-Language English` | `01-settings-and-shortcut.feature` | Settings window renders; the shortcut is hidden (not greyed); its worker opens the same dialog; a Boolean setting persists through close/reopen. |
 | Minimal French | `-Language French` | `01-settings-and-shortcut.feature` | The same settings surface in the French startup language; review the screenshot for raw keys, fallback text and clipping. |
 | RIMMSQOL | `-DepMap wsl-deps.avec-rimmsqol.map -Language English -Filter 02-rimmsqol-shortcut.feature` | `02-rimmsqol-shortcut.feature` | RIMMSQOL lists and reveals `JoyRescue_Settings`; the revealed button opens Joy Rescue settings. Hiding/forgetting only cleans up the test. Visibility persistence across a restart belongs to RIMMSQOL's own suite. |
-| Shared job A then B | `-DepMap wsl-deps.shared-job.map -Filter 03-shared-job-write-chess-then-ur.feature -Then 05-shared-job-read.feature` | `03`, `05` | The two loaded witnesses share a job before writing; after a real restart, both assigned kinds have independent jobs. |
-| Shared job B then A | `-DepMap wsl-deps.shared-job.map -Filter 04-shared-job-write-ur-then-chess.feature -Then 05-shared-job-read.feature` | `04`, `05` | Same check in reverse insertion order. |
+| Shared job, both orders | `-DepMap wsl-deps.shared-job.map -Filter 03-shared-job-write-chess-then-ur.feature -Then 05-shared-job-read.feature,04-shared-job-write-ur-then-chess.feature,05-shared-job-read.feature`, under `-Command` (see below) | `03`, `05`, `04`, `05` | The two loaded witnesses share a job before writing; after a real restart, both assigned kinds have independent jobs (`03` then `05`), then the same check in reverse insertion order (`04` then `05`). Four launches under one queue ticket; `-EvidenceDir` keeps `seq1` to `seq4`, which spares a second wait behind the queue. |
 
 Run only through the shared harness, never by launching RimWorld directly:
 
@@ -22,9 +21,14 @@ Run only through the shared harness, never by launching RimWorld directly:
 powershell.exe -ExecutionPolicy Bypass -File scripts/Run-PickleWsl.ps1 -Mod JoyRescue -Language English
 powershell.exe -ExecutionPolicy Bypass -File scripts/Run-PickleWsl.ps1 -Mod JoyRescue -Language French
 powershell.exe -ExecutionPolicy Bypass -File scripts/Run-PickleWsl.ps1 -Mod JoyRescue -DepMap wsl-deps.avec-rimmsqol.map -Language English -Filter 02-rimmsqol-shortcut.feature
-powershell.exe -ExecutionPolicy Bypass -File scripts/Run-PickleWsl.ps1 -Mod JoyRescue -DepMap wsl-deps.shared-job.map -Filter 03-shared-job-write-chess-then-ur.feature -Then 05-shared-job-read.feature -EvidenceDir JoyRescue/Tests/Pickle/Evidence/F14-chess-then-ur-20260922
-powershell.exe -ExecutionPolicy Bypass -File scripts/Run-PickleWsl.ps1 -Mod JoyRescue -DepMap wsl-deps.shared-job.map -Filter 04-shared-job-write-ur-then-chess.feature -Then 05-shared-job-read.feature -EvidenceDir JoyRescue/Tests/Pickle/Evidence/F14-ur-then-chess-20260922
+powershell.exe -NoProfile -ExecutionPolicy Bypass -Command "& 'scripts/Run-PickleWsl.ps1' -Mod JoyRescue -DepMap wsl-deps.shared-job.map -Filter 03-shared-job-write-chess-then-ur.feature -Then 05-shared-job-read.feature,04-shared-job-write-ur-then-chess.feature,05-shared-job-read.feature -EvidenceDir JoyRescue/Tests/Pickle/Evidence/F14-<date> -MaxWaitMinutes 720"
 ```
+
+The shared-job chain is the one command run with `-Command` instead of `-File`: under `-File`,
+PowerShell 5.1 binds `-Then a,b,c` as one string, so only `-Command` splits it into three
+filters. It hands back only 0 or 1: append `; exit $LASTEXITCODE` inside the quotes to keep the
+launcher's own code. Replace `<date>` with the run's date; a name already taken gets a numbered
+suffix.
 
 Read `exitReason` before counts, compare discovered and played scenarios, inspect every
 `@review` capture. `-EvidenceDir` copies each reached `-Then` report to this mod as

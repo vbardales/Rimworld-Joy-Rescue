@@ -38,9 +38,10 @@ remaining:
   - defect: PUBLICATION.md is absent, so the capture order, adult-content decision,
       dependency/DLC declaration, release notes, and individualized thank-you messages
       were not recorded in the repository before publication.
-  - unverified: 0.1.0 has no Git tag or GitHub release and commit 6695ae3 is not pushed
-      (local main is ahead of origin/main; the `## [0.1.0]` section of CHANGELOG.md, which the CI reads for the release notes, exists since 2026-09-24); the published item is therefore not
-      yet reproducible from the remote repository.
+  - unverified: 0.1.0 has no Git tag and no GitHub release. main was pushed on 2026-09-24
+      (de013c4 is on origin/main, with the `## [0.1.0]` section of CHANGELOG.md that the CI
+      reads for the release notes). The CI creates the tag and the release after a successful
+      upload; until then the Workshop item cannot be matched to a release.
   - unverified: self-subscription to Workshop item 3806137974 and its public visibility
       were reported by the maintainer but were not independently observed in this audit.
   - unverified: common preset F15-F19 gameplay, translated layout, actual Harmony save-load hook and full mod-pack compatibility remain pending; see Tests/TAXONOMY.md.
