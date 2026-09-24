@@ -147,7 +147,9 @@ first insertion order the mod does what F14 asks: two givers that shared a job k
 kinds. The reverse order (`04` then `05`) has not played and stays for the final pass, so F14 is
 half verified. The launcher also wrote a third evidence folder that copies the second (its last
 step is saved twice when the sequence ends); it was deleted, and the quirk belongs to
-`scripts/Run-PickleWsl.ps1`, not to this mod.
+`scripts/Run-PickleWsl.ps1`, not to this mod. The same runs also exercised the launcher's evidence
+copy that was corrected after the failure of 22 September: it saved each launch's report as
+`seq1` and `seq2` before releasing the lock, which the earlier paragraph still lists as untried.
 
 `Tests/Pickle/` now supplies the development-only companion
 `nelim.joyrescue.pickletests`. Its minimal English/French feature covers the rendered Mod
