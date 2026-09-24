@@ -151,6 +151,22 @@ step is saved twice when the sequence ends); it was deleted, and the quirk belon
 copy that was corrected after the failure of 22 September: it saved each launch's report as
 `seq1` and `seq2` before releasing the lock, which the earlier paragraph still lists as untried.
 
+### Final pass submitted, 2026-09-24
+
+Four small requests through the dispatcher's worker, one pass each, awaiting `RUN_DONE`:
+
+| Request | Pass | Plays |
+| --- | --- | --- |
+| `20260924-205336-502-2da8` | minimal English, no filter | `01` (4 scenarios); `02` to `05` skip, their mods are not staged |
+| `20260924-205337-355-3d24` | minimal French, no filter | `01` (4 scenarios), to review for raw keys and clipping |
+| `20260924-205338-490-f62b` | with RIMMSQOL, no filter | `01` and `02` (7 scenarios) |
+| `20260924-205339-283-e105` | F14 ur then chess, `04` then `05` | the reverse insertion order, two launches under one lock |
+
+The chess-then-ur pair is not resubmitted: it passed on 2026-09-24 against this same delivered
+DLL (`E7DD9FFE...`) and this same companion, and nothing has changed since. A change to either
+means it runs again. The shared-job features cannot run unfiltered, since a writer and its reader
+must be two game processes.
+
 `Tests/Pickle/` now supplies the development-only companion
 `nelim.joyrescue.pickletests`. Its minimal English/French feature covers the rendered Mod
 options dialog, default hidden/non-greyed shortcut, shortcut activation into the same dialog,
