@@ -51,8 +51,8 @@ remaining:
       runtime; only the native definition/worker contract is verified off-game.
   - unverified: engine-specific mod-pack detection, full load/short hashes, save tolerance
       migration and log rendering are not certified by the isolated definition runner.
-session:      local_06dd178f-bf2c-4af0-8dd6-02a211cafcac
-updated:      2026-09-24, first in-game F14 run read, test defect fixed; stage done retained
+session:      local_e3318eb0-b04f-4f8b-b01a-0d4188a56ee4
+updated:      2026-09-24, session id corrected, registered with the TicketDispatcher; stage done retained
 ---
 
 # Joy Rescue — status

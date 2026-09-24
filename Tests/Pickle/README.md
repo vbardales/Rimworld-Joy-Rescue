@@ -81,15 +81,15 @@ and what stays before deleting.
 
 ## Waiting on a queued ticket
 
-A queued ticket can wait for hours behind other mods and can vanish. Observe it with a
-background watcher (Claude's Monitor tool, the counterpart of a Codex heartbeat) and report
-only on a meaningful change: the lock taken, the run finished, a failure, or a needed human
-action. Watching does not reserve the machine and does not replace the run itself.
+Do not watch the queue from this session: no Monitor, heartbeat, cron or loop. The
+TicketDispatcher, one session that reads the queue for every mod, wakes this session by
+message: `START` when the ticket takes the lock, `END` when it gives it back (the lock, not the
+verdict), `LOST` when a ticket vanished without ever holding it, and `RUN_DONE` for a request
+dropped through `Submit-PickleRun.ps1`. It knows this session by `local_<id>`, taken from the
+ticket label or from a first message whose first line is `REGISTER local_<id> JoyRescue`, so a
+run is queued with `-Label "JoyRescue local_<id> <what is tested>"`.
 
-Use one watcher for all of the mod's tickets, not one per ticket. It finds them by the mod name
-in the ticket file rather than by a label, so a ticket queued later is picked up without a new
-watcher, and it follows every `*queue.stdout.log` kept next to the evidence. A watcher lasts at
-most 30 minutes: re-arm it when it expires, and read the log it names on a ticket that vanishes.
-A launcher keeps running when its background task is reported stopped after a session restart,
-so check the process before treating its ticket as lost. A launcher stops touching its ticket
-once it holds the lock, so a stale ticket is a warning only while the run is still queued.
+A queued ticket can wait for hours behind other mods. Read the verdict in the run's own report
+and log, never in a launcher's exit code: under `-Command` it is not handed on. A launcher keeps
+running when its background task is reported stopped after a session restart, so check the
+process before treating its ticket as lost.
