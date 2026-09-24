@@ -25,10 +25,9 @@ workshop:     3806137974 (Joy Rescue 0.1.0, published by maintainer; public/subs
 remaining:
   - blocking (done -> tested), gates given by the owner on 2026-09-24: (1) no scenario left in
       @wip: MET, none of the 10 Pickle scenarios in the 5 features carries the tag;
-      (2) every conditional scenario has run: NOT MET. Of the 6 that carry a @requires tag, 03 has
-      played and passed (2026-09-24), 05 has played and failed on a test defect (fixed, resubmitted as one pair),
-      and 04 and the three RIMMSQOL scenarios of 02 have not played; the 4 unconditional ones of
-      01 have not played either;
+      (2) every conditional scenario has run: NOT MET. Of the 6 that carry a @requires tag, 03 and
+      05 have played and passed (2026-09-24, 05 after a test fix), and 04 and the three RIMMSQOL
+      scenarios of 02 have not played; the 4 unconditional ones of 01 have not played either;
       (3) no manual test left to validate, all green: NOT MET, F01-F14 in Tests/MANUAL.md and
       F15-F19 in Tests/TAXONOMY.md are all unexecuted. The stage stays done.
   - defect: the distributed About description lacks the mandatory IF I GO QUIET,
@@ -52,7 +51,7 @@ remaining:
   - unverified: engine-specific mod-pack detection, full load/short hashes, save tolerance
       migration and log rendering are not certified by the isolated definition runner.
 session:      local_e3318eb0-b04f-4f8b-b01a-0d4188a56ee4
-updated:      2026-09-24, session id corrected, registered with the TicketDispatcher; stage done retained
+updated:      2026-09-24, F14 chess then ur passed in game; stage done retained
 ---
 
 # Joy Rescue — status
@@ -129,8 +128,8 @@ tested by this run.
 `SharedJobSteps.cs` now assigns `Social` to chess and keeps `Gaming_Dexterity` for Ur, and the
 writer refuses to save an assignment whose kind does not exist in the running game, so the same
 mistake fails at the writer, where it is cheap to read, rather than after a restart. The
-companion assembly was rebuilt with zero warnings and errors. Evidence is trimmed to the summary,
-the JUnit file and the logs of both launches (`docs/runs/README.md` has the line).
+companion assembly was rebuilt with zero warnings and errors. The evidence of this first run was
+deleted once the passing rerun below replaced it; `docs/runs/README.md` keeps its line.
 
 The relaunch queued at 13:12 (ticket 47600, launched directly) never ran: its launcher died with a
 session restart and the TicketDispatcher found the ticket gone at 16:35. It was redeposited at
@@ -139,6 +138,16 @@ then `05` (chess then ur), which is what checks the fix. A second request for th
 (`04` then `05`) was withdrawn before it started: the owner's rule is several small tickets, and a
 ticket for a fix runs as few scenarios as possible, while the reverse order belongs to the final
 pass that runs everything.
+
+The resubmitted pair ran and **passed**, both launches, `exitReason` passed each time
+(`docs/runs/README.md` has the line). The writer (`03`) saved chess on `Social` and Ur on
+`Gaming_Dexterity`; after a real restart the reader (`05`) found exactly those kinds, with two
+independent jobs each crediting its own kind, and no skipped reassignment in the log. So for the
+first insertion order the mod does what F14 asks: two givers that shared a job keep their own
+kinds. The reverse order (`04` then `05`) has not played and stays for the final pass, so F14 is
+half verified. The launcher also wrote a third evidence folder that copies the second (its last
+step is saved twice when the sequence ends); it was deleted, and the quirk belongs to
+`scripts/Run-PickleWsl.ps1`, not to this mod.
 
 `Tests/Pickle/` now supplies the development-only companion
 `nelim.joyrescue.pickletests`. Its minimal English/French feature covers the rendered Mod
