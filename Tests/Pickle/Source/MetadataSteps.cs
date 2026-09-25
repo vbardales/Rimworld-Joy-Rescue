@@ -59,10 +59,9 @@ namespace JoyRescue.PickleSteps
         public async Task OpenModList(PickleContext ctx)
         {
             var page = new Page_ModsConfig();
-            var selected = typeof(Page_ModsConfig).GetField("selectedMod", BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
-            ctx.Require(selected != null, "Page_ModsConfig.selectedMod is unavailable");
             Find.WindowStack.Add(page);
-            selected.SetValue(page, Entry(ctx));
+            await ctx.WaitFrames(2);
+            page.SelectMod(Entry(ctx));      // the game's own selection, which also scrolls the list to it
             await ctx.WaitFrames(5);
         }
 
