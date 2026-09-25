@@ -25,8 +25,30 @@ namespace JoyRescue
                     if (!state.migrated.Contains(link)) state.migrated.Add(link);
             Scribe_Collections.Look(ref state.migrated, "joyRescueTaxonomyTransfers", LookMode.Value);
             state.migrated = state.migrated ?? new List<string>();
-            if (Scribe.mode == LoadSaveMode.PostLoadInit && CommonTaxonomy.AppliedEnabled)
-                MigrateLoaded(__instance);
+            if (Scribe.mode == LoadSaveMode.PostLoadInit)
+            {
+                ZeroRetired(__instance);
+                if (CommonTaxonomy.AppliedEnabled) MigrateLoaded(__instance);
+            }
+        }
+
+        /// <summary>
+        /// A deleted type keeps its place in the game's list so that no later type moves, and what a colonist had
+        /// built up for it is not carried by anyone: it reads zero, and is never shown as tolerance to a type nobody
+        /// can see.
+        /// </summary>
+        public static void ZeroRetired(JoyToleranceSet set)
+        {
+            var settings = JoyRescueMod.Settings;
+            if (settings == null) return;
+            foreach (var custom in settings.customKinds)
+            {
+                if (custom == null || !custom.retired) continue;
+                var def = DefDatabase<JoyKindDef>.GetNamedSilentFail(custom.DefName);
+                if (def == null) continue;
+                set.tolerances[def] = 0f;
+                set.bored[def] = false;
+            }
         }
 
         public static void MigrateLoaded(JoyToleranceSet set) => Transfer(set,

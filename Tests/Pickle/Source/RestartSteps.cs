@@ -70,7 +70,7 @@ namespace JoyRescue.PickleSteps
 
         private static CustomJoyKind Custom(PickleContext ctx, int number)
         {
-            var list = JoyRescueMod.Settings.customKinds;
+            var list = JoyRescueMod.Settings.LiveKinds.ToList();
             ctx.Assert(number >= 1 && number <= list.Count,
                 $"there is no custom recreation type number {number}: the settings hold {list.Count}");
             return list[number - 1];
@@ -225,9 +225,10 @@ namespace JoyRescue.PickleSteps
         [Then("Joy Rescue: there are {int} custom recreation types in the settings")]
         public void AssertCustomCount(PickleContext ctx, int count)
         {
-            ctx.Assert(JoyRescueMod.Settings.customKinds.Count == count,
-                $"the settings hold {JoyRescueMod.Settings.customKinds.Count} custom types: "
-                + string.Join(", ", JoyRescueMod.Settings.customKinds.Select(c => c.DefName + " \"" + c.label + "\"")));
+            var live = JoyRescueMod.Settings.LiveKinds.ToList();
+            ctx.Assert(live.Count == count,
+                $"the settings hold {live.Count} custom types: "
+                + string.Join(", ", live.Select(c => c.DefName + " \"" + c.label + "\"")));
         }
 
         [Then("Joy Rescue: the custom recreation type number {int} is named {string}")]
@@ -269,6 +270,17 @@ namespace JoyRescue.PickleSteps
         public void AssertNoKind(PickleContext ctx, string defName)
         {
             ctx.Assert(DefDatabase<JoyKindDef>.GetNamedSilentFail(defName) == null, $"the recreation type {defName} exists");
+        }
+
+        // A type that was deleted after it existed stays in the game, inert, so that no type created after it moves.
+        [Then("Joy Rescue: the recreation type {string} is retired")]
+        public void AssertRetired(PickleContext ctx, string defName)
+        {
+            var settings = JoyRescueMod.Settings;
+            ctx.Assert(DefDatabase<JoyKindDef>.GetNamedSilentFail(defName) != null, $"the recreation type {defName} is gone: the types created after it have moved");
+            ctx.Assert(settings.IsRetired(defName), $"the recreation type {defName} is not marked retired in the settings");
+            ctx.Assert(!settings.LiveKinds.Any(k => k.DefName == defName), $"the recreation type {defName} is still listed among the player's types");
+            ctx.Assert(!settings.kindOverrides.ContainsValue(defName) && !settings.giverKindOverrides.ContainsValue(defName), $"a reassignment still points at {defName}");
         }
 
         [When("Joy Rescue: the building {string} is reassigned to the custom recreation type number {int}")]
@@ -361,7 +373,7 @@ namespace JoyRescue.PickleSteps
             var purge = typeof(JoyRescueMod).GetMethod("PurgeOverridesTargeting", BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic);
             ctx.Require(purge != null, "JoyRescueMod.PurgeOverridesTargeting is unavailable");
             purge.Invoke(null, new object[] { custom.DefName });
-            JoyRescueMod.Settings.customKinds.Remove(custom);
+            JoyRescueMod.Settings.DeleteKind(custom);      // what the Delete button calls
         }
 
         // A language file that misses a key does not fail: the game falls back to English, or shows the key. So

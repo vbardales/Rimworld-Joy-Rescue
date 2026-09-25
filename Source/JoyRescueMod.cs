@@ -187,7 +187,7 @@ namespace JoyRescue
                 InvalidateCaches();
             }
 
-            foreach (var custom in Settings.customKinds.ToList())
+            foreach (var custom in Settings.LiveKinds.ToList())
             {
                 var row = listing.GetRect(28f);
                 // The text field is optional: the type exists and works without being renamed, so the
@@ -212,7 +212,7 @@ namespace JoyRescue
                     // impossible to make sense of from the interface.
                     var orphaned = PurgeOverridesTargeting(custom.DefName);
 
-                    Settings.customKinds.Remove(custom);
+                    Settings.DeleteKind(custom);
                     InvalidateCaches();
 
                     if (orphaned > 0)
@@ -701,7 +701,7 @@ namespace JoyRescue
             var def = DefDatabase<JoyKindDef>.GetNamedSilentFail(defName);
             if (def != null) return KindName(def);
 
-            foreach (var custom in Settings.customKinds)
+            foreach (var custom in Settings.LiveKinds)
             {
                 if (custom.DefName == defName)
                 {
@@ -732,10 +732,11 @@ namespace JoyRescue
 
             foreach (var kind in DefDatabase<JoyKindDef>.AllDefsListForReading)
             {
+                if (Settings.IsRetired(kind.defName)) continue;
                 list.Add((kind.defName, KindName(kind), false));
             }
 
-            foreach (var custom in Settings.customKinds)
+            foreach (var custom in Settings.LiveKinds)
             {
                 if (DefDatabase<JoyKindDef>.GetNamedSilentFail(custom.DefName) != null) continue;
                 list.Add((custom.DefName, custom.label.NullOrEmpty() ? custom.DefName : custom.label, true));
@@ -791,7 +792,7 @@ namespace JoyRescue
         private static bool PendingRestart()
         {
             if (Settings.commonTaxonomy != CommonTaxonomy.AppliedEnabled) return true;
-            foreach (var custom in Settings.customKinds)
+            foreach (var custom in Settings.LiveKinds)
             {
                 if (DefDatabase<JoyKindDef>.GetNamedSilentFail(custom.DefName) == null) return true;
             }
@@ -1046,7 +1047,7 @@ namespace JoyRescue
 
             var byKind = EntriesByKind();
 
-            var all = DefDatabase<JoyKindDef>.AllDefsListForReading;
+            var all = DefDatabase<JoyKindDef>.AllDefsListForReading.Where(k => !Settings.IsRetired(k.defName)).ToList();
 
             switch (Settings.kindSortMode)
             {

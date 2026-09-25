@@ -7,8 +7,8 @@
 #          reused) and each is given something to carry. The colony is saved.
 #   mid    the pending types now exist. Type 2 is deleted while it exists, and given a tolerance first, so that
 #          the deletion can be seen to move nothing. The colony is saved again.
-#   final  the deleted type is gone, nothing points at it, and the tolerance that belonged to the type after it
-#          is still its own. The game keeps its tolerances by POSITION in the list of types: a type removed
+#   final  the deleted type is retired (still in the game, inert, listed nowhere), nothing points at it, its own
+#          tolerance reads zero, and the tolerance that belonged to the type after it is still its own. The game keeps its tolerances by POSITION in the list of types: a type removed
 #          from the middle of the list moves every type after it, and this is where that would show.
 @review @requires:nelim.pickletools.keyedclick
 Feature: F08 write: a type deleted before it exists, then two more types created

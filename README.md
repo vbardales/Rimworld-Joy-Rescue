@@ -51,6 +51,12 @@ to 0, which gives it a zero draw weight in `JobGiver_GetJoy.TryGiveJob`
 (`TryRandomElementByWeight`): the giver is never picked again. That is what makes the settings
 applicable to a running game.
 
+The same holds for the recreation types you create. The game keeps each colonist's tolerances by the
+position of the type in its list, so a type taken out of the middle would hand its tolerance to the next
+one. Deleting a type that already exists in a game (or Reset) therefore keeps it as an inert type: listed
+nowhere, offered nowhere, its tolerance read as zero, and every type created after it keeps its own. A type
+that was created and never built simply goes.
+
 ## False positives
 
 A mod shipping its own `JoyGiver` or `JobDriver` can serve its building in code without ever

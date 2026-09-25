@@ -30,6 +30,7 @@ Feature: F16 read: the corrections the fix set made on real mods, and their use
     Given the save "test-colony" is loaded
     And a colonist "Ada" exists
     And a "M4_SPiano" is built at (140, 150)
+    And a "Stool" is built at (140, 151)
     And Joy Rescue: "Ada" is ready for recreation at any hour
     And game speed is ultrafast
     When Joy Rescue: "Ada" takes the activity "PlayPiano" of the building at x=140 z=150

@@ -74,7 +74,73 @@ internal static partial class Program
             CommonTaxonomy.Apply(f.Settings, new[] { rule });
             Equal(0, CommonTaxonomy.Applied.Count); Equal(oldJobKind, e.job.joyKind); Equal(oldBuildingKind, e.building.building.joyKind);
         });
-        Test("T04 shared unlisted consumer blocks atomic correction", () =>
+        Test("T03 guard a building that names another type is left alone", () =>
+        {
+            using var f = new SettingsFixture(); var e = f.Repair(); var rule = RuleFor(e); Target();
+            f.Settings.commonTaxonomy = true; e.building.building.joyKind = Target("Different");
+            CommonTaxonomy.Apply(f.Settings, new[] { rule });
+            Equal(0, CommonTaxonomy.Applied.Count); Equal(f.Kind, e.job.joyKind);
+            Equal(true, CommonTaxonomy.Diagnostics.Any(d => d.Contains("building/giver mismatch")));
+        });
+        Test("T03 a building that names no type follows its giver", () =>
+        {
+            // The game checks a building against its job only when the building names a type: the piano of a music
+            // mod names none, and the rule for it must still apply.
+            using var f = new SettingsFixture(); var e = f.Repair(); var rule = RuleFor(e); var target = Target();
+            f.Settings.commonTaxonomy = true; e.building.building.joyKind = null;
+            CommonTaxonomy.Apply(f.Settings, new[] { rule });
+            Equal(1, CommonTaxonomy.Applied.Count); Equal(target, e.giver.joyKind); Equal(target, e.job.joyKind); Equal(target, e.building.building.joyKind);
+        });        Test("G01 a deleted type that exists is kept inert in its place, one that was never built goes", () =>
+        {
+            using var f = new SettingsFixture();
+            var built = new CustomJoyKind("2", "built"); var pending = new CustomJoyKind("3", "pending"); var later = new CustomJoyKind("4", "later");
+            f.Settings.customKinds.AddRange(new[] { built, pending, later });
+            DefDatabase<JoyKindDef>.Add(new JoyKindDef { defName = built.DefName }); DefDatabase<JoyKindDef>.Add(new JoyKindDef { defName = later.DefName });
+            f.Settings.DeleteKind(built); f.Settings.DeleteKind(pending);
+            Equal(true, built.retired); Equal(3 - 1, f.Settings.customKinds.Count);
+            Equal(true, f.Settings.customKinds.Contains(built)); Equal(false, f.Settings.customKinds.Contains(pending));
+            Equal(1, f.Settings.LiveKinds.Count()); Equal("4", f.Settings.LiveKinds.Single().id);
+            Equal(true, f.Settings.IsRetired(built.DefName)); Equal(false, f.Settings.IsRetired(later.DefName));
+            Equal(0, f.Settings.customKinds.IndexOf(built));      // still in front of the type created after it
+        });
+        Test("G02 Reset retires the types that exist, drops the pending ones and does not reuse their numbers", () =>
+        {
+            using var f = new SettingsFixture();
+            var built = new CustomJoyKind("2", "built"); var pending = new CustomJoyKind("3", "pending");
+            f.Settings.customKinds.AddRange(new[] { built, pending }); f.Settings.nextCustomKindId = 4;
+            DefDatabase<JoyKindDef>.Add(new JoyKindDef { defName = built.DefName });
+            f.Settings.Reset();
+            Equal(1, f.Settings.customKinds.Count); Equal(true, built.retired); Equal(0, f.Settings.LiveKinds.Count());
+            Equal(4, f.Settings.nextCustomKindId);
+            f.Settings.customKinds.Clear(); f.Settings.Reset();
+            Equal(1, f.Settings.nextCustomKindId);      // nothing holds a place: the numbers start over as they always did
+        });
+        Test("G03 the retired flag survives the saved settings", () =>
+        {
+            using var f = new SettingsFixture(); var path = ScratchFile("retired.xml");
+            f.Settings.customKinds.Add(new CustomJoyKind("2", "gone") { retired = true });
+            f.Settings.customKinds.Add(new CustomJoyKind("3", "kept"));
+            Scribe.saver.InitSaving(path, "settings"); f.Settings.ExposeData(); Scribe.saver.FinalizeSaving();
+            var restored = new JoyRescueSettings();
+            Scribe.loader.InitLoading(path); restored.ExposeData(); Scribe.loader.FinalizeLoading();
+            Equal(2, restored.customKinds.Count); Equal(true, restored.customKinds[0].retired); Equal(false, restored.customKinds[1].retired);
+            Equal("3", restored.LiveKinds.Single().id);
+        });
+        Test("G04 a retired type reads zero tolerance and no boredom, the others are untouched", () =>
+        {
+            using var f = new SettingsFixture();
+            var gone = new JoyKindDef { defName = "JoyRescue_Kind_2" }; var kept = new JoyKindDef { defName = "JoyRescue_Kind_3" };
+            DefDatabase<JoyKindDef>.Add(gone); DefDatabase<JoyKindDef>.Add(kept);
+            var set = new JoyToleranceSet();
+            var values = (DefMap<JoyKindDef, float>)typeof(JoyToleranceSet).GetField("tolerances", InstanceFields).GetValue(set);
+            var bored = (DefMap<JoyKindDef, bool>)typeof(JoyToleranceSet).GetField("bored", InstanceFields).GetValue(set);
+            values[gone] = .3f; bored[gone] = true; values[kept] = .2f;
+            f.Settings.customKinds.Add(new CustomJoyKind("2", "gone") { retired = true }); f.Settings.customKinds.Add(new CustomJoyKind("3", "kept"));
+            var mod = typeof(JoyRescueMod).GetProperty("Settings", System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.NonPublic);
+            var before = mod.GetValue(null); mod.SetValue(null, f.Settings);
+            try { Patch_TaxonomyTolerance.ZeroRetired(set); } finally { mod.SetValue(null, before); }
+            Equal(0f, values[gone]); Equal(false, bored[gone]); Equal(.2f, values[kept]);
+        });        Test("T04 shared unlisted consumer blocks atomic correction", () =>
         {
             using var f = new SettingsFixture(); var a = f.Repair("A"); var b = f.Repair("B");
             var rule = RuleFor(a); b.giver.thingDefs.Add(a.building); Target(); f.Settings.commonTaxonomy = true;

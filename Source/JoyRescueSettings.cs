@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using RimWorld;
 using Verse;
 
 namespace JoyRescue
@@ -115,13 +117,38 @@ namespace JoyRescue
             requireChairForWatching = true;
             enabledOverrides.Clear();
             modeOverrides.Clear();
-            if (!customKinds.Exists(CommonTaxonomy.Reserved)) customKinds.Clear();
+            if (!customKinds.Exists(CommonTaxonomy.Reserved))
+            {
+                // A type that exists in this game keeps its place as an inert one; one that was never built is dropped.
+                foreach (var kind in customKinds.ToList())
+                {
+                    if (kind != null && DefDatabase<JoyKindDef>.GetNamedSilentFail(kind.DefName) != null) kind.retired = true;
+                    else customKinds.Remove(kind);
+                }
+            }
             kindOverrides.Clear();
             giverKindOverrides.Clear();
             disabledKinds.Clear();
             kindSortMode = 0;
             listView = 0;
-            nextCustomKindId = 1;
+            // Numbers are never reused while a retired type still holds its place.
+            if (!customKinds.Exists(k => k != null && k.retired)) nextCustomKindId = 1;
+        }
+
+        /// <summary>The types the player sees: those created and not deleted.</summary>
+        public IEnumerable<CustomJoyKind> LiveKinds => customKinds.Where(k => k != null && !k.retired);
+
+        /// <summary>True for the definition of a deleted type.</summary>
+        public bool IsRetired(string defName) => customKinds.Any(k => k != null && k.retired && k.DefName == defName);
+
+        /// <summary>
+        /// Deletes a type. One that exists in this game stays as an inert definition, so that no later type moves;
+        /// one that was created and never built simply goes.
+        /// </summary>
+        public void DeleteKind(CustomJoyKind kind)
+        {
+            if (DefDatabase<JoyKindDef>.GetNamedSilentFail(kind.DefName) != null) kind.retired = true;
+            else customKinds.Remove(kind);
         }
 
         public override void ExposeData()

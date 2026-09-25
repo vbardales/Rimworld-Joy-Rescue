@@ -29,6 +29,14 @@ namespace JoyRescue
         /// </summary>
         public bool needsThing = true;
 
+        /// <summary>
+        /// A deleted type that already existed in a game. Its definition stays in the database, inert, so that
+        /// every type created after it keeps its index: the game keeps tolerances by index in a saved game, and
+        /// removing a type from the middle of the list would hand its tolerance to the next one. Never listed,
+        /// never offered, its tolerance read back as zero.
+        /// </summary>
+        public bool retired;
+
         public string DefName => "JoyRescue_Kind_" + id;
 
         public CustomJoyKind() { }
@@ -44,6 +52,7 @@ namespace JoyRescue
             Scribe_Values.Look(ref id, "id");
             Scribe_Values.Look(ref label, "label");
             Scribe_Values.Look(ref needsThing, "needsThing", true);
+            Scribe_Values.Look(ref retired, "retired", false);
         }
     }
 }

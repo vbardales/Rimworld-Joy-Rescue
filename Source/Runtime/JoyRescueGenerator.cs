@@ -333,6 +333,8 @@ namespace JoyRescue
             {
                 if (custom?.id.NullOrEmpty() ?? true) continue;
                 if (DefDatabase<JoyKindDef>.GetNamedSilentFail(custom.DefName) != null) continue;
+                // A deleted type is built like the others, in the same place in the list: only its absence would move
+                // the types after it. Nothing is assigned to it and nothing lists it.
 
                 AddDef(new JoyKindDef
                 {
@@ -374,7 +376,7 @@ namespace JoyRescue
                 // saying why. That is exactly what happens when you delete a type you created
                 // after having assigned something to it.
                 var kind = DefDatabase<JoyKindDef>.GetNamedSilentFail(pair.Value);
-                if (kind == null)
+                if (kind == null || JoyRescueMod.Settings.IsRetired(kind.defName))
                 {
                     Log.Warning($"[Joy Rescue] activity {pair.Key} pointed at type {pair.Value}, "
                               + "which does not exist. Reassignment skipped: that type was most "
@@ -430,7 +432,7 @@ namespace JoyRescue
                 // Same silence to break as for activities: a deleted type leaves its reassignments
                 // orphaned, and nothing said so.
                 var kind = DefDatabase<JoyKindDef>.GetNamedSilentFail(pair.Value);
-                if (kind == null)
+                if (kind == null || JoyRescueMod.Settings.IsRetired(kind.defName))
                 {
                     Log.Warning($"[Joy Rescue] building {pair.Key} pointed at type {pair.Value}, "
                               + "which does not exist. Reassignment skipped: that type was most "

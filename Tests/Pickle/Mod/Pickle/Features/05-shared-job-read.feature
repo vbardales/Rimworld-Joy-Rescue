@@ -13,6 +13,7 @@ Feature: F14 shared jobs are isolated after a real restart
     Given the save "test-colony" is loaded
     And a colonist "Ada" exists
     And a "ChessTable" is built at (140, 150)
+    And a "Stool" is built at (140, 151)
     And Joy Rescue: "Ada" is ready for recreation at any hour
     And game speed is ultrafast
     When Joy Rescue: "Ada" takes the activity "JoyRescueWitness_PlayChess" of the building at x=140 z=150
@@ -25,6 +26,7 @@ Feature: F14 shared jobs are isolated after a real restart
     Given the save "test-colony" is loaded
     And a colonist "Ada" exists
     And a "GameOfUrBoard" is built at (140, 150)
+    And a "Stool" is built at (140, 151)
     And Joy Rescue: "Ada" is ready for recreation at any hour
     And game speed is ultrafast
     When Joy Rescue: "Ada" takes the activity "JoyRescueWitness_PlayUr" of the building at x=140 z=150

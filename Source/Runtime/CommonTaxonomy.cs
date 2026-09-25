@@ -72,7 +72,9 @@ namespace JoyRescue
                     && giver.giverClass != typeof(JoyGiver_InteractBuildingInteractionCell)) reason = "custom or unsupported giver";
                 else if (giver.thingDefs == null || giver.thingDefs.Any(t => t == null) || !new HashSet<string>(giver.thingDefs.Select(t => t.defName)).SetEquals(rule.Things))
                     reason = "equipment set changed";
-                else if (giver.thingDefs.Any(t => t.building == null || t.building.joyKind != giver.joyKind))
+                // A building that names no type is not checked by the game against its job, so it agrees with any; one that names a
+                // different type than its giver is a mismatch the preset does not touch.
+                else if (giver.thingDefs.Any(t => t.building == null || (t.building.joyKind != null && t.building.joyKind != giver.joyKind)))
                     reason = "building/giver mismatch";
                 if (reason != null) { Diagnostics.Add(rule.Giver + ": skipped (" + reason + ")"); continue; }
                 if (plan.TryGetValue(giver, out var previous) && previous.Target != rule.Target)
