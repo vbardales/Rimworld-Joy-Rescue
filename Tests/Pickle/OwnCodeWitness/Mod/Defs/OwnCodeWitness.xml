@@ -33,7 +33,7 @@
 
   <JobDef>
     <defName>JoyRescueOwnCode_Use</defName>
-    <driverClass>JobDriver_WatchBuilding</driverClass>
+    <driverClass>JoyRescueOwnCode.JobDriver_Kiosk</driverClass>
     <reportString>using the own-code kiosk.</reportString>
     <joyDuration>4000</joyDuration>
     <joyMaxParticipants>1</joyMaxParticipants>

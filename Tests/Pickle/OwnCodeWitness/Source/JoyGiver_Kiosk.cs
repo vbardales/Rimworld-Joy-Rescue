@@ -18,4 +18,13 @@ namespace JoyRescueOwnCode
             if (kiosk != null) outCandidates.AddRange(pawn.Map.listerThings.ThingsOfDef(kiosk));
         }
     }
+
+
+    /// <summary>
+    /// The mod's own driver, a thin subclass of the game's: what a fix-set rule must refuse to touch, since it
+    /// cannot know what a driver of a mod does with the type of the job.
+    /// </summary>
+    public class JobDriver_Kiosk : JobDriver_WatchBuilding
+    {
+    }
 }

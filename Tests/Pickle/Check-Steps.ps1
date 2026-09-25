@@ -71,7 +71,7 @@ foreach ($name in 'RimWorks.Pickle.Vanilla.dll', 'RimWorks.Pickle.dll') {
         }
     }
 }
-foreach ($p in 'the save {string} is loaded') { $expressions += [pscustomobject]@{ Source = 'pickle-engine'; Pattern = $p; Regex = (New-Expr $p).Regex; Mine = $false } }
+foreach ($p in 'the save {string} is loaded', 'I save and reload', 'I save and reload as {string}', 'the save round trips') { $expressions += [pscustomobject]@{ Source = 'pickle-engine'; Pattern = $p; Regex = (New-Expr $p).Regex; Mine = $false } }
 
 # The shared tools a pass may stage, and the other suites of the repository.
 $dirs = @(Get-ChildItem -LiteralPath (Join-Path $repoRoot 'PickleTools') -Directory | ForEach-Object { Join-Path $_.FullName 'Source' })

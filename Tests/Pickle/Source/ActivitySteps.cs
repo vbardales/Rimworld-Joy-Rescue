@@ -272,9 +272,26 @@ namespace JoyRescue.PickleSteps
         [When("Joy Rescue: {string} takes the activity of the building at x={int} z={int}")]
         public void TakeActivity(PickleContext ctx, string name, int x, int z)
         {
-            var pawn = PawnNamed(ctx, name);
             var building = BuildingAt(ctx, x, z);
-            var giver = GiverFor(ctx, building.def);
+            StartActivity(ctx, name, building, GiverFor(ctx, building.def));
+        }
+
+        // For a building several activities serve (an instrument that can be played and listened to): the
+        // scenario says which one.
+        [When("Joy Rescue: {string} takes the activity {string} of the building at x={int} z={int}")]
+        public void TakeNamedActivity(PickleContext ctx, string name, string giverName, int x, int z)
+        {
+            var building = BuildingAt(ctx, x, z);
+            var giver = DefDatabase<JoyGiverDef>.GetNamedSilentFail(giverName);
+            ctx.Require(giver != null, $"no activity '{giverName}'");
+            ctx.Require(giver.thingDefs != null && giver.thingDefs.Contains(building.def),
+                $"the activity {giverName} does not serve {building.def.defName}");
+            StartActivity(ctx, name, building, giver);
+        }
+
+        private static void StartActivity(PickleContext ctx, string name, Building building, JoyGiverDef giver)
+        {
+            var pawn = PawnNamed(ctx, name);
             var baseline = new Baseline { joy = pawn.needs.joy.CurLevel, job = giver.jobDef, kind = giver.jobDef.joyKind };
             foreach (var kind in DefDatabase<JoyKindDef>.AllDefsListForReading) baseline.tolerance[kind] = pawn.needs.joy.tolerances[kind];
             Baselines[pawn] = baseline;

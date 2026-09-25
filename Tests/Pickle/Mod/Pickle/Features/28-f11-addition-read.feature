@@ -3,7 +3,7 @@
 # which is what a colony started before the mod was installed looks like. Played on its own, after that chain,
 # with wsl-deps.removal.map: it needs the saved game "joyrescue-f11-b" that the chain leaves, and says so if it
 # is not there.
-@review @joyrescue-sandbox @requires:nelim.joyrescue.orphanwitness
+@review @joyrescue-sandbox @requires:nelim.joyrescue.removalcheck
 Feature: F11 addition: a colony saved without Joy Rescue loads with it and uses its activities
 
   @timeout:300 @joyrescue-restart-last

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ModMetaData>
+  <name>Joy Rescue - fix set rule witnesses</name>
+  <author>Nelim</author>
+  <packageId>nelim.joyrescue.rulewitness</packageId>
+  <supportedVersions><li>1.6</li></supportedVersions>
+  <description>Development-only witnesses for the guards of Joy Rescue's common fix set (F17): a lone activity that the set may correct, two activities that share a job and a building, an activity the player assigned by hand, an activity whose job is not the one the rule names, and one whose equipment is not the set the rule names. No code. Never published.</description>
+  <loadAfter><li>nelim.joyrescue</li></loadAfter>
+</ModMetaData>

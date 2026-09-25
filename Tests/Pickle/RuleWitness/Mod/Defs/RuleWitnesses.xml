@@ -1,0 +1,300 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <!-- Six arrangements for the guards of the common fix set, all on the type Gaming_Cerebral with the
+       audited vanilla giver and driver, so that the only thing that differs is what a guard looks at:
+         Clean      one activity, one job, one building            -> the set may correct it
+         Shared     two activities, one job, one building; only one has a rule -> the shared-job guard refuses it
+         Agree      the same two activities, and a rule for each               -> the set corrects both, to the same type
+         Manual     one activity the player assigns by hand        -> the explicit-assignment guard refuses it
+         StaleJob   the rule names another job than the giver's    -> the job-changed guard refuses it
+         StaleSet   the giver serves two buildings, the rule one   -> the equipment-set guard refuses it -->
+  <ThingDef ParentName="BuildingBase">
+    <defName>JoyRescueRule_CleanTable</defName>
+    <label>rule witness clean table</label>
+    <description>Test witness for the guards of the common fix set.</description>
+    <graphicData>
+      <texPath>Things/Building/Joy/ChessTable</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <altitudeLayer>Building</altitudeLayer>
+    <rotatable>false</rotatable>
+    <passability>PassThroughOnly</passability>
+    <pathCost>30</pathCost>
+    <fillPercent>0.40</fillPercent>
+    <socialPropernessMatters>true</socialPropernessMatters>
+    <statBases>
+      <MaxHitPoints>100</MaxHitPoints>
+      <Flammability>1.0</Flammability>
+      <JoyGainFactor>1</JoyGainFactor>
+    </statBases>
+    <building>
+      <joyKind>Gaming_Cerebral</joyKind>
+    </building>
+  </ThingDef>
+  <JobDef>
+    <defName>JoyRescueRule_CleanUse</defName>
+    <driverClass>JobDriver_SitFacingBuilding</driverClass>
+    <reportString>playing at a witness table.</reportString>
+    <joyDuration>4000</joyDuration>
+    <joyMaxParticipants>2</joyMaxParticipants>
+    <joyGainRate>1.0</joyGainRate>
+    <joyKind>Gaming_Cerebral</joyKind>
+  </JobDef>
+  <JoyGiverDef>
+    <defName>JoyRescueRule_CleanGiver</defName>
+    <giverClass>JoyGiver_InteractBuildingSitAdjacent</giverClass>
+    <baseChance>2</baseChance>
+    <thingDefs><li>JoyRescueRule_CleanTable</li></thingDefs>
+    <jobDef>JoyRescueRule_CleanUse</jobDef>
+    <joyKind>Gaming_Cerebral</joyKind>
+    <requiredCapacities><li>Manipulation</li></requiredCapacities>
+  </JoyGiverDef>
+  <ThingDef ParentName="BuildingBase">
+    <defName>JoyRescueRule_SharedTable</defName>
+    <label>rule witness shared table</label>
+    <description>Test witness for the guards of the common fix set.</description>
+    <graphicData>
+      <texPath>Things/Building/Joy/ChessTable</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <altitudeLayer>Building</altitudeLayer>
+    <rotatable>false</rotatable>
+    <passability>PassThroughOnly</passability>
+    <pathCost>30</pathCost>
+    <fillPercent>0.40</fillPercent>
+    <socialPropernessMatters>true</socialPropernessMatters>
+    <statBases>
+      <MaxHitPoints>100</MaxHitPoints>
+      <Flammability>1.0</Flammability>
+      <JoyGainFactor>1</JoyGainFactor>
+    </statBases>
+    <building>
+      <joyKind>Gaming_Cerebral</joyKind>
+    </building>
+  </ThingDef>
+  <JobDef>
+    <defName>JoyRescueRule_ShareUse</defName>
+    <driverClass>JobDriver_SitFacingBuilding</driverClass>
+    <reportString>playing at a witness table.</reportString>
+    <joyDuration>4000</joyDuration>
+    <joyMaxParticipants>2</joyMaxParticipants>
+    <joyGainRate>1.0</joyGainRate>
+    <joyKind>Gaming_Cerebral</joyKind>
+  </JobDef>
+  <JoyGiverDef>
+    <defName>JoyRescueRule_ShareGiverA</defName>
+    <giverClass>JoyGiver_InteractBuildingSitAdjacent</giverClass>
+    <baseChance>2</baseChance>
+    <thingDefs><li>JoyRescueRule_SharedTable</li></thingDefs>
+    <jobDef>JoyRescueRule_ShareUse</jobDef>
+    <joyKind>Gaming_Cerebral</joyKind>
+    <requiredCapacities><li>Manipulation</li></requiredCapacities>
+  </JoyGiverDef>
+  <JoyGiverDef>
+    <defName>JoyRescueRule_ShareGiverB</defName>
+    <giverClass>JoyGiver_InteractBuildingSitAdjacent</giverClass>
+    <baseChance>2</baseChance>
+    <thingDefs><li>JoyRescueRule_SharedTable</li></thingDefs>
+    <jobDef>JoyRescueRule_ShareUse</jobDef>
+    <joyKind>Gaming_Cerebral</joyKind>
+    <requiredCapacities><li>Manipulation</li></requiredCapacities>
+  </JoyGiverDef>
+  <ThingDef ParentName="BuildingBase">
+    <defName>JoyRescueRule_ManualTable</defName>
+    <label>rule witness manual table</label>
+    <description>Test witness for the guards of the common fix set.</description>
+    <graphicData>
+      <texPath>Things/Building/Joy/ChessTable</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <altitudeLayer>Building</altitudeLayer>
+    <rotatable>false</rotatable>
+    <passability>PassThroughOnly</passability>
+    <pathCost>30</pathCost>
+    <fillPercent>0.40</fillPercent>
+    <socialPropernessMatters>true</socialPropernessMatters>
+    <statBases>
+      <MaxHitPoints>100</MaxHitPoints>
+      <Flammability>1.0</Flammability>
+      <JoyGainFactor>1</JoyGainFactor>
+    </statBases>
+    <building>
+      <joyKind>Gaming_Cerebral</joyKind>
+    </building>
+  </ThingDef>
+  <JobDef>
+    <defName>JoyRescueRule_ManualUse</defName>
+    <driverClass>JobDriver_SitFacingBuilding</driverClass>
+    <reportString>playing at a witness table.</reportString>
+    <joyDuration>4000</joyDuration>
+    <joyMaxParticipants>2</joyMaxParticipants>
+    <joyGainRate>1.0</joyGainRate>
+    <joyKind>Gaming_Cerebral</joyKind>
+  </JobDef>
+  <JoyGiverDef>
+    <defName>JoyRescueRule_ManualGiver</defName>
+    <giverClass>JoyGiver_InteractBuildingSitAdjacent</giverClass>
+    <baseChance>2</baseChance>
+    <thingDefs><li>JoyRescueRule_ManualTable</li></thingDefs>
+    <jobDef>JoyRescueRule_ManualUse</jobDef>
+    <joyKind>Gaming_Cerebral</joyKind>
+    <requiredCapacities><li>Manipulation</li></requiredCapacities>
+  </JoyGiverDef>
+  <ThingDef ParentName="BuildingBase">
+    <defName>JoyRescueRule_StaleJobTable</defName>
+    <label>rule witness stale job table</label>
+    <description>Test witness for the guards of the common fix set.</description>
+    <graphicData>
+      <texPath>Things/Building/Joy/ChessTable</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <altitudeLayer>Building</altitudeLayer>
+    <rotatable>false</rotatable>
+    <passability>PassThroughOnly</passability>
+    <pathCost>30</pathCost>
+    <fillPercent>0.40</fillPercent>
+    <socialPropernessMatters>true</socialPropernessMatters>
+    <statBases>
+      <MaxHitPoints>100</MaxHitPoints>
+      <Flammability>1.0</Flammability>
+      <JoyGainFactor>1</JoyGainFactor>
+    </statBases>
+    <building>
+      <joyKind>Gaming_Cerebral</joyKind>
+    </building>
+  </ThingDef>
+  <JobDef>
+    <defName>JoyRescueRule_StaleJobUse</defName>
+    <driverClass>JobDriver_SitFacingBuilding</driverClass>
+    <reportString>playing at a witness table.</reportString>
+    <joyDuration>4000</joyDuration>
+    <joyMaxParticipants>2</joyMaxParticipants>
+    <joyGainRate>1.0</joyGainRate>
+    <joyKind>Gaming_Cerebral</joyKind>
+  </JobDef>
+  <JoyGiverDef>
+    <defName>JoyRescueRule_StaleJobGiver</defName>
+    <giverClass>JoyGiver_InteractBuildingSitAdjacent</giverClass>
+    <baseChance>2</baseChance>
+    <thingDefs><li>JoyRescueRule_StaleJobTable</li></thingDefs>
+    <jobDef>JoyRescueRule_StaleJobUse</jobDef>
+    <joyKind>Gaming_Cerebral</joyKind>
+    <requiredCapacities><li>Manipulation</li></requiredCapacities>
+  </JoyGiverDef>
+  <ThingDef ParentName="BuildingBase">
+    <defName>JoyRescueRule_StaleSetTable</defName>
+    <label>rule witness stale set table</label>
+    <description>Test witness for the guards of the common fix set.</description>
+    <graphicData>
+      <texPath>Things/Building/Joy/ChessTable</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <altitudeLayer>Building</altitudeLayer>
+    <rotatable>false</rotatable>
+    <passability>PassThroughOnly</passability>
+    <pathCost>30</pathCost>
+    <fillPercent>0.40</fillPercent>
+    <socialPropernessMatters>true</socialPropernessMatters>
+    <statBases>
+      <MaxHitPoints>100</MaxHitPoints>
+      <Flammability>1.0</Flammability>
+      <JoyGainFactor>1</JoyGainFactor>
+    </statBases>
+    <building>
+      <joyKind>Gaming_Cerebral</joyKind>
+    </building>
+  </ThingDef>
+  <ThingDef ParentName="BuildingBase">
+    <defName>JoyRescueRule_StaleSetTableExtra</defName>
+    <label>rule witness stale set extra table</label>
+    <description>Test witness for the guards of the common fix set.</description>
+    <graphicData>
+      <texPath>Things/Building/Joy/ChessTable</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <altitudeLayer>Building</altitudeLayer>
+    <rotatable>false</rotatable>
+    <passability>PassThroughOnly</passability>
+    <pathCost>30</pathCost>
+    <fillPercent>0.40</fillPercent>
+    <socialPropernessMatters>true</socialPropernessMatters>
+    <statBases>
+      <MaxHitPoints>100</MaxHitPoints>
+      <Flammability>1.0</Flammability>
+      <JoyGainFactor>1</JoyGainFactor>
+    </statBases>
+    <building>
+      <joyKind>Gaming_Cerebral</joyKind>
+    </building>
+  </ThingDef>
+  <JobDef>
+    <defName>JoyRescueRule_StaleSetUse</defName>
+    <driverClass>JobDriver_SitFacingBuilding</driverClass>
+    <reportString>playing at a witness table.</reportString>
+    <joyDuration>4000</joyDuration>
+    <joyMaxParticipants>2</joyMaxParticipants>
+    <joyGainRate>1.0</joyGainRate>
+    <joyKind>Gaming_Cerebral</joyKind>
+  </JobDef>
+  <JoyGiverDef>
+    <defName>JoyRescueRule_StaleSetGiver</defName>
+    <giverClass>JoyGiver_InteractBuildingSitAdjacent</giverClass>
+    <baseChance>2</baseChance>
+    <thingDefs><li>JoyRescueRule_StaleSetTable</li><li>JoyRescueRule_StaleSetTableExtra</li></thingDefs>
+    <jobDef>JoyRescueRule_StaleSetUse</jobDef>
+    <joyKind>Gaming_Cerebral</joyKind>
+    <requiredCapacities><li>Manipulation</li></requiredCapacities>
+  </JoyGiverDef>
+  <ThingDef ParentName="BuildingBase">
+    <defName>JoyRescueRule_AgreeTable</defName>
+    <label>rule witness agreeing table</label>
+    <description>Test witness for the guards of the common fix set.</description>
+    <graphicData>
+      <texPath>Things/Building/Joy/ChessTable</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <altitudeLayer>Building</altitudeLayer>
+    <rotatable>false</rotatable>
+    <passability>PassThroughOnly</passability>
+    <pathCost>30</pathCost>
+    <fillPercent>0.40</fillPercent>
+    <socialPropernessMatters>true</socialPropernessMatters>
+    <statBases>
+      <MaxHitPoints>100</MaxHitPoints>
+      <Flammability>1.0</Flammability>
+      <JoyGainFactor>1</JoyGainFactor>
+    </statBases>
+    <building>
+      <joyKind>Gaming_Cerebral</joyKind>
+    </building>
+  </ThingDef>
+  <JobDef>
+    <defName>JoyRescueRule_AgreeUse</defName>
+    <driverClass>JobDriver_SitFacingBuilding</driverClass>
+    <reportString>playing at a witness table.</reportString>
+    <joyDuration>4000</joyDuration>
+    <joyMaxParticipants>2</joyMaxParticipants>
+    <joyGainRate>1.0</joyGainRate>
+    <joyKind>Gaming_Cerebral</joyKind>
+  </JobDef>
+
+  <JoyGiverDef>
+    <defName>JoyRescueRule_AgreeGiverA</defName>
+    <giverClass>JoyGiver_InteractBuildingSitAdjacent</giverClass>
+    <baseChance>2</baseChance>
+    <thingDefs><li>JoyRescueRule_AgreeTable</li></thingDefs>
+    <jobDef>JoyRescueRule_AgreeUse</jobDef>
+    <joyKind>Gaming_Cerebral</joyKind>
+    <requiredCapacities><li>Manipulation</li></requiredCapacities>
+  </JoyGiverDef>
+
+  <JoyGiverDef>
+    <defName>JoyRescueRule_AgreeGiverB</defName>
+    <giverClass>JoyGiver_InteractBuildingSitAdjacent</giverClass>
+    <baseChance>2</baseChance>
+    <thingDefs><li>JoyRescueRule_AgreeTable</li></thingDefs>
+    <jobDef>JoyRescueRule_AgreeUse</jobDef>
+    <joyKind>Gaming_Cerebral</joyKind>
+    <requiredCapacities><li>Manipulation</li></requiredCapacities>
+  </JoyGiverDef>
+</Defs>

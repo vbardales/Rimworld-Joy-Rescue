@@ -6,7 +6,7 @@
 #
 # The tolerance that must come through is on the type Television, which the colonist does not use here: the job
 # they are doing credits Gaming_Cerebral, so the other value stays exactly what was set.
-@review @joyrescue-sandbox @requires:nelim.joyrescue.orphanwitness
+@review @joyrescue-sandbox @requires:nelim.joyrescue.removalcheck
 Feature: F11 write: a colonist is mid-job on a generated activity when the colony is saved
 
   @timeout:300
