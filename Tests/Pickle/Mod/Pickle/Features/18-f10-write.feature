@@ -9,6 +9,7 @@
 @review @requires:nelim.pickletools.keyedclick
 Feature: F10 write: every kind of setting is given a value
 
+  @timeout:300
   Scenario: options, a type, both reassignments, a disabled type and a disabled activity are saved
     Given the save "test-colony" is loaded
     And I close all dialogs

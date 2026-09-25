@@ -13,6 +13,7 @@
 @review @requires:nelim.pickletools.keyedclick
 Feature: F08 write: a type deleted before it exists, then two more types created
 
+  @timeout:300
   Scenario: the pending type deleted by its button leaves no reassignment behind, two other types wait
     Given the save "test-colony" is loaded
     And I close all dialogs

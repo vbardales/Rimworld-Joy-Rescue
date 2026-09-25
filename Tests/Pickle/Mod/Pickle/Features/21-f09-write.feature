@@ -11,6 +11,7 @@
 @review @requires:nelim.pickletools.keyedclick
 Feature: F09 write: non-default values and two types are saved with the button
 
+  @timeout:300
   Scenario: values are set, two types are created and one is renamed, and the Save button writes them
     Given the save "test-colony" is loaded
     And I close all dialogs

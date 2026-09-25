@@ -2,7 +2,7 @@
 @review @requires:nelim.pickletools.keyedclick
 Feature: F09 read: after the restart the values are kept and the window reads well
 
-  @joyrescue-restart-last
+  @joyrescue-restart-last @timeout:300
   Scenario: values, types and names are kept, and the window is captured for a person to read
     Given the save "test-colony" is loaded
     And I close all dialogs

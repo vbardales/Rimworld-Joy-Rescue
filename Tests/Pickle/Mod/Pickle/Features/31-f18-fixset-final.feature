@@ -2,7 +2,7 @@
 @review @requires:nelim.pickletools.keyedclick
 Feature: F15 and F18 final: switched off, the original types are back and nothing is taken back
 
-  @joyrescue-restart-last
+  @joyrescue-restart-last @timeout:300
   Scenario: the original type is back, the three types stay, and no tolerance rolled back
     When Joy Rescue: the saved game "joyrescue-f18-b" is loaded
     Then Joy Rescue: the common fix set is off in this game

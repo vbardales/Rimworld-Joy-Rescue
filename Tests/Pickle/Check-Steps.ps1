@@ -105,6 +105,23 @@ foreach ($file in $featureFiles) {
     }
 }
 
+# A step of this suite that waits for a game load or a save is bound by the default 5 s step timeout: its
+# scenario must carry @timeout (a first run lost a healthy scenario to it).
+$slowSteps = 'the saved game "|is saved as "|I save and reload|the game is saved|the window is given'
+foreach ($file in $featureFiles) {
+    $all = [IO.File]::ReadAllLines($file.FullName)
+    for ($i = 0; $i -lt $all.Length; $i++) {
+        if ($all[$i] -notmatch '^\s*Scenario') { continue }
+        $tags = ''
+        for ($k = $i - 1; $k -ge 0 -and $all[$k] -match '^\s*(#|@|$)'; $k--) { if ($all[$k] -match '^\s*@') { $tags += $all[$k] } }
+        $slow = $false
+        for ($j = $i + 1; $j -lt $all.Length -and $all[$j] -notmatch '^\s*(Scenario|@)'; $j++) { if ($all[$j] -match $slowSteps) { $slow = $true } }
+        if ($slow -and $tags -notmatch '@timeout') {
+            Write-Host "NO TIMEOUT  $($file.Name):$($i + 1)  $($all[$i].Trim())" -ForegroundColor Red; $bad++
+        }
+    }
+}
+
 Write-Host ''
 Write-Host "$($mine.Count) patterns of this suite, $($expressions.Count) expressions in all. $lines step lines in $($featureFiles.Count) feature files."
 if ($bad -gt 0) {

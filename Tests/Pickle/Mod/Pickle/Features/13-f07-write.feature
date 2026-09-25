@@ -13,6 +13,7 @@
 @review @requires:nelim.pickletools.keyedclick
 Feature: F07 write: types and reassignments wait for the restart
 
+  @timeout:300
   Scenario: two types are created, three reassignments are made and a colony with known tolerances is saved
     Given the save "test-colony" is loaded
     And I close all dialogs

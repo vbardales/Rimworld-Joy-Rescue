@@ -2,6 +2,7 @@
 @review @requires:nelim.pickletools.keyedclick
 Feature: F08 mid: a type that exists is deleted, and moves nothing
 
+  @timeout:300
   Scenario: the pending types exist after the restart, and the first is deleted
     When Joy Rescue: the saved game "joyrescue-f08-a" is loaded
     Then Joy Rescue: an earlier game process wrote the settings

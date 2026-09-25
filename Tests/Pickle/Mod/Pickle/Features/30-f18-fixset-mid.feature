@@ -2,6 +2,7 @@
 @review @requires:nelim.pickletools.keyedclick
 Feature: F15 and F18 mid: the telescope is corrected, tolerances move once, and the set is switched off
 
+  @timeout:300
   Scenario: after the restart the fix set has applied, and a colony that existed before it keeps its tolerances
     When Joy Rescue: the saved game "joyrescue-f18-a" is loaded
     Then Joy Rescue: an earlier game process wrote the settings

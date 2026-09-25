@@ -3,7 +3,7 @@
 @review @requires:nelim.pickletools.keyedclick
 Feature: F08 final: the deleted type is gone and no tolerance changed owner
 
-  @joyrescue-restart-last
+  @joyrescue-restart-last @timeout:300
   Scenario: after the restart nothing points at the deleted type and the surviving type keeps its own tolerance
     When Joy Rescue: the saved game "joyrescue-f08-b" is loaded
     Then Joy Rescue: the recreation type "JoyRescue_Kind_2" does not exist

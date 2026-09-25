@@ -2,6 +2,7 @@
 @review @requires:nelim.pickletools.keyedclick
 Feature: F10 mid: a cancelled reset changes nothing, a confirmed one restores the defaults
 
+  @timeout:300
   Scenario: the reset is cancelled, then confirmed
     Given the save "test-colony" is loaded
     And I close all dialogs

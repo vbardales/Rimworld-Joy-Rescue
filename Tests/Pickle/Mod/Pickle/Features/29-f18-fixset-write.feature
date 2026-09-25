@@ -17,6 +17,7 @@
 @review @requires:nelim.pickletools.keyedclick
 Feature: F15 and F18 write: the fix set is switched on and a colony saved before it applies
 
+  @timeout:300
   Scenario: the controls are captured, the set is switched on, a colony with a known tolerance is saved
     Given the save "test-colony" is loaded
     And I close all dialogs

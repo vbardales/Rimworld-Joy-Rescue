@@ -13,6 +13,7 @@ Feature: F07 read: after the restart the types exist, the reassignments apply an
     And Joy Rescue: the building "JoyRescueWitness_Table" is rescued as "SitAdjacent" on the recreation type "JoyRescue_Kind_1"
     And no errors were logged
 
+  @timeout:300
   Scenario: a colony saved before the types existed keeps its tolerances and the new types start at zero
     When Joy Rescue: the saved game "joyrescue-f07" is loaded
     Then Joy Rescue: the tolerance of "Keeper" for the recreation type "Gaming_Cerebral" is 0.42
