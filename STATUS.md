@@ -28,7 +28,7 @@ remaining:
       (2) every conditional scenario has run: MET. All 6 that carry a @requires tag have played and
       passed: 03 and 05 (2026-09-24, 05 after a test fix), the three RIMMSQOL scenarios of 02, and 04
       with 05 (2026-09-25). The first 4 unconditional ones of 01 passed in three passes; the fifth, added on 2026-09-25 for the
-      list arrangement, has not played. All of it ran on
+      list arrangement, passed the same day. All of it ran on
       the previous DLL except the reverse F14 order, which ran on the new one; the English pass on
       the new DLL is queued (dd64);
       (3) no manual test left to validate, all green: NOT MET, F01-F14 in Tests/MANUAL.md and
@@ -228,8 +228,9 @@ the fourth, a building served by two activities, only after a case for it was ad
 The delivered DLL changes again, to SHA-256 1698F5EC96A5803294F93DA800975E6BB0818A61DB48A18BA7634CDC5424971B.
 Feature  1 gets a fifth scenario that sets the arrangement to buildings, opens the real dialog, takes a
 capture and checks the log. The English request 20260925-110815-202-dd64, on the previous layout, was
-withdrawn before it ran and replaced by 20260925-112444-031-0c17, which plays all five. Nothing has run in the
-game on this DLL yet, and the final pass is on older builds.
+withdrawn before it ran and replaced by 20260925-112444-031-0c17, which plays all five. It ran on 2026-09-25 and
+**passed**: five played and passed, six skipped as designed, three captures opened (docs/runs/README.md has
+the line). The French pass, the RIMMSQOL pass and the chess-then-ur pair of the final pass remain on older builds.
 
 ### Fix set tooltip, 2026-09-25
 
