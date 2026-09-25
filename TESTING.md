@@ -77,7 +77,7 @@ before `tested`: no manual test may be left. All nineteen are now written as Pic
 | F10 reset | `18` then `19`, `20` | filed at `07065ce`, not yet run |
 | F11 removal, addition | `27` + `removal-check`, then `28` | filed at `07065ce`, not yet run |
 | F12 presentation | `23` | filed at `07065ce`, not yet run. Not applicable: the click on the source link, which hands the address to the operating system's browser; the address and the BBCode are asserted instead |
-| F13, F19 shortcut, RIMMSQOL | `24` then `25`, `26`; `02` | `02` passed; the chain filed at `07065ce`, not yet run |
+| F13, F19 shortcut, RIMMSQOL | `24` then `25`, `26`; `02` | `02` passed. The chain passed, three launches, run of 2026-09-25 22:42, tree `07065ce`. RIMMSQOL is Workshop item 1084452457; its About.xml carries no version number, so the build is identified by `1.6/Assemblies/RIMMSqol.dll`, 1,822,720 bytes, SHA-256 starting `1152b0c198d34d4b` |
 | F14 shared activities | `03`, `04`, `05` | definitions and jobs passed in both orders; the two colonist scenarios added to `05` filed at `07065ce`, not yet run |
 | F15, F18 fix set, save and restart | `29` then `30`, `31` | filed at `07065ce`, not yet run |
 | F16 fix set on real mods | `33` then `34` | filed at `07065ce`, not yet run |
