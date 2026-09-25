@@ -393,7 +393,7 @@ internal static partial class Program
         Test("D31 actual Scribe settings round trip", () =>
         {
             using var f = new SettingsFixture();
-            var path = Path.Combine(RepoRoot(), ".build", "settings-2026-09-13", "roundtrip.xml");
+            var path = ScratchFile("roundtrip.xml");
             f.Settings.rescueModsWithOwnCode = true; f.Settings.requireChairForWatching = false;
             f.Settings.enabledOverrides["A"] = false; f.Settings.modeOverrides["A"] = "Watch";
             f.Settings.customKinds.Add(new CustomJoyKind("7", "Échecs <custom> & music") { needsThing = false });
@@ -412,11 +412,20 @@ internal static partial class Program
         Test("D32 actual Scribe legacy empty configuration", () =>
         {
             using var f = new SettingsFixture();
-            var path = Path.Combine(RepoRoot(), ".build", "settings-2026-09-13", "legacy.xml");
+            var path = ScratchFile("legacy.xml");
             File.WriteAllText(path, "<settings />");
             var restored = new JoyRescueSettings();
             Scribe.loader.InitLoading(path); restored.ExposeData(); Scribe.loader.FinalizeLoading();
             Defaults(restored);
         });
+    }
+
+    // Scratch files of the Scribe cases. The folder is created here rather than assumed: it used to be
+    // a dated evidence folder that a cleanup could delete, which silently broke both cases.
+    private static string ScratchFile(string name)
+    {
+        var dir = Path.Combine(RepoRoot(), ".build", "scratch");
+        Directory.CreateDirectory(dir);
+        return Path.Combine(dir, name);
     }
 }

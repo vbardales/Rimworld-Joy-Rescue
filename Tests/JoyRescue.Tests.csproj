@@ -6,6 +6,11 @@
     <RimWorldManagedDir Condition="'$(RimWorldManagedDir)' == ''">C:\Program Files (x86)\Steam\steamapps\common\RimWorld\RimWorldWin64_Data\Managed</RimWorldManagedDir>
   </PropertyGroup>
   <ItemGroup>
+    <!-- Tests/Pickle holds the in-game companion, built by its own project against Pickle's
+         assemblies. This runner has none of them and must not compile its sources. -->
+    <Compile Remove="Pickle\**" />
+  </ItemGroup>
+  <ItemGroup>
     <Reference Include="JoyRescue">
       <HintPath>..\Mod\Assemblies\JoyRescue.dll</HintPath>
     </Reference>

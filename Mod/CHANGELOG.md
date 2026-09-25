@@ -2,6 +2,9 @@
 
 ## [Unreleased]
 
+- Remove the internal definition name from the activity tooltip of the settings window. The activity's
+  label, the buildings it serves and the explanation remain.
+
 ## [0.1.0] - 2026-09-22
 
 - Create the `PublishedFileId.txt` file (Workshop item 3806137974) for the pre-published item.

@@ -918,7 +918,7 @@ namespace JoyRescue
                 : giver.thingDefs.Where(t => t != null)
                        .Select(t => t.LabelCap.ToString()).ToList();
 
-            var tip = "JoyRescue.Settings.GiverTip".Translate(giver.defName, ActivityName(giver));
+            var tip = "JoyRescue.Settings.GiverTip".Translate(ActivityName(giver));
             if (served != null && served.Count > 0)
             {
                 tip += "\n" + "JoyRescue.Settings.KindTipBuildings".Translate(Join(served));

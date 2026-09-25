@@ -63,8 +63,7 @@ Par nom : pour retrouver quelque chose dont on connaît déjà le nom.</JoyRescu
   <JoyRescue.Settings.KindTipBuildings>Bâtiments : {0}.</JoyRescue.Settings.KindTipBuildings>
   <JoyRescue.Settings.KindTipMore>et {0} de plus</JoyRescue.Settings.KindTipMore>
   <JoyRescue.Settings.KindTipWhatIsActivity>Une « activité » est une façon de prendre ce loisir : jouer aux échecs, regarder la télévision. Une même activité peut desservir plusieurs meubles, et un meuble que rien ne dessert ne sert à rien.</JoyRescue.Settings.KindTipWhatIsActivity>
-  <JoyRescue.Settings.GiverTip>{1}
-({0})</JoyRescue.Settings.GiverTip>
+  <JoyRescue.Settings.GiverTip>{0}</JoyRescue.Settings.GiverTip>
   <JoyRescue.Settings.GiverTipMove>Déplacer une activité déplace aussi sa tâche et tous les bâtiments qu'elle dessert, d'un seul coup. C'est voulu : le jeu crédite le type de loisir de la TÂCHE, et journalise une erreur si un bâtiment le contredit. Rien ici ne peut être déplacé à moitié.</JoyRescue.Settings.GiverTipMove>
   <JoyRescue.Settings.KindTipTolerance>La tolérance se compte par type, pas par bâtiment : un colon qui a joué aux échecs toute la semaine est tout aussi lassé du poker. Les attentes réclament jusqu'à six types différents, donc un type neuf vaut mieux qu'un dixième bâtiment d'un type déjà servi.</JoyRescue.Settings.KindTipTolerance>
 

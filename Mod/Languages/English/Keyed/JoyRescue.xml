@@ -64,8 +64,7 @@ By name: for finding something you already know the name of.</JoyRescue.Settings
   <JoyRescue.Settings.KindTipBuildings>Buildings: {0}.</JoyRescue.Settings.KindTipBuildings>
   <JoyRescue.Settings.KindTipMore>and {0} more</JoyRescue.Settings.KindTipMore>
   <JoyRescue.Settings.KindTipWhatIsActivity>An "activity" is a way of taking that recreation: playing chess, watching television. One activity can serve several pieces of furniture, and furniture no activity points at is furniture nobody uses.</JoyRescue.Settings.KindTipWhatIsActivity>
-  <JoyRescue.Settings.GiverTip>{1}
-({0})</JoyRescue.Settings.GiverTip>
+  <JoyRescue.Settings.GiverTip>{0}</JoyRescue.Settings.GiverTip>
   <JoyRescue.Settings.GiverTipMove>Moving an activity moves its job and every building it serves, all at once. That is on purpose: the game credits the recreation type of the JOB, and logs an error if a building disagrees with it. Nothing here can be half-moved.</JoyRescue.Settings.GiverTipMove>
   <JoyRescue.Settings.KindTipTolerance>Tolerance is counted per type, not per building: a colonist who has played chess all week is just as tired of poker. Expectations ask for up to six different types, so a new type is worth more than a tenth building of an old one.</JoyRescue.Settings.KindTipTolerance>
 </LanguageData>

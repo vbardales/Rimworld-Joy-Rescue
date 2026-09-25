@@ -55,7 +55,7 @@ remaining:
   - unverified: engine-specific mod-pack detection, full load/short hashes, save tolerance
       migration and log rendering are not certified by the isolated definition runner.
 session:      local_e3318eb0-b04f-4f8b-b01a-0d4188a56ee4
-updated:      2026-09-24, F14 chess then ur passed in game; stage done retained
+updated:      2026-09-25, final pass read in part, tooltip name removed (new DLL); stage done retained
 ---
 
 # Joy Rescue — status
@@ -170,6 +170,31 @@ The chess-then-ur pair is not resubmitted: it passed on 2026-09-24 against this 
 DLL (`E7DD9FFE...`) and this same companion, and nothing has changed since. A change to either
 means it runs again. The shared-job features cannot run unfiltered, since a writer and its reader
 must be two game processes.
+
+### Tooltip change, 2026-09-25: the final pass is now on the previous build
+
+The owner chose to remove the internal definition name (`Play_GameOfUr`) from the activity tooltip
+of the settings window, which the RIMMSQOL pass had shown. The report to log does not carry it
+either, since it lists orphaned buildings only, so the name is no longer shown anywhere in the
+interface. Three files changed: the tooltip call in `JoyRescueMod.cs`, and the `GiverTip` key of
+the English and French `Keyed` files, now the label alone. It is listed under `[Unreleased]` in
+`CHANGELOG.md`, for the next version.
+
+**This changes the delivered DLL** (SHA-256 `9737F8F9B09E128546836CD7A0C5A164CD8CE04748E28E8A869A3A8469A60961`,
+was `E7DD9FFE...`), so the final-pass results above and the chess-then-ur pair were obtained on the
+previous build. The offline suites pass on the new one: 118 of 118 and 20 of 20, with the delivered
+DLL and the test copy sharing the hash. Nothing in the game has run on it yet, and the queued
+reverse-order request `20260924-205339-283-e105` will run on it.
+
+Two defects of the test project surfaced while checking, both mine or older:
+
+- `Tests/JoyRescue.Tests.csproj` compiled the sources of `Tests/Pickle`, which need Pickle's
+  assemblies, so the executable runner had not built since the Pickle companion was added
+  (52 errors). It now excludes that folder.
+- Two Scribe cases (D31, D32) wrote into `.build/settings-2026-09-13/`, a folder I deleted on
+  2026-09-24 as superseded evidence, and did not create it: both failed. They now write to
+  `.build/scratch/`, created by the test. Deleting a folder a test writes into is a check to make
+  before removing anything under `.build/`.
 
 `Tests/Pickle/` now supplies the development-only companion
 `nelim.joyrescue.pickletests`. Its minimal English/French feature covers the rendered Mod
