@@ -39,6 +39,9 @@ remaining:
   - defect: PUBLICATION.md is absent, so the capture order, adult-content decision,
       dependency/DLC declaration, release notes, and individualized thank-you messages
       were not recorded in the repository before publication.
+  - feature: gallery images are taken by hand in the nelimZen colony and never come from a Pickle run:
+      the test captures are validation evidence only, taken in a sandbox colony. Listed for the
+      publication handoff, next to the capture order that PUBLICATION.md should record.
   - unverified: 0.1.0 has no Git tag and no GitHub release. main was pushed on 2026-09-24
       (de013c4 is on origin/main, with the `## [0.1.0]` section of CHANGELOG.md that the CI
       reads for the release notes). The CI creates the tag and the release after a successful

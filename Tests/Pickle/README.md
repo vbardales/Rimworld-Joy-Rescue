@@ -82,6 +82,10 @@ ever tracked.
 Never delete a report a `STATUS.md` field still points to: repoint it first. List what goes
 and what stays before deleting.
 
+These captures are validation evidence and nothing else. They are taken by the harness in a sandbox
+colony, not in the nelimZen colony, so none of them goes to the Workshop gallery, whatever its quality.
+Gallery images are taken by hand in the nelimZen colony.
+
 ## Waiting on a queued ticket
 
 Do not watch the queue from this session: no Monitor, heartbeat, cron or loop. The
