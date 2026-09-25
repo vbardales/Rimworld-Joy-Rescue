@@ -32,6 +32,13 @@ Expectations ask for up to six different ones, and tolerance is counted per type
 By state: whatever needs attention comes first - dead types, then types with an orphan, then the ones already served.
 Most furniture first: shows at a glance where you are rich and where you are thin. A type with one building is one bad day from being useless.
 By name: for finding something you already know the name of.</JoyRescue.Settings.SortModeTip>
+  <JoyRescue.Settings.ViewMode>View: {0}</JoyRescue.Settings.ViewMode>
+  <JoyRescue.Settings.ViewByActivity>activities &gt; buildings</JoyRescue.Settings.ViewByActivity>
+  <JoyRescue.Settings.ViewByBuilding>buildings &gt; activities</JoyRescue.Settings.ViewByBuilding>
+  <JoyRescue.Settings.ViewModeTip>Click to change how the list is arranged under each type.
+Activities &gt; buildings: each activity, then the buildings it serves.
+Buildings &gt; activities: each building, then the activities that serve it.
+Either way, orphaned buildings and activities that serve no building come last.</JoyRescue.Settings.ViewModeTip>
   <JoyRescue.Settings.LogReportDone>Joy Rescue report written to the log.</JoyRescue.Settings.LogReportDone>
   <JoyRescue.Settings.Reset>Restore defaults</JoyRescue.Settings.Reset>
   <JoyRescue.Settings.ConfirmReset>Restore every Joy Rescue setting to its default?</JoyRescue.Settings.ConfirmReset>

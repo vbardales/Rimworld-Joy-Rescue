@@ -21,6 +21,7 @@ namespace JoyRescue
         private const float HeaderHeight = 28f;
         private const float ModeColumnWidth = 150f;
         private const float KindColumnWidth = 140f;
+        private const float IndentWidth = 26f;
         private const float InfoIconSize = 16f;
 
         private Vector2 scrollPosition;
@@ -164,6 +165,17 @@ namespace JoyRescue
             }
             TooltipHandler.TipRegion(saveRect, "JoyRescue.Settings.SaveHint".Translate());
 
+            // How the list is arranged under each type, in the free space between the two buttons of
+            // this row. Only the arrangement changes: the same rows, the same controls.
+            var viewRect = new Rect(saveRect.x - 6f - 300f, addRow.y, 300f, addRow.height);
+            if (Widgets.ButtonText(viewRect, "JoyRescue.Settings.ViewMode".Translate(ViewModeLabel())))
+            {
+                Settings.listView = Settings.listView == ListLayout.BuildingsFirst
+                    ? ListLayout.ActivitiesFirst : ListLayout.BuildingsFirst;
+                InvalidateCaches();
+            }
+            TooltipHandler.TipRegion(viewRect, "JoyRescue.Settings.ViewModeTip".Translate());
+
             if (Widgets.ButtonText(new Rect(addRow.x, addRow.y, 260f, addRow.height),
                     "JoyRescue.Settings.AddKind".Translate()))
             {
@@ -240,40 +252,44 @@ namespace JoyRescue
         {
             var byKind = EntriesByKind();
             var kinds = SortedKinds();
-
             var giversByKind = GiversByKind();
-            var giverRows = 0;
-            foreach (var k in kinds) if (giversByKind.TryGetValue(k, out var gl)) giverRows += gl.Count;
 
-            var viewHeight = kinds.Count * HeaderHeight
-                           + (JoyRescueGenerator.AllEntries.Count + giverRows) * RowHeight + 8f;
+            // The order is worked out first, apart from the drawing: the scroll height needs to know
+            // how many lines there are, and an activity can now appear under several buildings.
+            var rows = ListLayout.Build(
+                Settings.listView, kinds,
+                k => byKind.TryGetValue(k, out var l) ? l : null,
+                k => giversByKind.TryGetValue(k, out var g) ? g : null,
+                DefDatabase<JoyGiverDef>.AllDefsListForReading,
+                JoyRescueGenerator.AllEntries,
+                ActivityName);
+
+            var viewHeight = 8f;
+            foreach (var row in rows) viewHeight += row.kind == RowKind.Header ? HeaderHeight : RowHeight;
             var viewRect = new Rect(0f, 0f, outRect.width - 20f, viewHeight);
 
             Widgets.BeginScrollView(outRect, ref scrollPosition, viewRect);
 
             var y = 0f;
-            foreach (var kind in kinds)
+            foreach (var row in rows)
             {
-                byKind.TryGetValue(kind, out var list);
-                DrawKindHeader(new Rect(0f, y, viewRect.width, HeaderHeight), kind, list);
-                y += HeaderHeight;
-
-                // Activities first: they explain the type, buildings only serve it.
-                if (giversByKind.TryGetValue(kind, out var givers))
+                var height = row.kind == RowKind.Header ? HeaderHeight : RowHeight;
+                var indent = row.depth * IndentWidth;
+                var rect = new Rect(indent, y, viewRect.width - indent, height);
+                switch (row.kind)
                 {
-                    foreach (var giver in givers)
-                    {
-                        DrawGiverRow(new Rect(0f, y, viewRect.width, RowHeight), giver);
-                        y += RowHeight;
-                    }
+                    case RowKind.Header:
+                        byKind.TryGetValue(row.type, out var list);
+                        DrawKindHeader(rect, row.type, list);
+                        break;
+                    case RowKind.Activity:
+                        DrawGiverRow(rect, row.giver);
+                        break;
+                    default:
+                        DrawEntryRow(rect, row.entry);
+                        break;
                 }
-
-                if (list == null) continue;
-                foreach (var entry in list)
-                {
-                    DrawEntryRow(new Rect(0f, y, viewRect.width, RowHeight), entry);
-                    y += RowHeight;
-                }
+                y += height;
             }
 
             Widgets.EndScrollView();
@@ -650,6 +666,13 @@ namespace JoyRescue
             }
 
             return removed;
+        }
+
+        private static TaggedString ViewModeLabel()
+        {
+            return Settings.listView == ListLayout.BuildingsFirst
+                ? "JoyRescue.Settings.ViewByBuilding".Translate()
+                : "JoyRescue.Settings.ViewByActivity".Translate();
         }
 
         private static TaggedString SortModeLabel()

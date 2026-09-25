@@ -88,6 +88,17 @@ namespace JoyRescue.PickleSteps
             ctx.Assert(actual == wanted, $"JoyRescueSettings.{field} is {actual}, expected {wanted}");
         }
 
+        // The arrangement is an integer setting, which the Boolean step above does not reach. The list
+        // works its order out on every frame, so setting it and opening the dialog is enough.
+        [When("Joy Rescue list arrangement is set to {string}")]
+        public void SetArrangement(PickleContext ctx, string arrangement)
+        {
+            ctx.Require(arrangement == "activities" || arrangement == "buildings",
+                $"'{arrangement}' is not 'activities' or 'buildings'");
+            JoyRescueMod.Settings.listView = arrangement == "buildings"
+                ? ListLayout.BuildingsFirst : ListLayout.ActivitiesFirst;
+        }
+
         [When("Joy Rescue settings are written")]
         public void WriteSettings(PickleContext ctx) => Mod(ctx).WriteSettings();
 

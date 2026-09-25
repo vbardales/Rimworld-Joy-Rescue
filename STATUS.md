@@ -24,10 +24,11 @@ unit_tested_on: 2026-09-13
 workshop:     3806137974 (Joy Rescue 0.1.0, published by maintainer; public/subscription check unverified)
 remaining:
   - blocking (done -> tested), gates given by the owner on 2026-09-24: (1) no scenario left in
-      @wip: MET, none of the 10 Pickle scenarios in the 5 features carries the tag;
+      @wip: MET, none of the 11 Pickle scenarios in the 5 features carries the tag;
       (2) every conditional scenario has run: MET. All 6 that carry a @requires tag have played and
       passed: 03 and 05 (2026-09-24, 05 after a test fix), the three RIMMSQOL scenarios of 02, and 04
-      with 05 (2026-09-25). The 4 unconditional ones of 01 passed in three passes. All of it ran on
+      with 05 (2026-09-25). The first 4 unconditional ones of 01 passed in three passes; the fifth, added on 2026-09-25 for the
+      list arrangement, has not played. All of it ran on
       the previous DLL except the reverse F14 order, which ran on the new one; the English pass on
       the new DLL is queued (dd64);
       (3) no manual test left to validate, all green: NOT MET, F01-F14 in Tests/MANUAL.md and
@@ -202,6 +203,29 @@ Two defects of the test project surfaced while checking, both mine or older:
   2026-09-24 as superseded evidence, and did not create it: both failed. They now write to
   `.build/scratch/`, created by the test. Deleting a folder a test writes into is a check to make
   before removing anything under `.build/`.
+
+### List arrangement, 2026-09-25
+
+At the owner's request the settings list gets a **View** button, beside Save now. It arranges the list
+under each type either as each activity followed by the buildings it serves (the default), or as each
+building followed by the activities that serve it. Either way the orphaned buildings, and the
+activities that serve no building, come last, where the list used to put orphans first. The choice is a
+saved setting (listView, 0 or 1, an unknown value reads as 0) and Reset puts it back.
+
+The order is worked out in Source/ListLayout.cs, apart from the drawing, so that it runs without the game.
+A building an activity serves is listed once in the activities-first view, under the first activity, and an
+activity serving several buildings repeats under each in the buildings-first view; a building whose type
+differs from its activity's is still shown, and nothing is dropped. Nine cases cover it (L01 to L09),
+and the executable suite is now 127 of 127. Breaking the layout on purpose in four ways, the cases caught three at once;
+the fourth, a building served by two activities, only after a case for it was added.
+
+The delivered DLL changes again, to SHA-256 1698F5EC96A5803294F93DA800975E6BB0818A61DB48A18BA7634CDC5424971B.
+Feature  1 gets a fifth scenario that sets the arrangement to buildings, opens the real dialog, takes a
+capture and checks the log. The English request 20260925-110815-202-dd64, on the previous layout, was
+withdrawn before it ran and replaced by 20260925-112444-031-0c17, which plays all five. Nothing has run in the
+game on this DLL yet, and the final pass is on older builds.
+
+### Fix set tooltip, 2026-09-25
 
 The tooltip of the common recreation fix set checkbox was also rewritten on 2026-09-25, at the owner's
 request, in both Keyed/JoyRescue_Taxonomy.xml files: it now begins with what the option does, moving

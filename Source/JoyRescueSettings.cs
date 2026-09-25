@@ -59,6 +59,12 @@ namespace JoyRescue
         /// </summary>
         public int kindSortMode = 0;
 
+        /// <summary>
+        /// Arrangement under each type: 0 = each activity, then the buildings it serves;
+        /// 1 = each building, then the activities that serve it. See <see cref="ListLayout"/>.
+        /// </summary>
+        public int listView = 0;
+
         /// <summary>Naming counter, so two created types never share an id.</summary>
         public int nextCustomKindId = 1;
 
@@ -114,6 +120,7 @@ namespace JoyRescue
             giverKindOverrides.Clear();
             disabledKinds.Clear();
             kindSortMode = 0;
+            listView = 0;
             nextCustomKindId = 1;
         }
 
@@ -130,6 +137,7 @@ namespace JoyRescue
             Scribe_Collections.Look(ref giverKindOverrides, "giverKindOverrides", LookMode.Value, LookMode.Value);
             Scribe_Collections.Look(ref disabledKinds, "disabledKinds", LookMode.Value);
             Scribe_Values.Look(ref kindSortMode, "kindSortMode", 0);
+            Scribe_Values.Look(ref listView, "listView", 0);
             Scribe_Values.Look(ref nextCustomKindId, "nextCustomKindId", 1);
 
             if (Scribe.mode == LoadSaveMode.LoadingVars)
@@ -140,6 +148,8 @@ namespace JoyRescue
                 kindOverrides = kindOverrides ?? new Dictionary<string, string>();
                 giverKindOverrides = giverKindOverrides ?? new Dictionary<string, string>();
                 disabledKinds = disabledKinds ?? new List<string>();
+                // A value this version does not know falls back to the default arrangement.
+                if (listView != ListLayout.ActivitiesFirst && listView != ListLayout.BuildingsFirst) listView = 0;
             }
         }
     }

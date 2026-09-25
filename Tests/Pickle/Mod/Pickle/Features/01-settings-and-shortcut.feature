@@ -36,3 +36,12 @@ Feature: Joy Rescue settings and its hidden shortcut work in the running game
     When Joy Rescue setting "requireChairForWatching" is set to "true"
     And Joy Rescue settings are written
     And I close all dialogs
+
+  Scenario: the list can be arranged buildings first and goes back to activities first
+    When Joy Rescue list arrangement is set to "buildings"
+    And I open the Joy Rescue settings dialog
+    Then the Joy Rescue settings dialog is open
+    When I take a screenshot "joy rescue settings buildings first"
+    Then no errors were logged
+    When Joy Rescue list arrangement is set to "activities"
+    And I close all dialogs

@@ -31,6 +31,13 @@ Les attentes en réclament jusqu'à six différents, et la tolérance se compte 
 Par état : ce qui demande une action passe devant, les types morts, puis ceux qui ont un orphelin, puis ceux déjà desservis.
 Du plus fourni au moins fourni : montre d'un coup d'œil où vous êtes riche et où vous êtes juste. Un type qui ne tient qu'à un seul meuble est à un incendie de ne plus rien valoir.
 Par nom : pour retrouver quelque chose dont on connaît déjà le nom.</JoyRescue.Settings.SortModeTip>
+  <JoyRescue.Settings.ViewMode>Vue : {0}</JoyRescue.Settings.ViewMode>
+  <JoyRescue.Settings.ViewByActivity>activités &gt; bâtiments</JoyRescue.Settings.ViewByActivity>
+  <JoyRescue.Settings.ViewByBuilding>bâtiments &gt; activités</JoyRescue.Settings.ViewByBuilding>
+  <JoyRescue.Settings.ViewModeTip>Cliquez pour changer l'organisation de la liste sous chaque type.
+Activités &gt; bâtiments : chaque activité, puis les bâtiments qu'elle dessert.
+Bâtiments &gt; activités : chaque bâtiment, puis les activités qui le desservent.
+Dans les deux cas, les bâtiments orphelins et les activités qui ne desservent aucun bâtiment viennent en dernier.</JoyRescue.Settings.ViewModeTip>
   <JoyRescue.Settings.LogReportDone>Rapport Joy Rescue écrit dans le journal.</JoyRescue.Settings.LogReportDone>
   <JoyRescue.Settings.Reset>Valeurs par défaut</JoyRescue.Settings.Reset>
   <JoyRescue.Settings.ConfirmReset>Rétablir tous les réglages de Joy Rescue ?</JoyRescue.Settings.ConfirmReset>

@@ -6,6 +6,9 @@
   label, the buildings it serves and the explanation remain.
 - Rewrite the tooltip of the common recreation fix set checkbox, in English and French, so that it begins
   with what the option does and the three types it adds, instead of how it works.
+- Add a View button to the settings window that arranges the list under each type either as each activity
+  followed by the buildings it serves, or as each building followed by the activities that serve it.
+  Orphaned buildings, and activities that serve no building, come last in both. The choice is saved.
 
 ## [0.1.0] - 2026-09-22
 

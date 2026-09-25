@@ -10,8 +10,8 @@ hidden shortcut opening that window, and whether RIMMSQOL can reveal this mod's 
 
 | Pass | Command suffix | Features | Establishes |
 | --- | --- | --- | --- |
-| Minimal English | `-Language English` | `01-settings-and-shortcut.feature` | Settings window renders; the shortcut is hidden (not greyed); its worker opens the same dialog; a Boolean setting persists through close/reopen. |
-| Minimal French | `-Language French` | `01-settings-and-shortcut.feature` | The same settings surface in the French startup language; review the screenshot for raw keys, fallback text and clipping. |
+| Minimal English | `-Language English` | `01-settings-and-shortcut.feature` | Settings window renders; the shortcut is hidden (not greyed); its worker opens the same dialog; a Boolean setting persists through close/reopen; the list can be arranged buildings first. |
+| Minimal French | `-Language French` | `01-settings-and-shortcut.feature` | The same settings surface in the French startup language, including the arrangement; review the screenshots for raw keys, fallback text and clipping. |
 | RIMMSQOL | `-DepMap wsl-deps.avec-rimmsqol.map -Language English -Filter 02-rimmsqol-shortcut.feature` | `02-rimmsqol-shortcut.feature` | RIMMSQOL lists and reveals `JoyRescue_Settings`; the revealed button opens Joy Rescue settings. Hiding/forgetting only cleans up the test. Visibility persistence across a restart belongs to RIMMSQOL's own suite. |
 | Shared job A then B | `-DepMap wsl-deps.shared-job.map -Filter 03-shared-job-write-chess-then-ur.feature -Then 05-shared-job-read.feature` | `03`, `05` | The two loaded witnesses share a job before writing; after a real restart, both assigned kinds have independent jobs. |
 | Shared job B then A | `-DepMap wsl-deps.shared-job.map -Filter 04-shared-job-write-ur-then-chess.feature -Then 05-shared-job-read.feature` | `04`, `05` | Same check in reverse insertion order. |

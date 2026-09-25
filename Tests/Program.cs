@@ -229,6 +229,7 @@ internal static partial class Program
 
         RegisterSettingsIntegrationTests();
         RegisterTaxonomyTests();
+        RegisterListLayoutTests();
         int failures = 0;
         foreach (var test in Cases)
         {
