@@ -14,12 +14,22 @@ Joy Rescue is original work by **Nelim**, distributed under the MIT license in
   this project. No code, name or artwork from that mod is incorporated here.
 - **Shared Joys** informed the consideration of group recreation capacity; it is
   an optional compatibility context, not a required or bundled dependency.
-- The showcase illustration and mascot icon were generated with AI for this mod.
+- The showcase illustration and mascot icon were generated with DALL-E (OpenAI) for this mod.
   The source illustration is retained in `Art/Preview-source.png`.
+- **RIMMSQOL** is an optional main-button customization mod. A dedicated test pass reveals this
+  mod's hidden settings shortcut through it. It is not a dependency and nothing of it is included.
+- **Pickle** and **RimLogging** (RimWorks) run the in-game tests, and **Nelim's Pickle Tools**
+  supplies shared test steps. They are development tools only, never a dependency of the
+  distributed mod, and nothing of them ships in it.
 
 The MIT grant covers this project's own material. It does not relicense RimWorld,
 Harmony, other mods, or build dependencies. No affiliation with Ludeon Studios or
 the authors of the mentioned mods is implied.
+
+## Tools
+
+Code and documentation written with Codex (OpenAI) and Claude Code (Anthropic), images generated
+with DALL-E (OpenAI), under human direction, review and testing.
 
 ## Compatibility rule data
 

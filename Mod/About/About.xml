@@ -18,11 +18,28 @@ Joy Rescue finds those buildings at startup and builds the missing recreation gi
 
 Everything found is listed in the mod settings, one line per building, with an on/off toggle and a manual override of the chosen behaviour. Buildings coming from mods that ship their own recreation code are listed too, but left off by default, so nothing is ever fixed twice.
 
+You can also create recreation types of your own and move activities or buildings between types, and arrange the list by activity or by building. An optional preset, off by default, moves known activities of other mods to better types at the next restart, and adds three types: video games and simulations, creative recreation, sensory wellbeing.
+
 This matters more than it looks: recreation tolerance is tracked per type, and expectations ask for up to 6 different types. A recreation type that no giver can produce is a type your colony simply does not have.
 
-No save data. Can be added to or removed from an ongoing game.
+No save data, unless the optional preset is turned on: it records tolerance-transfer markers in saves. Can be added to or removed from an ongoing game; removing it loses the recreation types you created and any activity it generated.
 
-Credits: created by Nelim; powered by Harmony. Showcase artwork was generated with AI.
+IF I GO QUIET
+
+If I do not answer within a reasonable time after being contacted, anyone may freely update this or any other of my mods, including publishing a continuation of it. All credit must be preserved.
+
+AI-GENERATED
+
+This mod's code was written with Codex (OpenAI) and Claude Code (Anthropic) and its images generated with DALL-E (OpenAI), under human direction, review and testing. Stated openly: designing with these tools is my job.
+
+THANKS
+
+Andreas Pardeike for [url=https://steamcommunity.com/sharedfiles/filedetails/?id=2009463077]Harmony[/url].
+The authors of [url=https://steamcommunity.com/sharedfiles/filedetails/?id=1084452457]RIMMSQOL[/url], whose main-button customization can reveal this mod's settings shortcut, and which it is tested with.
+[url=https://steamcommunity.com/sharedfiles/filedetails/?id=2884249920]Malay Themed Expansion[/url], whose unusable recreation buildings showed the problem, and [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3719496210]Shared Joys[/url], which informed the thinking on group recreation.
+RimWorks for [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3791648678]Pickle[/url] and [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3733484696]RimLogging[/url], and my own [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3806142401]Nelim's Pickle Tools[/url]: development tools for the in-game tests, never dependencies of this mod.
+
+What this mod studied and what it reproduced is listed in ATTRIBUTION.md, and it is released under the MIT licence (LICENSE); both are in the repository linked below.
 
 [url=https://github.com/vbardales/Rimworld-Joy-Rescue]Source code on GitHub[/url]</description>
   <modDependencies>

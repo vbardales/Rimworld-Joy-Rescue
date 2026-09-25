@@ -28,33 +28,29 @@ remaining:
       (2) every conditional scenario has run: MET. All 6 that carry a @requires tag have played and
       passed: 03 and 05 (2026-09-24, 05 after a test fix), the three RIMMSQOL scenarios of 02, and 04
       with 05 (2026-09-25). The first 4 unconditional ones of 01 passed in three passes; the fifth, added on 2026-09-25 for the
-      list arrangement, passed the same day. All of it ran on
-      the previous DLL except the reverse F14 order, which ran on the new one; the English pass on
-      the new DLL is queued (dd64);
+      list arrangement, passed the same day. Most of it ran on earlier builds: the reverse F14 order on the DLL of `db92aef`, and the
+      English pass on the newest build, all five scenarios of 01, on 2026-09-25;
       (3) no manual test left to validate, all green: NOT MET, F01-F14 in Tests/MANUAL.md and
       F15-F19 in Tests/TAXONOMY.md are all unexecuted. The stage stays done.
-  - defect: the distributed About description lacks the mandatory IF I GO QUIET,
-      AI-GENERATED (with actual tool names), THANKS, and attribution/license sections.
-      Because the Workshop item already exists, correct the Steam description directly
-      before its next update; changing About.xml alone cannot synchronize it.
-  - defect: ATTRIBUTION.md and the About say the showcase artwork was AI-generated without naming the tool, where
-      PUBLISHING.md asks for the real names. The owner knows which tool made the Preview and the icon. The code and
-      the documents were worked on with Claude Code, and with Codex before it.
-  - defect: PUBLICATION.md is absent, so the capture order, adult-content decision,
-      dependency/DLC declaration, release notes, and individualized thank-you messages
-      were not recorded in the repository before publication.
+  - resolved 2026-09-25 in the repository: About.xml carries IF I GO QUIET, AI-GENERATED (Codex, Claude Code, DALL-E),
+      THANKS and the attribution line before the source link. The page still carries the text 0.1.0 was created with:
+      the 1.0.0 publish replaces it with `update_description` (PUBLICATION.md, Description).
+  - resolved 2026-09-25: ATTRIBUTION.md (and its copy in Mod/) and the About name Codex, Claude Code and DALL-E, as the
+      owner gave them (the Preview and the icon: DALL-E).
+  - resolved 2026-09-25: PUBLICATION.md written. Open in it: no gallery image exists and the order is only proposed, the
+      1.0.0 change note is to be confirmed on the build sent, and the two thank-you comments (Malay Themed Expansion,
+      Shared Joys) are drafted, not posted. The register WORKSHOP_COMMENTS.md was updated but not committed, another
+      session having changes in it.
   - feature: the Workshop gallery images come from the nelimZen colony, by hand or from a dedicated Pickle scenario
       in the nelim-zen-meadow-studio fixture (AUDIT.md), never from the test passes, whose captures are validation
-      evidence taken in a sandbox colony. Listed for the publication handoff, next to the capture order that
-      PUBLICATION.md should record.
-  - note: fail fast (AUDIT.md and PUBLISHING.md, 2026-09-25). AUDIT.md writes it as in force for the 1.0.0 of an
-      item created by a 0.1.0 prepublication, which is this item. The owner said it would apply once she judges the
-      work serene enough: an open question, to settle before the 1.0.0. If it applies, publish once no scenario is
-      red without a green replay, after the Workshop gallery and the owner's manual validations, behind a dry run of
-      the exact SHA. The non-regression pass then runs after publication and a red means a rollback, a new version
-      whose ref is the last good SHA. The target is chosen before publishing, and a tag marks each good version so
-      the next has one: this item has none. Candidate: `b1eb0d1`, whose Mod/ is the published 0.1.0 (same DLL blob
-      as `6695ae3`, only CHANGELOG.md differs) with the in-game passes on that DLL.
+      evidence taken in a sandbox colony. PUBLICATION.md holds a proposed order and what is missing to make the images,
+      a test-only orphan witness.
+  - note: fail fast is in force for the 1.0.0 (owner, 2026-09-25: follow AUDIT.md). Publish once no scenario is red
+      without a green replay, after the Workshop gallery and the owner's manual validations, behind a dry run of the
+      exact SHA. The non-regression pass then runs after publication and a red means a rollback: a new version whose
+      ref is the last good SHA. Target chosen: `b1eb0d1`, whose Mod/ is the published 0.1.0 (same DLL blob as
+      `6695ae3`, only CHANGELOG.md differs), with the in-game passes on that DLL. The CI creates the tag `v1.0.0`
+      after the upload, so the item has no tag until then.
   - unverified: 0.1.0 has no Git tag and no GitHub release. main was pushed on 2026-09-24
       (de013c4 is on origin/main, with the `## [0.1.0]` section of CHANGELOG.md that the CI
       reads for the release notes). The CI creates the tag and the release after a successful
