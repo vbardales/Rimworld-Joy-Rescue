@@ -289,6 +289,32 @@ namespace JoyRescue.PickleSteps
             StartActivity(ctx, name, building, giver);
         }
 
+        // The conditions the base game's own interaction giver weighs, one by one, so that a refusal says which:
+        // a scenario that fails on "offered no job" alone leaves the reader guessing between the colonist, the
+        // building, the cells and the reservation.
+        private static string WhyNoJob(Pawn pawn, Building building, JoyGiverDef giver)
+        {
+            var parts = new List<string>();
+            try
+            {
+                parts.Add($"joy {pawn.needs.joy.CurLevel:0.00}");
+                parts.Add($"can reserve the building for {giver.jobDef.joyMaxParticipants}: {pawn.CanReserve(building, giver.jobDef.joyMaxParticipants)}");
+                parts.Add($"forbidden: {building.IsForbidden(pawn)}");
+                parts.Add($"socially proper: {building.IsSociallyProper(pawn)}");
+                parts.Add($"politically proper: {building.IsPoliticallyProper(pawn)}");
+                parts.Add($"fogged: {building.Fogged()}");
+                parts.Add($"pawn can reach it: {pawn.CanReach(building, PathEndMode.OnCell, Danger.None)}");
+                parts.Add($"powered: {building.TryGetComp<CompPowerTrader>()?.PowerOn.ToString() ?? "no power comp"}");
+                parts.Add($"require chair: {giver.requireChair}");
+                foreach (var cell in GenAdjFast.AdjacentCellsCardinal(building))
+                {
+                    var edifice = cell.GetEdifice(building.Map);
+                    parts.Add($"cell ({cell.x},{cell.z}): forbidden {cell.IsForbidden(pawn)}, reservable {pawn.CanReserveSittableOrSpot(cell)}, edifice {edifice?.def.defName ?? "none"}");
+                }
+            }
+            catch (Exception e) { parts.Add("the diagnosis itself failed: " + e.GetType().Name); }
+            return string.Join("; ", parts);
+        }
         private static void StartActivity(PickleContext ctx, string name, Building building, JoyGiverDef giver)
         {
             var pawn = PawnNamed(ctx, name);
@@ -297,7 +323,7 @@ namespace JoyRescue.PickleSteps
             Baselines[pawn] = baseline;
 
             var job = giver.Worker.TryGiveJob(pawn);
-            ctx.Assert(job != null, $"the activity of {building.def.defName} ({giver.defName}) offered {name} no job");
+            if (job == null) ctx.Assert(false, $"the activity of {building.def.defName} ({giver.defName}) offered {name} no job. " + WhyNoJob(pawn, building, giver));
             ctx.Assert(job.def == giver.jobDef, $"the job offered is {job.def.defName}, the giver's own is {giver.jobDef.defName}");
             var taken = pawn.jobs.TryTakeOrderedJob(job, JobTag.SatisfyingNeeds);
             ctx.Assert(taken, $"{name} refused the job. Current job: {pawn.CurJob?.def.defName ?? "none"}");
