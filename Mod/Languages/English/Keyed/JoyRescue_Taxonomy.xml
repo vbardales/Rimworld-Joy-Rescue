@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
   <JoyRescue.Taxonomy.Enable>Use the common recreation fix set (restart required)</JoyRescue.Taxonomy.Enable>
-  <JoyRescue.Taxonomy.Tooltip>Applies exact, checked building activity rules when RimWorld starts. Manual assignments take priority. Changed or shared activities are skipped and reported. Keeps drivers, timings and rewards. Turning this off restores original assignments after restart; retained types and transferred tolerance are not deleted. Reset also keeps existing type identities once this preset has been used. Save settings before restarting.</JoyRescue.Taxonomy.Tooltip>
+  <JoyRescue.Taxonomy.Tooltip>Moves activities from other mods that sit in a poor recreation category into a better one, and adds three types (video games and simulations, creative recreation, sensory wellbeing), so colonists get more variety. Off by default, and it only affects the mods it knows. It applies at the next restart: save your settings first. Your manual choices win, and anything changed or shared is skipped and listed in the log report. Timings and rewards are kept. Turning it off restores the original categories at the next restart, but keeps the three types and the recreation tolerance already carried over.</JoyRescue.Taxonomy.Tooltip>
   <JoyRescue.Taxonomy.Summary>Common fixes this session: {0} applied, {1} skipped (details in log report).</JoyRescue.Taxonomy.Summary>
   <JoyRescue.Taxonomy.Video>video games and simulations</JoyRescue.Taxonomy.Video>
   <JoyRescue.Taxonomy.Creative>creative recreation</JoyRescue.Taxonomy.Creative>

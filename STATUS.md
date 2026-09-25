@@ -203,6 +203,13 @@ Two defects of the test project surfaced while checking, both mine or older:
   `.build/scratch/`, created by the test. Deleting a folder a test writes into is a check to make
   before removing anything under `.build/`.
 
+The tooltip of the common recreation fix set checkbox was also rewritten on 2026-09-25, at the owner's
+request, in both Keyed/JoyRescue_Taxonomy.xml files: it now begins with what the option does, moving
+activities of other mods to a better recreation category, and names the three types it adds, where it
+used to describe the mechanism. The checkbox label and the list layout are unchanged. These are resource
+files only, so the DLL is unchanged, and both offline suites still pass. No capture shows this tooltip
+yet: the pointer was never on it.
+
 `Tests/Pickle/` now supplies the development-only companion
 `nelim.joyrescue.pickletests`. Its minimal English/French feature covers the rendered Mod
 options dialog, default hidden/non-greyed shortcut, shortcut activation into the same dialog,

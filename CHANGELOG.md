@@ -4,6 +4,8 @@
 
 - Remove the internal definition name from the activity tooltip of the settings window. The activity's
   label, the buildings it serves and the explanation remain.
+- Rewrite the tooltip of the common recreation fix set checkbox, in English and French, so that it begins
+  with what the option does and the three types it adds, instead of how it works.
 
 ## [0.1.0] - 2026-09-22
 
