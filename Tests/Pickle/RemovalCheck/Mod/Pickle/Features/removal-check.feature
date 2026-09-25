@@ -1,0 +1,25 @@
+# F11 of Tests/MANUAL.md, the half played WITHOUT the mod: a colony saved while a colonist was in the middle of a
+# job that Joy Rescue generated is loaded in a game from which Joy Rescue has been taken out. Played as the
+# second launch of
+#   -Filter 27-f11-removal-write.feature -Then removal-check.feature -ThenWithout nelim.joyrescue,nelim.joyrescue.pickletests
+# with wsl-deps.removal.map. This feature lives in its own test mod because the main one depends on Joy Rescue
+# and is taken out with it.
+#
+# What the manual case expects: the save remains usable, the loss of the generated job is documented, play
+# continues. "Usable" is asserted (the colonist is alive, keeps a tolerance, the game runs on), and the loss is
+# bounded: every error the load logs concerns a definition of the removed mod, never anything else.
+@review
+Feature: F11 removal: a colony saved with Joy Rescue loads without it and plays on
+
+  @timeout:300
+  Scenario: the colony loads, plays on, and every error concerns the removed mod
+    Then Joy Rescue removal: the mod "nelim.joyrescue" is not loaded
+    When Joy Rescue removal: the saved game "joyrescue-f11-a" is loaded
+    Then Joy Rescue removal: "Keeper" is alive and on the map
+    And Joy Rescue removal: "Keeper" is not doing a job of the removed mod
+    And Joy Rescue removal: the tolerance of "Keeper" for the recreation type "Television" is 0.42
+    When Joy Rescue removal: the game runs for 900 ticks
+    Then Joy Rescue removal: "Keeper" is alive and on the map
+    And Joy Rescue removal: every error logged concerns a definition of the removed mod
+    When Joy Rescue removal: the game is saved as "joyrescue-f11-b"
+    And Joy Rescue removal: the saved game "joyrescue-f11-a" is deleted

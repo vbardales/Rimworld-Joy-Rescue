@@ -87,4 +87,52 @@
       <joyKind>Gaming_Cerebral</joyKind>
     </building>
   </ThingDef>
+
+  <!-- The one building of this mod that IS served: a giver of its own lists it, with a job of its own
+       that no other giver shares. It is the third-party activity that reassignment (F07, F08) moves,
+       with the job and the building, and the building that a reassignment of the building alone must
+       detach from it. -->
+  <ThingDef ParentName="BuildingBase">
+    <defName>JoyRescueWitness_CoveredTable</defName>
+    <label>witness covered table</label>
+    <description>Test witness: a game table that a giver of this mod serves.</description>
+    <graphicData>
+      <texPath>Things/Building/Joy/ChessTable</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <altitudeLayer>Building</altitudeLayer>
+    <rotatable>false</rotatable>
+    <passability>PassThroughOnly</passability>
+    <pathCost>30</pathCost>
+    <fillPercent>0.40</fillPercent>
+    <socialPropernessMatters>true</socialPropernessMatters>
+    <statBases>
+      <MaxHitPoints>100</MaxHitPoints>
+      <Flammability>1.0</Flammability>
+      <JoyGainFactor>1</JoyGainFactor>
+    </statBases>
+    <building>
+      <joyKind>Gaming_Cerebral</joyKind>
+    </building>
+  </ThingDef>
+
+  <JobDef>
+    <defName>JoyRescueWitness_CoveredUse</defName>
+    <driverClass>JobDriver_SitFacingBuilding</driverClass>
+    <reportString>playing at the witness covered table.</reportString>
+    <joyDuration>4000</joyDuration>
+    <joyMaxParticipants>2</joyMaxParticipants>
+    <joyGainRate>1.0</joyGainRate>
+    <joyKind>Gaming_Cerebral</joyKind>
+  </JobDef>
+
+  <JoyGiverDef>
+    <defName>JoyRescueWitness_CoveredGiver</defName>
+    <giverClass>JoyGiver_InteractBuildingSitAdjacent</giverClass>
+    <baseChance>2</baseChance>
+    <thingDefs><li>JoyRescueWitness_CoveredTable</li></thingDefs>
+    <jobDef>JoyRescueWitness_CoveredUse</jobDef>
+    <joyKind>Gaming_Cerebral</joyKind>
+    <requiredCapacities><li>Manipulation</li></requiredCapacities>
+  </JoyGiverDef>
 </Defs>

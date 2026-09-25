@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ModMetaData>
+  <name>Joy Rescue - removal check</name>
+  <author>Nelim</author>
+  <packageId>nelim.joyrescue.removalcheck</packageId>
+  <supportedVersions>
+    <li>1.6</li>
+  </supportedVersions>
+  <description>In-game check of acceptance case F11 for Joy Rescue: a colony saved with the mod is loaded in a game that no longer has it. It must not depend on Joy Rescue, so that it is still there when the mod is taken out of the mod list. Development only: never published.</description>
+  <modDependencies>
+    <li>
+      <packageId>rimworks.pickle</packageId>
+      <displayName>Pickle</displayName>
+      <steamWorkshopUrl>steam://url/CommunityFilePage/3791648678</steamWorkshopUrl>
+    </li>
+  </modDependencies>
+  <loadAfter>
+    <li>rimworks.pickle</li>
+  </loadAfter>
+</ModMetaData>

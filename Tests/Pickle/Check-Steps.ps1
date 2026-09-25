@@ -19,6 +19,8 @@ param(
 $ErrorActionPreference = 'Stop'
 $here = $PSScriptRoot
 $repoRoot = Split-Path (Split-Path (Split-Path $here -Parent) -Parent) -Parent      # ...\rimworld
+# A git worktree of this repository lives elsewhere: look for the monorepo where it is.
+if (-not (Test-Path -LiteralPath (Join-Path $repoRoot 'PickleTools'))) { $repoRoot = Join-Path $env:USERPROFILE 'Documents\rimworld' }
 
 foreach ($dll in 'CucumberExpressions.dll', 'RimWorks.Pickle.Core.dll') {
     $path = Join-Path $PickleAssemblies $dll
@@ -43,7 +45,7 @@ function Read-Patterns($dir, $source) {
 }
 
 $bad = 0
-$mine = @(Read-Patterns (Join-Path $here 'Source') 'this suite')
+$mine = @(Read-Patterns (Join-Path $here 'Source') 'this suite') + @(Read-Patterns (Join-Path $here 'RemovalCheck\Source') 'this suite (removal check)')
 if ($mine.Count -eq 0) { throw "no step patterns under $here\Source" }
 foreach ($g in ($mine | Group-Object Pattern | Where-Object { $_.Count -gt 1 })) {
     Write-Host "DUPLICATE  $($g.Name)  (declared $($g.Count) times)" -ForegroundColor Red; $bad++
@@ -75,7 +77,7 @@ foreach ($p in 'the save {string} is loaded') { $expressions += [pscustomobject]
 $dirs = @(Get-ChildItem -LiteralPath (Join-Path $repoRoot 'PickleTools') -Directory | ForEach-Object { Join-Path $_.FullName 'Source' })
 foreach ($top in Get-ChildItem -LiteralPath $repoRoot -Directory) {
     if ($top.Attributes -band [IO.FileAttributes]::ReparsePoint) { continue }
-    if ($top.FullName -eq (Split-Path (Split-Path $here -Parent) -Parent)) { continue }
+    if ($top.Name -eq 'JoyRescue') { continue }      # this suite, and its copy in the main tree
     $dirs += Join-Path $top.FullName 'Tests\Pickle\Source'
 }
 foreach ($dir in $dirs | Sort-Object -Unique) {
