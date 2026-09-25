@@ -183,8 +183,11 @@ the English and French `Keyed` files, now the label alone. It is listed under `[
 **This changes the delivered DLL** (SHA-256 `9737F8F9B09E128546836CD7A0C5A164CD8CE04748E28E8A869A3A8469A60961`,
 was `E7DD9FFE...`), so the final-pass results above and the chess-then-ur pair were obtained on the
 previous build. The offline suites pass on the new one: 118 of 118 and 20 of 20, with the delivered
-DLL and the test copy sharing the hash. Nothing in the game has run on it yet, and the queued
-reverse-order request `20260924-205339-283-e105` will run on it.
+DLL and the test copy sharing the hash. The reverse-order request `20260924-205339-283-e105` took
+the lock at 11:06 on 2026-09-25 and so runs on it. The owner asked for the English pass on the new
+DLL as the check of the fix: request `20260925-110815-202-dd64`, `01` only, evidence in
+`Tests/Pickle/Evidence/tooltip-english`, submitted at 11:08 and awaiting `RUN_DONE`. The other
+passes of the final pass stay on the previous build until the owner says otherwise.
 
 Two defects of the test project surfaced while checking, both mine or older:
 
