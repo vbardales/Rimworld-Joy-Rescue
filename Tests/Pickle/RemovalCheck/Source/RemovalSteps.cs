@@ -101,24 +101,42 @@ namespace JoyRescue.RemovalCheck
             await ctx.WaitTicks(ticks);
         }
 
-        // The errors a load without the mod is allowed to log are the ones about what the mod supplied. Any
-        // other error, or an error about nothing, is a save the removal broke.
-        [Then("Joy Rescue removal: every error logged concerns a definition of the removed mod")]
-        public void AssertErrorsConcernTheMod(PickleContext ctx)
+        // The errors a load without the mod is allowed to log are the ones about what the mod supplied, and the
+        // ones of the colonist who was in the middle of its job: the game cannot rebuild a job whose definition
+        // is gone, and says so each tick until it drops it. Any other error is a save the removal broke.
+        [Then("Joy Rescue removal: every error logged concerns the removed mod or the job of {string}")]
+        public void AssertErrorsConcernTheMod(PickleContext ctx, string name)
         {
             var errors = Log.Messages.Where(m => m.type == LogMessageType.Error).Select(m => m.text).ToList();
             var others = errors.Where(e => e.IndexOf("JoyRescue", StringComparison.OrdinalIgnoreCase) < 0
-                                           && e.IndexOf("Joy Rescue", StringComparison.OrdinalIgnoreCase) < 0).ToList();
-            Log.Message($"[Joy Rescue removal] {errors.Count} error(s) logged, {errors.Count - others.Count} about the removed mod");
-            ctx.Assert(others.Count == 0, $"{others.Count} of {errors.Count} errors do not concern the removed mod. First: "
-                + others[0].Split('\n')[0]);
+                                           && e.IndexOf("Joy Rescue", StringComparison.OrdinalIgnoreCase) < 0
+                                           && e.IndexOf(name, StringComparison.Ordinal) < 0).ToList();
+            Log.Message($"[Joy Rescue removal] {errors.Count} error(s) logged, {errors.Count - others.Count} about the removed mod or {name}");
+            ctx.Assert(others.Count == 0, $"{others.Count} of {errors.Count} errors do not concern the removed mod or {name}. First: "
+                + (others.FirstOrDefault() ?? "").Split('\n')[0]);
         }
 
+        private static int errorsWhenCounted;
+
+        private static int ErrorCount() => Log.Messages.Count(m => m.type == LogMessageType.Error);
+
+        [When("Joy Rescue removal: the errors logged so far are counted")]
+        public void CountErrors(PickleContext ctx) => errorsWhenCounted = ErrorCount();
+
+        // The loss is bounded in time: once the game has dropped the job, it logs nothing more.
+        [Then("Joy Rescue removal: no error has been logged since they were counted")]
+        public void AssertNoNewErrors(PickleContext ctx)
+        {
+            var now = ErrorCount();
+            ctx.Assert(now == errorsWhenCounted, $"{now - errorsWhenCounted} errors were logged after the job was dropped; the last: "
+                + (Log.Messages.LastOrDefault(m => m.type == LogMessageType.Error)?.text ?? "").Split('\n')[0]);
+        }
         [When("Joy Rescue removal: the game is saved as {string}")]
         public void SaveGame(PickleContext ctx, string name)
         {
             var path = GenFilePaths.FilePathForSavedGame(name);
-            ctx.Require(!File.Exists(path), $"a saved game called '{name}' remains from an earlier chain: {path}");
+            // A saved game of that name that remains is the leftover of a chain that stopped before its end.
+            if (File.Exists(path)) File.Delete(path);
             GameDataSaveLoader.SaveGame(name);
             ctx.Assert(File.Exists(path), $"saving '{name}' wrote no file: the scribe error is in the log");
         }

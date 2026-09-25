@@ -75,7 +75,8 @@ namespace JoyRescue.PickleSteps
         public void AssertLeftAlone(PickleContext ctx, string giverName, string kindName)
         {
             var giver = Giver(ctx, giverName);
-            ctx.Assert(!CommonTaxonomy.Applied.ContainsKey(giverName), $"{giverName} was corrected to {CommonTaxonomy.Applied[giverName]}");
+            ctx.Assert(!CommonTaxonomy.Applied.ContainsKey(giverName),
+                $"{giverName} was corrected to {(CommonTaxonomy.Applied.TryGetValue(giverName, out var corrected) ? corrected : null)}");
             ctx.Assert(giver.joyKind?.defName == kindName && giver.jobDef?.joyKind?.defName == kindName,
                 $"{giverName}: giver {giver.joyKind?.defName}, job {giver.jobDef?.joyKind?.defName}, expected {kindName}");
             foreach (var thing in giver.thingDefs ?? new List<ThingDef>())
