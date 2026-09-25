@@ -25,10 +25,11 @@ workshop:     3806137974 (Joy Rescue 0.1.0, published by maintainer; public/subs
 remaining:
   - blocking (done -> tested), gates given by the owner on 2026-09-24: (1) no scenario left in
       @wip: MET, none of the 10 Pickle scenarios in the 5 features carries the tag;
-      (2) every conditional scenario has run: NOT MET, one scenario short. Of the 6 that carry a
-      @requires tag, 03 and 05 have played and passed (2026-09-24, 05 after a test fix) and the
-      three RIMMSQOL scenarios of 02 have too (2026-09-25); 04 has not played yet, its request is
-      queued. The 4 unconditional ones of 01 passed in three passes (2026-09-25);
+      (2) every conditional scenario has run: MET. All 6 that carry a @requires tag have played and
+      passed: 03 and 05 (2026-09-24, 05 after a test fix), the three RIMMSQOL scenarios of 02, and 04
+      with 05 (2026-09-25). The 4 unconditional ones of 01 passed in three passes. All of it ran on
+      the previous DLL except the reverse F14 order, which ran on the new one; the English pass on
+      the new DLL is queued (dd64);
       (3) no manual test left to validate, all green: NOT MET, F01-F14 in Tests/MANUAL.md and
       F15-F19 in Tests/TAXONOMY.md are all unexecuted. The stage stays done.
   - defect: the distributed About description lacks the mandatory IF I GO QUIET,
@@ -148,8 +149,8 @@ The resubmitted pair ran and **passed**, both launches, `exitReason` passed each
 `Gaming_Dexterity`; after a real restart the reader (`05`) found exactly those kinds, with two
 independent jobs each crediting its own kind, and no skipped reassignment in the log. So for the
 first insertion order the mod does what F14 asks: two givers that shared a job keep their own
-kinds. The reverse order (`04` then `05`) has not played and stays for the final pass, so F14 is
-half verified. The launcher also wrote a third evidence folder that copies the second (its last
+kinds. The reverse order (`04` then `05`) played later, on 2026-09-25 (see the final pass below), and
+passed too, so F14 is verified in both insertion orders. The launcher also wrote a third evidence folder that copies the second (its last
 step is saved twice when the sequence ends); it was deleted, and the quirk belongs to
 `scripts/Run-PickleWsl.ps1`, not to this mod. The same runs also exercised the launcher's evidence
 copy that was corrected after the failure of 22 September: it saved each launch's report as
@@ -164,7 +165,7 @@ Four small requests through the dispatcher's worker, one pass each, awaiting `RU
 | `20260924-205336-502-2da8` | minimal English, no filter | `01` (4 scenarios); `02` to `05` skip, their mods are not staged. **Done 2026-09-25: passed**, 4 played and passed, 6 skipped as expected, `exitReason` passed; both captures opened (see below) |
 | `20260924-205337-355-3d24` | minimal French, no filter | `01` (4 scenarios). **Done 2026-09-25: passed**, 4 played and passed, 6 skipped as expected, `exitReason` passed; both captures opened: fully translated, no raw key, nothing clipped |
 | `20260924-205338-490-f62b` | with RIMMSQOL, no filter | `01` and `02` (7 scenarios). **Done 2026-09-25: passed**, 7 played and passed, 3 skipped as expected, `exitReason` passed; four captures opened, the shortcut is absent by default, listed and revealed by RIMMSQOL, and the revealed button opens the same window |
-| `20260924-205339-283-e105` | F14 ur then chess, `04` then `05` | the reverse insertion order, two launches under one lock |
+| `20260924-205339-283-e105` | F14 ur then chess, `04` then `05` | the reverse insertion order, two launches under one lock. **Done 2026-09-25: passed**, both launches, `exitReason` passed each, on the new DLL |
 
 The chess-then-ur pair is not resubmitted: it passed on 2026-09-24 against this same delivered
 DLL (`E7DD9FFE...`) and this same companion, and nothing has changed since. A change to either
@@ -183,8 +184,8 @@ the English and French `Keyed` files, now the label alone. It is listed under `[
 **This changes the delivered DLL** (SHA-256 `9737F8F9B09E128546836CD7A0C5A164CD8CE04748E28E8A869A3A8469A60961`,
 was `E7DD9FFE...`), so the final-pass results above and the chess-then-ur pair were obtained on the
 previous build. The offline suites pass on the new one: 118 of 118 and 20 of 20, with the delivered
-DLL and the test copy sharing the hash. The reverse-order request `20260924-205339-283-e105` took
-the lock at 11:06 on 2026-09-25 and so runs on it. The owner asked for the English pass on the new
+DLL and the test copy sharing the hash. The reverse-order request `20260924-205339-283-e105` ran on it
+from 11:06 on 2026-09-25 and passed both launches. The owner asked for the English pass on the new
 DLL as the check of the fix: request `20260925-110815-202-dd64`, `01` only, evidence in
 `Tests/Pickle/Evidence/tooltip-english`, submitted at 11:08 and awaiting `RUN_DONE`. The other
 passes of the final pass stay on the previous build until the owner says otherwise.
