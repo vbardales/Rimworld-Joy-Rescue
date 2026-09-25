@@ -82,8 +82,16 @@ namespace JoyRescue.PickleSteps
         public void SaveSettingsAside(PickleContext ctx)
         {
             var backup = BackupPath(ctx);
-            ctx.Require(!File.Exists(backup),
-                $"a settings backup of an earlier chain remains at {backup}: inspect it and restore it by hand before retrying");
+            // A chain that stopped before its last scenario (a red one) leaves its backup behind. It holds the
+            // settings as they were before that chain, in a sandbox profile nobody plays: put it back, so that
+            // one failed run does not block every chain after it, then start from that state.
+            if (File.Exists(backup))
+            {
+                Log.Warning($"Joy Rescue test: a settings backup of an earlier chain remained at {backup}; it is restored before this chain starts.");
+                File.Copy(backup, SettingsPath(ctx), true);
+                File.Delete(backup);
+                if (File.Exists(MarkerPath(ctx))) File.Delete(MarkerPath(ctx));
+            }
             Mod(ctx).WriteSettings();
             File.Copy(SettingsPath(ctx), backup);
         }
@@ -126,7 +134,8 @@ namespace JoyRescue.PickleSteps
         public void SaveGame(PickleContext ctx, string name)
         {
             var path = GenFilePaths.FilePathForSavedGame(name);
-            ctx.Require(!File.Exists(path), $"a saved game called '{name}' remains from an earlier chain: {path}");
+            // A saved game of that name that remains is the leftover of a chain that stopped before its end.
+            if (File.Exists(path)) File.Delete(path);
             GameDataSaveLoader.SaveGame(name);
             ctx.Assert(File.Exists(path), $"saving '{name}' wrote no file: the scribe error is in the log");
             Saves.Add(name);
