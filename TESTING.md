@@ -67,7 +67,7 @@ before `tested`: no manual test may be left. All nineteen are now written as Pic
 | --- | --- | --- |
 | F01 load, counters | `07` | passed, run of 2026-09-25 21:07, tree `fed2bb2` |
 | F02 use in the three modes | `08` | passed, run of 2026-09-25 21:09, tree `fed2bb2` |
-| F03 seats and group | `09` | filed at `07065ce`, not yet run. The group-reservation mod part is not applicable: no such mod is in the test set |
+| F03 seats and group | `09` | filed at `07065ce`, not yet run. The part with a third-party group-reservation mod is untestable for now, with the owner's agreement (2026-09-25): no such mod is known or in the test set. The vanilla groups (chess and Ur for 2, poker for 4) and the seat and cell counts of a witness building are tested. To be played the day a mod with its own group reservation is found |
 | F04 live changes | `10` | filed at `07065ce`, not yet run |
 | F05 own code | `11` | filed at `07065ce`, not yet run |
 | F06 disabled type | `12` | filed at `07065ce`, not yet run |

@@ -38,7 +38,7 @@ because a restart cannot happen inside one process.
 | --- | --- | --- |
 | F01 | `07` | Scan, counters and the window against the witness mod |
 | F02 | `08` | The colonist is given each activity by the real recreation choice and credited the declared type only |
-| F03 | `09` | Not applicable, with its reason: the group-reservation mod part, no such mod is in the test set |
+| F03 | `09` | Untestable for now, with the owner's agreement (2026-09-25): the part with a third-party group-reservation mod, because none is known or in the test set. The vanilla groups (chess and Ur for 2, poker for 4) and the seats and cells of a witness building are tested. To be played the day such a mod is found |
 | F04 | `10` | Disable, re-enable, in each mode |
 | F05 | `11` | A mod with its own driver: off by default, the explicit decision wins |
 | F06 | `12` | A disabled type, and an entry disabled on its own |
