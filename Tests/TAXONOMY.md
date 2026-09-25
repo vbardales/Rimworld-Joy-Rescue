@@ -75,18 +75,21 @@ dotnet build Tests/JoyRescue.Tests.csproj -c Release
 pwsh -NoProfile -File Tests/Test-Xml.ps1
 ```
 
-## Remaining game acceptance
+## Game acceptance
 
-- F15: open the primary settings route in EN and FR; ensure the added controls fit,
-  save the preset, restart and inspect the reported corrections on the installed pack.
-- F16: exercise a changed table, musical/visual activity and wellbeing object; check
-  actual job behavior, group participation, gains and logs for kind mismatches.
-- F17: verify a deliberately conflicting shared building remains unmodified; verify
-  manual assignments and source-provided special drivers retain priority.
-- F18: load an existing colony, check tolerance/ennui, save and reload twice; repeat
-  with a new colony and a newly recruited pawn. Then disable and restart, checking
-  assignments and retained types without expecting tolerance rollback.
-- F19: repeat existing shortcut reveal/open/hide checks with RIMMSQOL and verify both
-  settings routes share the option. No live integration was certified offline.
+Each case is a Pickle scenario, in `Tests/Pickle/Mod/Pickle/Features/`; the pass is in `TESTING.md`.
 
-These scenarios are unexecuted until recorded with actual in-game evidence.
+- F15: the fix set is switched on, kept, and its three types and corrections are read after a
+  restart (`29` then `30`, `31`); the controls in both languages (`01`).
+- F16: five real mods of the Workshop, staged by their ids (`wsl-deps.real-mods.map`): a
+  changed table, musical and visual activities, and a wellbeing object are corrected, used by
+  a colonist and credited the corrected type, with no kind mismatch in the log (`33` then `34`).
+  Whether a rule is right about what a mod's activity is remains the choice of the table.
+- F17: each guard, on a witness mod: a shared building stays unmodified, manual assignments and
+  source-provided special drivers keep priority (`32`, `wsl-deps.rules.map`).
+- F18: an existing colony, its tolerances, save and reload; the option is then switched off and
+  the assignments and retained types stay (`29` to `31`).
+- F19: the RIMMSQOL reveal, open and hide, both routes sharing the option, with a restart
+  (`24` then `25`, `26`). The exact RIMMSQOL version is recorded with the run.
+
+A case is executed only once its run is recorded in `docs/runs/README.md`.

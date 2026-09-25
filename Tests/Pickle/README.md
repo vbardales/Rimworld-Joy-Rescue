@@ -46,11 +46,20 @@ writer and reader, the next writer refuses to overwrite that backup: inspect the
 file and restore it before retrying. These checks assert loaded definition and job identities;
 they do not prove a pawn used either table or earned recreation in a saved colony.
 
-`Tests/MANUAL.md` F01-F12 and F14 remain required acceptance scenarios for actual orphan
-buildings, seats, group reservations, third-party own-code detection, reassignment, tolerance
-transfer, and new/existing saves. They require named witness buildings/mods and cannot be
-truthfully replaced by a fabricated generic fixture. The saved-game handoff for F10-F12 and
-F14 is [Fixtures/README.md](Fixtures/README.md). Record a missing witness as BLOCKED.
+`Tests/MANUAL.md` F01 to F14 and `Tests/TAXONOMY.md` F15 to F19 are automated by features `06` to
+`34`, which need named witnesses: the witness mods in this folder (`OrphanWitness`,
+`OwnCodeWitness`, `RuleWitness`, `RemovalCheck`, `WitnessMod`) and, for F13/F19 and F16, real
+mods of the Workshop staged by their ids in the pass maps (`wsl-deps.*.map`). `Tests/MANUAL.md`
+has the map from each case to its feature and `TESTING.md` the pass of each ticket. Record a
+missing witness as BLOCKED, never as a pass.
+
+Features that need a restart are chains: the first scenario of a chain writes and the next
+launch reads, under one hold of the lock (`-Filter <first> -Then <next>,...`). The middle of a
+chain is a plain scenario; the last scenario of a chain carries `@joyrescue-restart-last`, which
+puts the settings backup back and deletes the saves the chain made. `RemovalCheck` is the one
+companion with its own steps: it runs in a launch that has no Joy Rescue. Run
+`Check-Steps.ps1` before filing a ticket: it compiles every pattern and matches every step line
+with no game.
 
 ## Evidence to keep
 
