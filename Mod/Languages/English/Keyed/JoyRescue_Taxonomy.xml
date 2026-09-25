@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
-  <JoyRescue.Taxonomy.Enable>Use the common recreation fix set (restart required)</JoyRescue.Taxonomy.Enable>
-  <JoyRescue.Taxonomy.Tooltip>Moves activities from other mods that sit in a poor recreation category into a better one, and adds three types (video games and simulations, creative recreation, sensory wellbeing), so colonists get more variety. Off by default, and it only affects the mods it knows. It applies at the next restart: save your settings first. Your manual choices win, and anything changed or shared is skipped and listed in the log report. Timings and rewards are kept. Turning it off restores the original categories at the next restart, but keeps the three types and the recreation tolerance already carried over.</JoyRescue.Taxonomy.Tooltip>
-  <JoyRescue.Taxonomy.Summary>Common fixes this session: {0} applied, {1} skipped (details in log report).</JoyRescue.Taxonomy.Summary>
+  <JoyRescue.Taxonomy.Enable>Move other mods' activities to better recreation types (restart required)</JoyRescue.Taxonomy.Enable>
+  <JoyRescue.Taxonomy.Tooltip>Moves activities from other mods that sit under a recreation type that does not suit them to a better one, and adds three types (video games and simulations, creative recreation, sensory wellbeing), so colonists get more variety. Off by default, and it only affects the mods it knows. It applies at the next restart: save your settings first. Your manual choices win, and anything changed or shared is skipped and listed in the log report. Timings and rewards are kept. Turning it off restores the original types at the next restart, but keeps the three types and the recreation tolerance already carried over.</JoyRescue.Taxonomy.Tooltip>
+  <JoyRescue.Taxonomy.Summary>Activities moved this session: {0}. Skipped: {1} (details in the log report).</JoyRescue.Taxonomy.Summary>
   <JoyRescue.Taxonomy.Video>video games and simulations</JoyRescue.Taxonomy.Video>
   <JoyRescue.Taxonomy.Creative>creative recreation</JoyRescue.Taxonomy.Creative>
   <JoyRescue.Taxonomy.Wellbeing>sensory wellbeing</JoyRescue.Taxonomy.Wellbeing>
-  <JoyRescue.Taxonomy.Reset>Reset activity settings and turn off the common fix set? Existing recreation types and their order will be retained for save compatibility. Restart to restore original assignments.</JoyRescue.Taxonomy.Reset>
+  <JoyRescue.Taxonomy.Reset>Reset activity settings and stop moving other mods' activities? Existing recreation types and their order will be retained for save compatibility. Restart to restore original assignments.</JoyRescue.Taxonomy.Reset>
 </LanguageData>

@@ -73,6 +73,7 @@ entry. Actual RIMMSQOL integration is pending in-game acceptance; see `Tests/MAN
 
 ## Common recreation fix set
 
+In the window this option reads "Move other mods' activities to better recreation types".
 An optional preset in **Mod options -> Joy Rescue** applies exact, guarded corrections
 at the next restart. It is off by default. Save settings before restarting. It
 reclassifies compatible activities together with their jobs and equipment, preserving

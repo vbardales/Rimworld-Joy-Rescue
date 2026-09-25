@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
-  <JoyRescue.Taxonomy.Enable>Utiliser les correctifs de loisirs communs (redémarrage requis)</JoyRescue.Taxonomy.Enable>
-  <JoyRescue.Taxonomy.Tooltip>Déplace des activités d'autres mods, rangées dans une catégorie de loisir peu adaptée, vers une meilleure, et ajoute trois types (jeux vidéo et simulations, création récréative, bien-être sensoriel) pour que les colons aient plus de variété. Désactivé par défaut, et sans effet en dehors des mods qu'il connaît. S'applique au prochain redémarrage : enregistrez d'abord vos réglages. Vos affectations manuelles sont prioritaires, et tout ce qui a changé ou qui est partagé est ignoré et listé dans le rapport au journal. Les durées et les gains sont conservés. Désactiver rétablit les catégories d'origine au redémarrage suivant, mais garde les trois types et la tolérance déjà transférée.</JoyRescue.Taxonomy.Tooltip>
-  <JoyRescue.Taxonomy.Summary>Correctifs communs de cette session : {0} appliqués, {1} ignorés (détails dans le journal).</JoyRescue.Taxonomy.Summary>
+  <JoyRescue.Taxonomy.Enable>Déplacer les activités d'autres mods vers de meilleurs types de loisir (redémarrage requis)</JoyRescue.Taxonomy.Enable>
+  <JoyRescue.Taxonomy.Tooltip>Déplace des activités d'autres mods, rangées sous un type de loisir qui ne leur convient pas, vers un meilleur type, et ajoute trois types (jeux vidéo et simulations, création récréative, bien-être sensoriel) pour que les colons aient plus de variété. Désactivé par défaut, et sans effet en dehors des mods qu'il connaît. S'applique au prochain redémarrage : enregistrez d'abord vos réglages. Vos affectations manuelles sont prioritaires, et tout ce qui a changé ou qui est partagé est ignoré et listé dans le rapport au journal. Les durées et les gains sont conservés. Désactiver rétablit les types d'origine au redémarrage suivant, mais garde les trois types et la tolérance déjà transférée.</JoyRescue.Taxonomy.Tooltip>
+  <JoyRescue.Taxonomy.Summary>Activités déplacées cette session : {0}. Ignorées : {1} (détails dans le journal).</JoyRescue.Taxonomy.Summary>
   <JoyRescue.Taxonomy.Video>jeux vidéo et simulations</JoyRescue.Taxonomy.Video>
   <JoyRescue.Taxonomy.Creative>création récréative</JoyRescue.Taxonomy.Creative>
   <JoyRescue.Taxonomy.Wellbeing>bien-être sensoriel</JoyRescue.Taxonomy.Wellbeing>
-  <JoyRescue.Taxonomy.Reset>Réinitialiser les activités et désactiver les correctifs communs ? Les types de loisirs existants et leur ordre seront conservés pour les sauvegardes. Redémarrez pour rétablir les affectations originales.</JoyRescue.Taxonomy.Reset>
+  <JoyRescue.Taxonomy.Reset>Réinitialiser les activités et arrêter de déplacer celles d'autres mods ? Les types de loisirs existants et leur ordre seront conservés pour les sauvegardes. Redémarrez pour rétablir les affectations originales.</JoyRescue.Taxonomy.Reset>
 </LanguageData>

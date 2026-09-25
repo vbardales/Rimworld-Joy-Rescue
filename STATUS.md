@@ -234,6 +234,13 @@ used to describe the mechanism. The checkbox label and the list layout are uncha
 files only, so the DLL is unchanged, and both offline suites still pass. No capture shows this tooltip
 yet: the pointer was never on it.
 
+The owner then said the checkbox label itself, "Use the common recreation fix set", meant nothing to them, so it
+was renamed after what the option does: "Move other mods' activities to better recreation types (restart
+required)". The summary line ("Activities moved this session: N. Skipped: M") and the reset question, which
+repeated the old name, follow, and the tooltip now says "type" where it said "category", the word the rest of
+the window uses. English and French, resource files only: the DLL is unchanged, and both suites pass. The name
+"common recreation fix set" stays in the documents as the name of the feature.
+
 `Tests/Pickle/` now supplies the development-only companion
 `nelim.joyrescue.pickletests`. Its minimal English/French feature covers the rendered Mod
 options dialog, default hidden/non-greyed shortcut, shortcut activation into the same dialog,
