@@ -158,7 +158,7 @@ Four small requests through the dispatcher's worker, one pass each, awaiting `RU
 | Request | Pass | Plays |
 | --- | --- | --- |
 | `20260924-205336-502-2da8` | minimal English, no filter | `01` (4 scenarios); `02` to `05` skip, their mods are not staged. **Done 2026-09-25: passed**, 4 played and passed, 6 skipped as expected, `exitReason` passed; both captures opened (see below) |
-| `20260924-205337-355-3d24` | minimal French, no filter | `01` (4 scenarios), to review for raw keys and clipping |
+| `20260924-205337-355-3d24` | minimal French, no filter | `01` (4 scenarios). **Done 2026-09-25: passed**, 4 played and passed, 6 skipped as expected, `exitReason` passed; both captures opened: fully translated, no raw key, nothing clipped |
 | `20260924-205338-490-f62b` | with RIMMSQOL, no filter | `01` and `02` (7 scenarios) |
 | `20260924-205339-283-e105` | F14 ur then chess, `04` then `05` | the reverse insertion order, two launches under one lock |
 
