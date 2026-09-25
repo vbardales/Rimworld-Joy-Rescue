@@ -25,9 +25,10 @@ workshop:     3806137974 (Joy Rescue 0.1.0, published by maintainer; public/subs
 remaining:
   - blocking (done -> tested), gates given by the owner on 2026-09-24: (1) no scenario left in
       @wip: MET, none of the 10 Pickle scenarios in the 5 features carries the tag;
-      (2) every conditional scenario has run: NOT MET. Of the 6 that carry a @requires tag, 03 and
-      05 have played and passed (2026-09-24, 05 after a test fix), and 04 and the three RIMMSQOL
-      scenarios of 02 have not played; the 4 unconditional ones of 01 have not played either;
+      (2) every conditional scenario has run: NOT MET, one scenario short. Of the 6 that carry a
+      @requires tag, 03 and 05 have played and passed (2026-09-24, 05 after a test fix) and the
+      three RIMMSQOL scenarios of 02 have too (2026-09-25); 04 has not played yet, its request is
+      queued. The 4 unconditional ones of 01 passed in three passes (2026-09-25);
       (3) no manual test left to validate, all green: NOT MET, F01-F14 in Tests/MANUAL.md and
       F15-F19 in Tests/TAXONOMY.md are all unexecuted. The stage stays done.
   - defect: the distributed About description lacks the mandatory IF I GO QUIET,
@@ -46,8 +47,11 @@ remaining:
   - unverified: common preset F15-F19 gameplay, translated layout, actual Harmony save-load hook and full mod-pack compatibility remain pending; see Tests/TAXONOMY.md.
   - unverified: execute MANUAL.md F01-F14 in RimWorld, including actual pawn behavior,
       logs, FR/EN UI, new game and existing save, settings persistence and shared activities.
-  - unverified: MainButtons reveal/hide/open and RIMMSQOL integration require the game
-      runtime; only the native definition/worker contract is verified off-game.
+  - unverified: the MainButtons shortcut and the RIMMSQOL integration passed in game on 2026-09-25
+      through the Pickle sandbox (absent by default, listed and revealed by RIMMSQOL, the revealed
+      button opens the same window, hiding restores the hidden state). Still open: the visibility
+      across a restart, which is RIMMSQOL's own contract, a real player's workflow, and the RIMMSQOL
+      version number, since only its Workshop item 1084452457 is known.
   - unverified: engine-specific mod-pack detection, full load/short hashes, save tolerance
       migration and log rendering are not certified by the isolated definition runner.
 session:      local_e3318eb0-b04f-4f8b-b01a-0d4188a56ee4
@@ -159,7 +163,7 @@ Four small requests through the dispatcher's worker, one pass each, awaiting `RU
 | --- | --- | --- |
 | `20260924-205336-502-2da8` | minimal English, no filter | `01` (4 scenarios); `02` to `05` skip, their mods are not staged. **Done 2026-09-25: passed**, 4 played and passed, 6 skipped as expected, `exitReason` passed; both captures opened (see below) |
 | `20260924-205337-355-3d24` | minimal French, no filter | `01` (4 scenarios). **Done 2026-09-25: passed**, 4 played and passed, 6 skipped as expected, `exitReason` passed; both captures opened: fully translated, no raw key, nothing clipped |
-| `20260924-205338-490-f62b` | with RIMMSQOL, no filter | `01` and `02` (7 scenarios) |
+| `20260924-205338-490-f62b` | with RIMMSQOL, no filter | `01` and `02` (7 scenarios). **Done 2026-09-25: passed**, 7 played and passed, 3 skipped as expected, `exitReason` passed; four captures opened, the shortcut is absent by default, listed and revealed by RIMMSQOL, and the revealed button opens the same window |
 | `20260924-205339-283-e105` | F14 ur then chess, `04` then `05` | the reverse insertion order, two launches under one lock |
 
 The chess-then-ur pair is not resubmitted: it passed on 2026-09-24 against this same delivered
