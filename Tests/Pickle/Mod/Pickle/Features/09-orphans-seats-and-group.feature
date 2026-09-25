@@ -66,13 +66,15 @@ Feature: watching wants a seat when the setting says so, and never over-reserves
     And no errors were logged
 
   @timeout:300
+  # The game asks whether the colonist's own cell, where they lie in the bed, is a watch cell: (140, 151) is one cell from
+  # the screen and is not, (140, 152) is.
   Scenario: a colonist lying in a bed inside the watch cells watches from it
     Given a colonist "Ada" exists
     And a "JoyRescueWitness_Screen" is built at (140, 150)
-    And a "Bed" is built at (140, 151)
+    And a "Bed" is built at (140, 152)
     And Joy Rescue: "Ada" is ready for recreation at any hour
     And game speed is ultrafast
-    When Joy Rescue: "Ada" lies down in the bed at x=140 z=151
+    When Joy Rescue: "Ada" lies down in the bed at x=140 z=152
     Then Joy Rescue: "Ada" in bed is offered the activity of the building at x=140 z=150, in the bed
     And no errors were logged
 
