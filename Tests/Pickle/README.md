@@ -84,7 +84,8 @@ and what stays before deleting.
 
 These captures are validation evidence and nothing else. They are taken by the harness in a sandbox
 colony, not in the nelimZen colony, so none of them goes to the Workshop gallery, whatever its quality.
-Gallery images are taken by hand in the nelimZen colony.
+Gallery images come from the nelimZen colony: by hand, or from a dedicated scenario in the
+`nelim-zen-meadow-studio` fixture (`PickleTools/ScreenshotStudio`).
 
 ## Waiting on a queued ticket
 

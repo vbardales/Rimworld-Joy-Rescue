@@ -37,24 +37,34 @@ remaining:
       AI-GENERATED (with actual tool names), THANKS, and attribution/license sections.
       Because the Workshop item already exists, correct the Steam description directly
       before its next update; changing About.xml alone cannot synchronize it.
+  - defect: ATTRIBUTION.md and the About say the showcase artwork was AI-generated without naming the tool, where
+      PUBLISHING.md asks for the real names. The owner knows which tool made the Preview and the icon. The code and
+      the documents were worked on with Claude Code, and with Codex before it.
   - defect: PUBLICATION.md is absent, so the capture order, adult-content decision,
       dependency/DLC declaration, release notes, and individualized thank-you messages
       were not recorded in the repository before publication.
-  - feature: gallery images are taken by hand in the nelimZen colony and never come from a Pickle run:
-      the test captures are validation evidence only, taken in a sandbox colony. Listed for the
-      publication handoff, next to the capture order that PUBLICATION.md should record.
-  - note: the owner's fail fast policy of 2026-09-25 (PUBLISHING.md) is not in force here yet: it applies once
-      the owner judges the work serene enough. It publishes after the dry run and the approval, runs the
-      remaining tests, and on a red publishes a rollback, a new version whose ref is the last good SHA. The
-      target has to be chosen before publishing. Candidate for the next version: `b1eb0d1`, whose Mod/ is the
-      published 0.1.0 (same DLL blob as `6695ae3`, only CHANGELOG.md differs) and which carries the in-game
-      passes on that DLL. To be chosen again at the time.
+  - feature: the Workshop gallery images come from the nelimZen colony, by hand or from a dedicated Pickle scenario
+      in the nelim-zen-meadow-studio fixture (AUDIT.md), never from the test passes, whose captures are validation
+      evidence taken in a sandbox colony. Listed for the publication handoff, next to the capture order that
+      PUBLICATION.md should record.
+  - note: fail fast (AUDIT.md and PUBLISHING.md, 2026-09-25). AUDIT.md writes it as in force for the 1.0.0 of an
+      item created by a 0.1.0 prepublication, which is this item. The owner said it would apply once she judges the
+      work serene enough: an open question, to settle before the 1.0.0. If it applies, publish once no scenario is
+      red without a green replay, after the Workshop gallery and the owner's manual validations, behind a dry run of
+      the exact SHA. The non-regression pass then runs after publication and a red means a rollback, a new version
+      whose ref is the last good SHA. The target is chosen before publishing, and a tag marks each good version so
+      the next has one: this item has none. Candidate: `b1eb0d1`, whose Mod/ is the published 0.1.0 (same DLL blob
+      as `6695ae3`, only CHANGELOG.md differs) with the in-game passes on that DLL.
   - unverified: 0.1.0 has no Git tag and no GitHub release. main was pushed on 2026-09-24
       (de013c4 is on origin/main, with the `## [0.1.0]` section of CHANGELOG.md that the CI
       reads for the release notes). The CI creates the tag and the release after a successful
       upload; until then the Workshop item cannot be matched to a release.
   - unverified: self-subscription to Workshop item 3806137974 and its public visibility
       were reported by the maintainer but were not independently observed in this audit.
+  - unverified: the French rendering of the View button, the renamed fix set option, its summary line and its
+      rewritten tooltip has never been seen in game: the French pass ran on an earlier build. No capture shows any
+      activity or checkbox tooltip either, the pointer never being on one; PickleTools' HoverSteps can hover a tooltip
+      and assert it (TRANSLATIONS.md, PickleTools/README.md).
   - unverified: common preset F15-F19 gameplay, translated layout, actual Harmony save-load hook and full mod-pack compatibility remain pending; see Tests/TAXONOMY.md.
   - unverified: execute MANUAL.md F01-F14 in RimWorld, including actual pawn behavior,
       logs, FR/EN UI, new game and existing save, settings persistence and shared activities.
@@ -66,13 +76,16 @@ remaining:
   - unverified: engine-specific mod-pack detection, full load/short hashes, save tolerance
       migration and log rendering are not certified by the isolated definition runner.
 session:      local_e3318eb0-b04f-4f8b-b01a-0d4188a56ee4
-updated:      2026-09-25, final pass read in part, tooltip name removed (new DLL); stage done retained
+updated:      2026-09-25, docs read (docs/PROTOCOLS-READ.md), TESTING.md written; stage done retained
 ---
 
 # Joy Rescue — status
 
 Kept at the root, never inside `Mod/`, so Steam never receives it. Maintained by the session
 that holds this mod, not by the sweep that first wrote it.
+
+The protocol documents this mod is worked under, and the version of each that was read, are in
+`docs/PROTOCOLS-READ.md`. How it is tested, pass by pass, is in `TESTING.md`.
 
 ## Ordered workflow audit — 2026-09-22
 
