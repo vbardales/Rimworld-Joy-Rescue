@@ -106,7 +106,10 @@ pawns do not receive a legacy transfer on their first reload. This has automated
 evidence; complete existing-save/gameplay validation remains pending.
 
 Removing Joy Rescue can lose a generated job currently being performed and removes
-its custom type definitions. Do not interpret offline tests as certification for every
+its custom type definitions. A colonist who was in the middle of one of its activities when the
+game was saved cannot run it without the mod: the game logs errors for them, about a hundred and
+fifty a second, until they are given an order (drafting them is enough). Nothing else is affected,
+and the colony and its tolerances load normally. Do not interpret offline tests as certification for every
 mod-list change or saved colony. See Tests/TAXONOMY.md for the precise scope.
 
 ## Licence

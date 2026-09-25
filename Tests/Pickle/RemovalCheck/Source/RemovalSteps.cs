@@ -101,35 +101,77 @@ namespace JoyRescue.RemovalCheck
             await ctx.WaitTicks(ticks);
         }
 
-        // The errors a load without the mod is allowed to log are the ones about what the mod supplied, and the
-        // ones of the colonist who was in the middle of its job: the game cannot rebuild a job whose definition
-        // is gone, and says so each tick until it drops it. Any other error is a save the removal broke.
-        [Then("Joy Rescue removal: every error logged concerns the removed mod or the job of {string}")]
-        public void AssertErrorsConcernTheMod(PickleContext ctx, string name)
+        // What the game logs is counted here as it is logged: Log.Messages keeps the last thousand only, and a
+        // colonist whose job is gone logs a hundred and fifty a second, so a count read from it stops growing.
+        private static readonly object TapLock = new object();
+        private static bool tapping;
+        private static int errorTotal;
+        private static int errorsWhenCounted;
+        private static readonly System.Collections.Generic.List<string> UnrelatedErrors = new System.Collections.Generic.List<string>();
+        private static string relatedName = "";
+
+        private static void OnLog(string text, string stack, UnityEngine.LogType type)
         {
-            var errors = Log.Messages.Where(m => m.type == LogMessageType.Error).Select(m => m.text).ToList();
-            var others = errors.Where(e => e.IndexOf("JoyRescue", StringComparison.OrdinalIgnoreCase) < 0
-                                           && e.IndexOf("Joy Rescue", StringComparison.OrdinalIgnoreCase) < 0
-                                           && e.IndexOf(name, StringComparison.Ordinal) < 0).ToList();
-            Log.Message($"[Joy Rescue removal] {errors.Count} error(s) logged, {errors.Count - others.Count} about the removed mod or {name}");
-            ctx.Assert(others.Count == 0, $"{others.Count} of {errors.Count} errors do not concern the removed mod or {name}. First: "
-                + (others.FirstOrDefault() ?? "").Split('\n')[0]);
+            if (type != UnityEngine.LogType.Error && type != UnityEngine.LogType.Exception) return;
+            lock (TapLock)
+            {
+                errorTotal++;
+                var related = text.IndexOf("JoyRescue", StringComparison.OrdinalIgnoreCase) >= 0
+                              || text.IndexOf("Joy Rescue", StringComparison.OrdinalIgnoreCase) >= 0
+                              || (relatedName.Length > 0 && text.IndexOf(relatedName, StringComparison.Ordinal) >= 0);
+                if (!related && UnrelatedErrors.Count < 5) UnrelatedErrors.Add(text.Split('\n')[0]);
+            }
         }
 
-        private static int errorsWhenCounted;
+        [Given("Joy Rescue removal: the errors of this launch are being watched for the job of {string}")]
+        public void WatchErrors(PickleContext ctx, string name)
+        {
+            lock (TapLock)
+            {
+                errorTotal = 0; errorsWhenCounted = 0; UnrelatedErrors.Clear(); relatedName = name;
+                if (!tapping) { UnityEngine.Application.logMessageReceivedThreaded += OnLog; tapping = true; }
+            }
+        }
 
-        private static int ErrorCount() => Log.Messages.Count(m => m.type == LogMessageType.Error);
+        // The errors a load without the mod is allowed to log are the ones about what the mod supplied, and the
+        // ones of the colonist who was in the middle of its job: the game cannot rebuild a job whose definition
+        // is gone. Any other error is a save the removal broke.
+        [Then("Joy Rescue removal: every error logged concerns the removed mod or that job")]
+        public void AssertErrorsConcernTheMod(PickleContext ctx)
+        {
+            lock (TapLock)
+            {
+                Log.Message($"[Joy Rescue removal] {errorTotal} error(s) logged, {UnrelatedErrors.Count} unrelated");
+                ctx.Assert(UnrelatedErrors.Count == 0, $"{UnrelatedErrors.Count} errors do not concern the removed mod or {relatedName}'s job. First: {UnrelatedErrors.FirstOrDefault()}");
+            }
+        }
 
         [When("Joy Rescue removal: the errors logged so far are counted")]
-        public void CountErrors(PickleContext ctx) => errorsWhenCounted = ErrorCount();
+        public void CountErrors(PickleContext ctx) { lock (TapLock) errorsWhenCounted = errorTotal; }
 
-        // The loss is bounded in time: once the game has dropped the job, it logs nothing more.
         [Then("Joy Rescue removal: no error has been logged since they were counted")]
         public void AssertNoNewErrors(PickleContext ctx)
         {
-            var now = ErrorCount();
-            ctx.Assert(now == errorsWhenCounted, $"{now - errorsWhenCounted} errors were logged after the job was dropped; the last: "
-                + (Log.Messages.LastOrDefault(m => m.type == LogMessageType.Error)?.text ?? "").Split('\n')[0]);
+            lock (TapLock)
+                ctx.Assert(errorTotal == errorsWhenCounted, $"{errorTotal - errorsWhenCounted} errors were logged since the count");
+        }
+
+        // What a player does with a colonist stuck in a job that cannot run: give them an order. Drafting ends the
+        // job they were in; released, they go back to their day.
+        [When("Joy Rescue removal: {string} is drafted and released")]
+        public async Task DraftAndRelease(PickleContext ctx, string name)
+        {
+            var pawn = PawnNamed(ctx, name);
+            ctx.Require(pawn.drafter != null, $"{name} cannot be drafted");
+            try { pawn.drafter.Drafted = true; }
+            catch (Exception e)
+            {
+                Log.Message($"[Joy Rescue removal] drafting {name} threw {e.GetType().Name}; the job is stopped directly instead");
+                try { pawn.jobs.StopAll(); } catch (Exception) { }
+            }
+            await ctx.WaitTicks(30);
+            try { pawn.drafter.Drafted = false; } catch (Exception) { }
+            await ctx.WaitTicks(30);
         }
         [When("Joy Rescue removal: the game is saved as {string}")]
         public void SaveGame(PickleContext ctx, string name)
