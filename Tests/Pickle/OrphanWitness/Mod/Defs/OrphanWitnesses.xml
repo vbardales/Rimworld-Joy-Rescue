@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <!-- Three buildings that carry a recreation type and are served by no JoyGiverDef: the case Joy
+       Rescue exists for. Each one stands for one way of reaching it, which the mod chooses from the
+       shape of the def and never from its name:
+         RelayConsole  has an interaction cell           -> interaction cell
+         Screen        is a Television                   -> watch
+         Table         has neither                       -> sit adjacent
+       They use textures of the base game and need no stuff, so a test can place them as they are.
+       Their kinds differ (Gaming_Dexterity, Television, Gaming_Cerebral) so that a scenario can tell
+       which type a colonist was credited with. -->
+  <ThingDef ParentName="BuildingBase">
+    <defName>JoyRescueWitness_RelayConsole</defName>
+    <label>witness relay console</label>
+    <description>Test witness: a recreation building with an interaction cell that no giver serves.</description>
+    <graphicData>
+      <texPath>Things/Building/Joy/Telescope</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawRotated>false</drawRotated>
+    </graphicData>
+    <altitudeLayer>Building</altitudeLayer>
+    <hasInteractionCell>true</hasInteractionCell>
+    <interactionCellOffset>(0,0,1)</interactionCellOffset>
+    <passability>PassThroughOnly</passability>
+    <pathCost>30</pathCost>
+    <fillPercent>0.15</fillPercent>
+    <socialPropernessMatters>true</socialPropernessMatters>
+    <statBases>
+      <MaxHitPoints>75</MaxHitPoints>
+      <Flammability>1.0</Flammability>
+      <JoyGainFactor>1.2</JoyGainFactor>
+    </statBases>
+    <building>
+      <joyKind>Gaming_Dexterity</joyKind>
+    </building>
+  </ThingDef>
+
+  <!-- Four watch cells and no more: one cell in each direction, two cells away. That is what makes
+       "the group is bigger than the room for it" a fact a scenario can arrange (F03). -->
+  <ThingDef ParentName="BuildingBase">
+    <defName>JoyRescueWitness_Screen</defName>
+    <label>witness screen</label>
+    <description>Test witness: a television-type building that no giver serves, watched from four cells.</description>
+    <graphicData>
+      <texPath>Things/Building/Joy/TubeTelevision</texPath>
+      <graphicClass>Graphic_Multi</graphicClass>
+    </graphicData>
+    <altitudeLayer>Building</altitudeLayer>
+    <rotatable>false</rotatable>
+    <passability>PassThroughOnly</passability>
+    <pathCost>42</pathCost>
+    <fillPercent>0.40</fillPercent>
+    <socialPropernessMatters>true</socialPropernessMatters>
+    <statBases>
+      <MaxHitPoints>100</MaxHitPoints>
+      <Flammability>1.0</Flammability>
+      <JoyGainFactor>1.2</JoyGainFactor>
+    </statBases>
+    <building>
+      <joyKind>Television</joyKind>
+      <watchBuildingStandDistanceRange>2~2</watchBuildingStandDistanceRange>
+      <watchBuildingStandRectWidth>1</watchBuildingStandRectWidth>
+      <watchBuildingInSameRoom>false</watchBuildingInSameRoom>
+    </building>
+  </ThingDef>
+
+  <ThingDef ParentName="BuildingBase">
+    <defName>JoyRescueWitness_Table</defName>
+    <label>witness table</label>
+    <description>Test witness: a game table that no giver serves, played from an adjacent cell.</description>
+    <graphicData>
+      <texPath>Things/Building/Joy/ChessTable</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <altitudeLayer>Building</altitudeLayer>
+    <rotatable>false</rotatable>
+    <passability>PassThroughOnly</passability>
+    <pathCost>30</pathCost>
+    <fillPercent>0.40</fillPercent>
+    <socialPropernessMatters>true</socialPropernessMatters>
+    <statBases>
+      <MaxHitPoints>100</MaxHitPoints>
+      <Flammability>1.0</Flammability>
+      <JoyGainFactor>1</JoyGainFactor>
+    </statBases>
+    <building>
+      <joyKind>Gaming_Cerebral</joyKind>
+    </building>
+  </ThingDef>
+</Defs>

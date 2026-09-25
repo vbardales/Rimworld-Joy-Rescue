@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ModMetaData>
+  <name>Joy Rescue - orphan witnesses</name>
+  <author>Nelim</author>
+  <packageId>nelim.joyrescue.orphanwitness</packageId>
+  <supportedVersions><li>1.6</li></supportedVersions>
+  <description>Development-only buildings for Joy Rescue's acceptance cases: three recreation buildings that no giver serves, one for each way of reaching a building. No code, no giver, no job. Never published.</description>
+  <loadAfter><li>nelim.joyrescue</li></loadAfter>
+</ModMetaData>

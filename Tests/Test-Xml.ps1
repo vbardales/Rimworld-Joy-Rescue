@@ -127,6 +127,12 @@ Check 'Translation call arguments satisfy resource placeholders' {
         }
     }
 }
+Check 'The activity tooltip is the activity name alone in both languages' {
+    Require ($catalogs.Count -eq 2) 'Catalog loading failed'
+    foreach ($language in @('English', 'French')) {
+        Require ($catalogs[$language]['JoyRescue.Settings.GiverTip'] -ceq '{0}') "$language GiverTip must be exactly {0}: the row tooltip is the activity name, nothing else"
+    }
+}
 Check 'Optional settings shortcut and native French injection paths' {
     $button = (Read-SafeXml "$repo/Mod/Defs/MainButtonDefs/JoyRescue.xml").Defs.MainButtonDef
     Require ($button.defName -ceq 'JoyRescue_Settings') 'Unexpected shortcut identity'
