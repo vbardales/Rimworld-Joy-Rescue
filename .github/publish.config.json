@@ -1,0 +1,14 @@
+{
+  "templateStamp": "a8ca11cdd9a3",
+  "workshopId": "3806137974",
+  "packageId": "nelim.joyrescue",
+  "releaseTitle": "Joy Rescue {version}",
+  "requirePaths": [
+    "Assemblies/JoyRescue.dll"
+  ],
+  "forbidPaths": [],
+  "previewFile": "About/Preview.png",
+  "build": {
+    "project": "Source/JoyRescue.csproj"
+  }
+}
