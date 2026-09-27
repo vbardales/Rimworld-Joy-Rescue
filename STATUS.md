@@ -77,6 +77,15 @@ updated:      2026-09-25, docs read (docs/PROTOCOLS-READ.md), TESTING.md written
 
 # Joy Rescue — status
 
+## Note from the CI/CD session — 2026-09-27
+
+The manual publish workflow (`publish-tag.yml`) is now in place. **No description source
+configured**: `PUBLICATION.md` still uses the old `## Description` / BBCode heading rather than
+the `## Steam description` Markdown-block standard, so `update_description` is left unconfigured.
+`build`/`tag`/`publish`/`update_preview`/`update_title`/`update_tags` all work as-is; description
+automation needs that block written first, then the workflow regenerated with
+`--description-markdown`.
+
 Kept at the root, never inside `Mod/`, so Steam never receives it. Maintained by the session
 that holds this mod, not by the sweep that first wrote it.
 
