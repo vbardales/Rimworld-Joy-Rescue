@@ -109,13 +109,6 @@ namespace JoyRescue.RemovalCheck
         private static int errorsWhenCounted;
         private static readonly System.Collections.Generic.List<string> UnrelatedErrors = new System.Collections.Generic.List<string>();
         private static string relatedName = "";
-        private static DateTime lastRelatedAt = DateTime.MinValue;
-
-        // The game itself wraps a failed job's exception in a second, separate log line ("Could not do
-        // PostLoadInit on ...") that does not repeat the pawn's name or the mod's. It is not a second, distinct
-        // error: it is the engine's own echo of the one just above, logged a few milliseconds later. Anything
-        // that close behind a related error, and that reads as that same kind of echo, is related too.
-        private static readonly TimeSpan EchoWindow = TimeSpan.FromMilliseconds(500);
 
         private static void OnLog(string text, string stack, UnityEngine.LogType type)
         {
@@ -123,14 +116,9 @@ namespace JoyRescue.RemovalCheck
             lock (TapLock)
             {
                 errorTotal++;
-                var now = DateTime.UtcNow;
                 var related = text.IndexOf("JoyRescue", StringComparison.OrdinalIgnoreCase) >= 0
                               || text.IndexOf("Joy Rescue", StringComparison.OrdinalIgnoreCase) >= 0
-                              || (relatedName.Length > 0 && text.IndexOf(relatedName, StringComparison.Ordinal) >= 0)
-                              || ((text.IndexOf("PostLoadInit", StringComparison.Ordinal) >= 0
-                                   || text.IndexOf("JobDriver", StringComparison.Ordinal) >= 0)
-                                  && now - lastRelatedAt <= EchoWindow);
-                if (related) lastRelatedAt = now;
+                              || (relatedName.Length > 0 && text.IndexOf(relatedName, StringComparison.Ordinal) >= 0);
                 if (!related && UnrelatedErrors.Count < 5) UnrelatedErrors.Add(text.Split('\n')[0]);
             }
         }
@@ -140,7 +128,7 @@ namespace JoyRescue.RemovalCheck
         {
             lock (TapLock)
             {
-                errorTotal = 0; errorsWhenCounted = 0; UnrelatedErrors.Clear(); relatedName = name; lastRelatedAt = DateTime.MinValue;
+                errorTotal = 0; errorsWhenCounted = 0; UnrelatedErrors.Clear(); relatedName = name;
                 if (!tapping) { UnityEngine.Application.logMessageReceivedThreaded += OnLog; tapping = true; }
             }
         }
