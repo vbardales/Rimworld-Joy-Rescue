@@ -566,7 +566,7 @@ namespace JoyRescue
             // on an action than on a piece of information you rarely consult.
             var kindRect = new Rect(rightEdge - KindColumnWidth, rect.y + 2f,
                 KindColumnWidth, rect.height - 4f);
-            if (Widgets.ButtonText(kindRect, CurrentKindLabel(entry)))
+            if (KindButton(kindRect, PendingKind(entry), KindName(entry.joyKind)))
             {
                 OpenKindMenu(entry);
             }
@@ -629,14 +629,28 @@ namespace JoyRescue
         /// otherwise the real type. A reassignment only takes effect on the next startup, so we
         /// have to show the intent and not the state, or the button looks like it does nothing.
         /// </summary>
-        private static TaggedString CurrentKindLabel(RescueEntry entry)
+        private static string PendingKind(RescueEntry entry)
         {
-            if (Settings.kindOverrides.TryGetValue(entry.Key, out var wanted)
-                && wanted != entry.joyKind.defName)
-            {
-                return "JoyRescue.Settings.KindPending".Translate(KindNameByDefName(wanted));
-            }
-            return (TaggedString)KindName(entry.joyKind);
+            return Settings.kindOverrides.TryGetValue(entry.Key, out var wanted)
+                && wanted != entry.joyKind.defName ? wanted : null;
+        }
+
+        /// <summary>
+        /// The reassignment button. The name of a custom type is typed by the player and the button is narrow, so
+        /// the name is cut with an ellipsis to fit, never clipped on both sides. A reassignment that waits for a
+        /// restart is tinted yellow; the tooltip carries the full name and, when pending, the restart notice.
+        /// </summary>
+        private static bool KindButton(Rect rect, string pendingDefName, string currentName)
+        {
+            var pending = pendingDefName != null;
+            var full = pending ? KindNameByDefName(pendingDefName) : currentName;
+            var label = full.Truncate(rect.width - 16f);
+            if (pending) GUI.color = new Color(1f, 0.92f, 0.5f);
+            var clicked = Widgets.ButtonText(rect, label);
+            GUI.color = Color.white;
+            if (pending) TooltipHandler.TipRegion(rect, "JoyRescue.Settings.KindPending".Translate(full));
+            else if (label != full) TooltipHandler.TipRegion(rect, full);
+            return clicked;
         }
 
         /// <summary>
@@ -866,14 +880,10 @@ namespace JoyRescue
             return s.NullOrEmpty() ? giver.defName : s.CapitalizeFirst();
         }
 
-        private static TaggedString CurrentGiverKindLabel(JoyGiverDef giver)
+        private static string PendingGiverKind(JoyGiverDef giver)
         {
-            if (Settings.giverKindOverrides.TryGetValue(giver.defName, out var wanted)
-                && wanted != giver.joyKind?.defName)
-            {
-                return "JoyRescue.Settings.KindPending".Translate(KindNameByDefName(wanted));
-            }
-            return (TaggedString)KindName(giver.joyKind);
+            return Settings.giverKindOverrides.TryGetValue(giver.defName, out var wanted)
+                && wanted != giver.joyKind?.defName ? wanted : null;
         }
 
         private void OpenGiverKindMenu(JoyGiverDef giver)
@@ -924,7 +934,7 @@ namespace JoyRescue
 
             var kindRect = new Rect(rect.xMax - KindColumnWidth - 4f, rect.y + 2f,
                 KindColumnWidth, rect.height - 4f);
-            if (Widgets.ButtonText(kindRect, CurrentGiverKindLabel(giver)))
+            if (KindButton(kindRect, PendingGiverKind(giver), KindName(giver.joyKind)))
             {
                 OpenGiverKindMenu(giver);
             }

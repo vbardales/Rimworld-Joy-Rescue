@@ -10,7 +10,11 @@
 - Add a View button to the settings window that arranges the list under each type either as each activity
   followed by the buildings it serves, or as each building followed by the activities that serve it.
   Orphaned buildings, and activities that serve no building, come last in both. The choice is saved.
-
+- Deleting a recreation type no longer changes the tolerances of the types created after it: the deleted type is
+  retired, inert and listed nowhere, instead of removed from the game's list of types.
+- The fix set no longer skips a building that names no recreation type, such as the piano of a music mod.
+- The reassignment button cuts a long type name with an ellipsis instead of clipping it on both sides, and is tinted
+  yellow while the change waits for a restart; the tooltip carries the full name and the restart notice.
 ## [0.1.0] - 2026-09-22
 
 - Create the `PublishedFileId.txt` file (Workshop item 3806137974) for the pre-published item.
