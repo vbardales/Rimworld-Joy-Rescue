@@ -10,6 +10,7 @@ detached:     yes
 stage:        done
 licence:      original
 licence_at:   original work, MIT
+upstream_mod_remotes: N/A
 license_spdx: MIT
 license_files: LICENSE, Mod/LICENSE
 dependencies: declared
