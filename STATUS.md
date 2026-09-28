@@ -30,8 +30,14 @@ remaining:
       with 05 (2026-09-25). The first 4 unconditional ones of 01 passed in three passes; the fifth, added on 2026-09-25 for the
       list arrangement, passed the same day. Most of it ran on earlier builds: the reverse F14 order on the DLL of `db92aef`, and the
       English pass on the newest build, all five scenarios of 01, on 2026-09-25;
-      (3) no manual test left to validate, all green: NOT MET, F01-F14 in Tests/MANUAL.md and
-      F15-F19 in Tests/TAXONOMY.md are all unexecuted. The stage stays done.
+      (3) no manual test left to validate, all green: MET on 2026-09-28. F01-F14 (Tests/MANUAL.md) and F15-F19
+      (Tests/TAXONOMY.md) are automated and passed on tree `b1dfb84` (F11's removal check at `9b8a21a`,
+      a test-filter fix); see TESTING.md and docs/runs/README.md. Not applicable, with the reason: the
+      third-party group-reservation mod of F03 (none known, agreed with the owner) and the click on the
+      source link of F12 (address and BBCode asserted instead).
+  - blocking (done -> tested): the owner decides on BUGS.md, the reassignment button that clips a long
+      pending type name (seen on the F07 and F10 captures). Fixing it changes the DLL and replays the wave.
+      The stage stays done until she decides.
   - resolved 2026-09-25 in the repository: About.xml carries IF I GO QUIET, AI-GENERATED (Codex, Claude Code, DALL-E),
       THANKS and the attribution line before the source link. The page still carries the text 0.1.0 was created with:
       the 1.0.0 publish replaces it with `update_description` (PUBLICATION.md, Description).
@@ -57,22 +63,17 @@ remaining:
       upload; until then the Workshop item cannot be matched to a release.
   - unverified: self-subscription to Workshop item 3806137974 and its public visibility
       were reported by the maintainer but were not independently observed in this audit.
-  - unverified: the French rendering of the View button, the renamed fix set option, its summary line and its
-      rewritten tooltip has never been seen in game: the French pass ran on an earlier build. No capture shows any
-      activity or checkbox tooltip either, the pointer never being on one; PickleTools' HoverSteps can hover a tooltip
-      and assert it (TRANSLATIONS.md, PickleTools/README.md).
-  - unverified: common preset F15-F19 gameplay, translated layout, actual Harmony save-load hook and full mod-pack compatibility remain pending; see Tests/TAXONOMY.md.
-  - unverified: execute MANUAL.md F01-F14 in RimWorld, including actual pawn behavior,
-      logs, FR/EN UI, new game and existing save, settings persistence and shared activities.
-  - unverified: the MainButtons shortcut and the RIMMSQOL integration passed in game on 2026-09-25
-      through the Pickle sandbox (absent by default, listed and revealed by RIMMSQOL, the revealed
-      button opens the same window, hiding restores the hidden state). Still open: the visibility
-      across a restart, which is RIMMSQOL's own contract, a real player's workflow, and the RIMMSQOL
-      version number, since only its Workshop item 1084452457 is known.
+  - resolved 2026-09-28: the French View button, the renamed fix set option and the tooltips (English and French,
+      HoverSteps) were seen on tree `b1dfb84` (tooltips 06, final French pass).
+  - resolved 2026-09-28: F01-F19 executed in game (pawn behaviour, logs, FR/EN UI, existing saves, persistence,
+      shared activities, the fix set, removal and addition); see TESTING.md.
+  - resolved 2026-09-28: the RIMMSQOL shortcut passed across restarts (F13, F19). RIMMSQOL is Workshop item
+      1084452457, no version number; the build is `1.6/Assemblies/RIMMSqol.dll`, 1,822,720 bytes, SHA-256
+      starting `1152b0c198d34d4b`.
   - unverified: engine-specific mod-pack detection, full load/short hashes, save tolerance
       migration and log rendering are not certified by the isolated definition runner.
 session:      local_e3318eb0-b04f-4f8b-b01a-0d4188a56ee4
-updated:      2026-09-25, docs read (docs/PROTOCOLS-READ.md), TESTING.md written; stage done retained
+updated:      2026-09-28, third acceptance wave on b1dfb84 green, F01-F19 automated; stage done retained pending BUGS.md
 ---
 
 # Joy Rescue — status
@@ -244,7 +245,7 @@ and the executable suite is now 127 of 127. Breaking the layout on purpose in fo
 the fourth, a building served by two activities, only after a case for it was added.
 
 The delivered DLL changes again, to SHA-256 1698F5EC96A5803294F93DA800975E6BB0818A61DB48A18BA7634CDC5424971B.
-Feature  1 gets a fifth scenario that sets the arrangement to buildings, opens the real dialog, takes a
+Feature 1 gets a fifth scenario that sets the arrangement to buildings, opens the real dialog, takes a
 capture and checks the log. The English request 20260925-110815-202-dd64, on the previous layout, was
 withdrawn before it ran and replaced by 20260925-112444-031-0c17, which plays all five. It ran on 2026-09-25 and
 **passed**: five played and passed, six skipped as designed, three captures opened (docs/runs/README.md has
