@@ -31,14 +31,18 @@ remaining:
       with 05 (2026-09-25). The first 4 unconditional ones of 01 passed in three passes; the fifth, added on 2026-09-25 for the
       list arrangement, passed the same day. Most of it ran on earlier builds: the reverse F14 order on the DLL of `db92aef`, and the
       English pass on the newest build, all five scenarios of 01, on 2026-09-25;
-      (3) no manual test left to validate, all green: MET on 2026-09-28. F01-F14 (Tests/MANUAL.md) and F15-F19
-      (Tests/TAXONOMY.md) are automated and passed on tree `b1dfb84` (F11's removal check at `9b8a21a`,
-      a test-filter fix); see TESTING.md and docs/runs/README.md. Not applicable, with the reason: the
-      third-party group-reservation mod of F03 (none known, agreed with the owner) and the click on the
-      source link of F12 (address and BBCode asserted instead).
-  - blocking (done -> tested): the owner decides on BUGS.md, the reassignment button that clips a long
-      pending type name (seen on the F07 and F10 captures). Fixing it changes the DLL and replays the wave.
-      The stage stays done until she decides.
+      (3) no manual test left to validate, all green: MET on 2026-09-29. F01-F14 (Tests/MANUAL.md) and F15-F19
+      (Tests/TAXONOMY.md) are automated and passed on tree `0f7a731`, the build carrying the reassignment-button
+      fix (F11's removal check at `9b8a21a`, a test-filter fix, replays on it too); see TESTING.md and
+      docs/runs/README.md. Not applicable, with the reason: the third-party group-reservation mod of F03
+      (none known, agreed with the owner) and the click on the source link of F12 (address and BBCode
+      asserted instead).
+  - resolved 2026-09-29: the reassignment button that clipped a long pending type name (BUGS.md,
+      seen on the F07 and F10 captures of tree `b1dfb84`) is fixed: the name is cut with an ellipsis,
+      the button tints yellow while pending, the tooltip carries the full name and the restart notice.
+      The third wave replayed in full on the new build, tree `0f7a731`, 25 requests through the
+      dispatcher: every scenario passed, every `@review` capture opened, no new defect. See
+      docs/runs/README.md.
   - resolved 2026-09-25 in the repository: About.xml carries IF I GO QUIET, AI-GENERATED (Codex, Claude Code, DALL-E),
       THANKS and the attribution line before the source link. The page still carries the text 0.1.0 was created with:
       the 1.0.0 publish replaces it with `update_description` (PUBLICATION.md, Description).
@@ -74,7 +78,8 @@ remaining:
   - unverified: engine-specific mod-pack detection, full load/short hashes, save tolerance
       migration and log rendering are not certified by the isolated definition runner.
 session:      local_e3318eb0-b04f-4f8b-b01a-0d4188a56ee4
-updated:      2026-09-28, third acceptance wave on b1dfb84 green, F01-F19 automated; stage done retained pending BUGS.md
+updated:      2026-09-29, third acceptance wave replayed in full on 0f7a731 after the button fix, all green;
+      BUGS.md item resolved, no defect left blocking done -> tested
 ---
 
 # Joy Rescue — status
