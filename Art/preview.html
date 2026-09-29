@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en"><meta charset="utf-8"><title>Joy Rescue Preview</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:896px;height:504px;overflow:hidden;font-family:"Segoe UI",system-ui,sans-serif}
+.scene,.veil{position:absolute;inset:0;width:896px;height:504px}
+.scene{object-fit:cover}
+.copy{position:absolute;left:50px;top:54px;color:var(--inkPrimary);text-shadow:0 3px 10px rgba(0,0,0,.75)}
+h1{font-size:var(--titleSize);font-weight:600;line-height:1.1;letter-spacing:0}
+.tag{margin-top:8px;font-size:24px;font-weight:400;line-height:1.1;letter-spacing:.2px;color:var(--inkSecondary)}
+.rule{width:58px;height:3px;background:var(--accent);margin-top:20px;margin-bottom:16px}
+.summary{width:430px;font-size:21px;font-weight:400;line-height:1.45;letter-spacing:0}
+.badge{position:absolute;right:0;top:0;width:80px;height:80px;background:var(--accent);clip-path:polygon(0 0,100% 0,100% 100%)}
+.version{position:absolute;left:869px;top:27px;transform:translate(-50%,-50%) rotate(45deg);font-size:26px;font-weight:700;line-height:1;color:var(--badgeInk);text-shadow:none}
+.icon{position:absolute;left:-30px;bottom:-30px}
+</style>
+<img class="scene" src="Preview-source.png"><div class="veil"></div>
+<main class="copy"><h1></h1><p class="tag" hidden></p><div class="rule"></div><p class="summary"></p></main>
+<div class="badge"></div><div class="version"></div>
+<img class="icon" src="ModIcon-corner.png">
+<script>
+window.ready=(async()=>{
+ const [p,l]=await Promise.all(['preview-palette.json','preview-layout.json'].map(f=>fetch(f).then(r=>r.json())));
+ for(const [k,v] of Object.entries(p))document.documentElement.style.setProperty('--'+k,v);
+ document.documentElement.style.setProperty('--titleSize',l.titleSize+'px');
+ const rgb=p.veil.match(/\w\w/g).map(x=>parseInt(x,16)).join(',');
+ document.querySelector('.veil').style.background=`radial-gradient(circle at 0% 0%,rgba(${rgb},${l.veilStartAlpha}) 0%,rgba(${rgb},0) ${l.veilEndPercent}%)`;
+ document.querySelector('h1').textContent=l.title;
+ document.querySelector('.summary').textContent=l.summary;
+ document.querySelector('.version').textContent=l.version;
+ if(l.tag){document.querySelector('.tag').hidden=false;document.querySelector('.tag').textContent=l.tag;}
+ await document.fonts.ready;
+ await document.querySelector('.scene').decode();
+ await document.querySelector('.icon').decode();
+})();
+</script></html>

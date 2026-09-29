@@ -1,0 +1,59 @@
+{
+  "fonts": {
+    "h1": [
+      {
+        "familyName": "Segoe UI Semibold",
+        "postScriptName": "SegoeUI-Semibold",
+        "isCustomFont": false,
+        "glyphCount": 10
+      }
+    ],
+    ".summary": [
+      {
+        "familyName": "Segoe UI",
+        "postScriptName": "SegoeUI",
+        "isCustomFont": false,
+        "glyphCount": 48
+      }
+    ],
+    ".version": [
+      {
+        "familyName": "Segoe UI",
+        "postScriptName": "SegoeUI-Bold",
+        "isCustomFont": false,
+        "glyphCount": 3
+      }
+    ]
+  },
+  "rects": {
+    "h1": {
+      "x": 50,
+      "y": 54,
+      "width": 430,
+      "height": 50.59375
+    },
+    ".summary": {
+      "x": 50,
+      "y": 143.59375,
+      "width": 430,
+      "height": 60.875
+    },
+    ".version": {
+      "x": 846.7371826171875,
+      "y": 4.737185001373291,
+      "width": 44.525634765625,
+      "height": 44.52562856674194
+    }
+  },
+  "minimumContrastAcrossEntireTextRectangles": {
+    "h1": 11.712061956193986,
+    ".summary": 11.82314118578624,
+    "badge": 9.013121968306734
+  },
+  "tag": "Not applicable: original public mod, no tag",
+  "bytes": 740343,
+  "width": 896,
+  "height": 504,
+  "version": "1.6",
+  "fontsReady": true
+}

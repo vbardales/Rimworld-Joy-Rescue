@@ -124,9 +124,10 @@ not what the counts say.
 ## Gallery (manual: no tool of the chain can send it)
 
 The Workshop gallery is added by hand on the Steam page, in the order below. The folder `Gallery/` (at the repository root,
-not in `Mod/`) holds **only the images to upload, numbered `01-`, `02-`, ... in the order they go on the page, and nothing
-else**: it is also the workflow's `--gallery-dir`. Raw captures stay outside git and are deleted once cropped. **The folder does
-not exist yet and no gallery image has been made.**
+not in `Mod/`) holds **only the images to upload, numbered `00-`, `01-`, `02-`, ... in the order they go on the page, and
+nothing else**: it is also the workflow's `--gallery-dir`. Raw captures stay outside git and are deleted once cropped.
+`00-preview.png` is a plain copy of `Mod/About/Preview.png` (the Workshop thumbnail composite: scene, title, tagline,
+version badge, mascot in the corner) and is the only one made so far.
 
 The images come from the nelimZen colony, by hand or from a scenario of their own that mounts the scene (the
 `nelim-zen-meadow-studio` fixture of `ScreenshotStudio`, staged with ClearScreen), never from the test passes: their captures
@@ -136,6 +137,7 @@ kept: a green capture scenario shows that the trajectory ran, not that the pictu
 Steam shows the first one large: the most demonstrative, not the prettiest. **A proposed order, to confirm on the images
 themselves, and not decided by anyone yet:**
 
+0. `00-preview.png`, made: the Preview thumbnail itself.
 1. **A repaired building in use**: a colonist at a building that was inert before, the settings window open beside it saying
    it was rescued. The one that says what the mod is.
 2. **The settings window listing an orphaned building** with its mode and switch, in the arrangement by building.
