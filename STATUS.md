@@ -7,7 +7,7 @@ packageId:    nelim.joyrescue
 repo:         Rimworld-Joy-Rescue
 visibility:   public
 detached:     yes
-stage:        done
+stage:        tested
 licence:      original
 licence_at:   original work, MIT
 upstream_mod_remotes: N/A
@@ -24,7 +24,11 @@ tested_on:    2026-08-29
 unit_tested_on: 2026-09-13
 workshop:     3806137974 (Joy Rescue 0.1.0, published by maintainer; public/subscription check unverified)
 remaining:
-  - blocking (done -> tested), gates given by the owner on 2026-09-24: (1) no scenario left in
+  - resolved 2026-09-29: stage moves done -> tested. All three gates given by the owner on 2026-09-24 are
+      MET and the sole remaining blocker (BUGS.md's button) is fixed and reverified; see the two entries
+      below. Next is tested -> prepublished -> published (AUDIT.md): the Workshop gallery, the owner's
+      manual validations and a dry run of the exact SHA remain, per the note further down.
+  - historical, gates given by the owner on 2026-09-24: (1) no scenario left in
       @wip: MET, none of the 11 Pickle scenarios in the 5 features carries the tag;
       (2) every conditional scenario has run: MET. All 6 that carry a @requires tag have played and
       passed: 03 and 05 (2026-09-24, 05 after a test fix), the three RIMMSQOL scenarios of 02, and 04
