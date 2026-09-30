@@ -1,7 +1,7 @@
 ---
 localization: complete
 translation_en: complete
-translation_fr: complete
+translation_fr: partial
 mod:          Joy Rescue
 packageId:    nelim.joyrescue
 repo:         Rimworld-Joy-Rescue
@@ -24,6 +24,14 @@ tested_on:    2026-08-29
 unit_tested_on: 2026-09-13
 workshop:     3806137974 (Joy Rescue 0.1.0, published by maintainer; public/subscription check unverified)
 remaining:
+  - unverified: French review by Virginie (TRANSLATIONS.md, 2026-09-30). `translation_fr` stays `partial`
+      until she reviews `FRENCH_REVIEW.md`, generated 2026-09-30 by `_tools/Generate-FrenchReview.ps1`
+      from the working tree at `0f7a731`. All three French files (Keyed/JoyRescue.xml,
+      Keyed/JoyRescue_Editor.xml, Keyed/JoyRescue_Taxonomy.xml) and the one DefInjected file
+      (DefInjected/MainButtonDef/JoyRescue.xml) are read there; no key is missing an English or French
+      value. No text in this mod agrees with a pawn's gender (all strings are about buildings, activities
+      and settings, none a first- or third-person sentence about a colonist), so the gender-agreement
+      switch of TRANSLATIONS.md section 3 does not apply anywhere; no row is flagged `?`.
   - resolved 2026-09-29: stage moves done -> tested. All three gates given by the owner on 2026-09-24 are
       MET and the sole remaining blocker (BUGS.md's button) is fixed and reverified; see the two entries
       below. Next is tested -> prepublished -> published (AUDIT.md): the Workshop gallery, the owner's
