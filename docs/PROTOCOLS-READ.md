@@ -45,6 +45,28 @@ Release-Admin `d403592`, Ticket-Dispatcher `79668cc`, this repository `371ff8e`.
 | `scripts/SEARCHING.md` | `372c447` (23/09 21:01) | `93d971dc6a` | Searching the mod corpus for a defName or a class, for example to find which mod ships its own recreation code |
 | `Rimworld-Release-Admin/docs/OPERATIONS.md` | `d403592` (25/09 16:33) | `2bb7a32d8b` | Publishing: dry run, `publish`, rollback, the workflow generator. Not before. Its "Machine coordination" section is the dispatcher's business |
 
+## Read on 2026-10-02 (audit of this date)
+
+Heads: protocols `91f4a85`, monorepo `c770fd1e`, PickleTools `b7620cb`, Release-Admin `d5282af`, Ticket-Dispatcher `dcbecf7`,
+this repository `10bf579`. Versions are `git log -1` of each file; the blob is `git hash-object` of the copy read.
+
+| File | Version | Blob | Read | What changed for this mod |
+| --- | --- | --- | --- | --- |
+| `AGENTS.md` | `7fd7475` (29/09 09:37) | `44dddcbc8f` | full | Evidence rule: keep one report per scenario and revision, no whole-folder copy, launcher archives selected then deleted |
+| `AUDIT.md` | `d1fdbe1` (02/10 15:16) | `daab030ccf` | full | New `done -> tested` gates (no `@wip`, every `@requires` ran, no manual test left); step 12 replays `options -> l10n` against the current rules, plurals included; WSL cleanup at sleep; session title |
+| `TRANSLATIONS.md` | `af8427f` (02/10 09:51) | `7b4d9a23bd` | full | Plurals (`.One`/`.Many`) found missing here; French gender switch and Virginie's review (already handled: `FRENCH_REVIEW.md`) |
+| `MOD_SETTINGS.md` | `b83933b` (23/09) | `a61cd54192` | full | Unchanged contract; settings audit stays `complete` |
+| `PUBLISHING.md` | `4e8f11a` (02/10 15:17) | `e29afeb827` | diff since `04aa365` only | Description source is a Markdown block under `## Steam description` in `PUBLICATION.md`; gallery files named `0-`, `1-`... (one digit) with `0-` a copy of the Preview; an origin repository always gets a pull request |
+| `PickleTools/README.md` | `b7620cb` | `1d28b27e67` | diff only | `LoadAudit` and `NewColony` companions; `docs/FIXTURES.md` |
+| `PickleTools/Headless/README.md` | `b7620cb` | `c023a674fb` | diff only | Exit 139 is the game, not the launcher; Config persists between runs; a pass map needs a final newline |
+| `Rimworld-Ticket-Dispatcher/docs/WELCOME.md`, `SUBMIT.md` | `dcbecf7` | `1bdd1eed63`, `7ab5e437d4` | diff only | State folder `.pickle-state` at the repo root; `-RunTimeoutMinutes` 120 full / 20 targeted; scenario timeout 300 s; mod-folder rule; the read-list of this task |
+| `STYLE_RIMWORLD.md`, `WORKSHOP_COMMENTS.md`, `scripts/SEARCHING.md`, `PickleTools/docs/steps.md`, `Rimworld-Release-Admin/docs/OPERATIONS.md` | `c105a43`, `91f4a85`, `90d51374`, `da7c3b0`, `3c03f51` | not hashed | not read | No trigger happened. Not useful now: do not read before a Preview or ModIcon change, a comment to post, a corpus search, a new step, a publication |
+
+Own documents: `STATUS.md`, `FRENCH_REVIEW.md` `10bf579`; `TESTING.md`, `docs/runs/README.md` `a58211b`;
+`PUBLICATION.md` `beaa95c`; `README.md` `89c1cfe`; `CHANGELOG.md`, `BUGS.md` `75f34dd`; `ATTRIBUTION.md`, `About.xml` `04b35e3`;
+`LICENSE` `6e6c48c`; `Tests/Pickle/README.md` `00d23aa`. `NOTES.md` and this mod's `BACKLOG.md` do not exist.
+Reread this audit: STATUS front matter and new section, CHANGELOG, TESTING, BUGS. Not reread (unchanged since the last reading, nothing asked of them): README, ATTRIBUTION, LICENSE, PUBLICATION.
+
 ## This repository's own documents
 
 Written or maintained by this session. Read them again only if `git log -1` differs from the

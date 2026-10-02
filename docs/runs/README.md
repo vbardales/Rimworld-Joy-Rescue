@@ -35,3 +35,4 @@ Revision tested. A request carries no SHA: the tree is staged when the ticket is
 | 2026-09-26 00:11 to 00:48 (acceptance cases, second wave) | `main` at `5e58a57`, same DLL |
 | 2026-09-26 to 2026-09-27 (acceptance cases, third wave) | `main` at `b1dfb84`, DLL of `b1dfb84` (the ghost-type and piano fixes); the F11 removal rerun played `9b8a21a` (only `RemovalSteps.cs` and its DLL differ) |
 | 2026-09-28 to 2026-09-29 (acceptance cases, third wave replayed) | `main` at `0f7a731`, DLL SHA-256 `F34393F5...` (the reassignment-button fix) |
+| 2026-10-02 | audit on `10bf579`, no game run | offline 133/133 and XML 21/21 replayed, green; plural defect found (stage showcase, l10n); evidence of the 25 runs on `0f7a731` minified from 82 MB to 5.5 MB (jpeg captures, `summary.json`, `junit.xml`, `summary.md` kept) | see STATUS |

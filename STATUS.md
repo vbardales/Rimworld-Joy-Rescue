@@ -1,13 +1,14 @@
 ---
-localization: complete
-translation_en: complete
+localization: partial
+translation_en: partial
 translation_fr: partial
 mod:          Joy Rescue
 packageId:    nelim.joyrescue
 repo:         Rimworld-Joy-Rescue
 visibility:   public
 detached:     yes
-stage:        tested
+stage:        showcase
+workflow_stage: l10n
 licence:      original
 licence_at:   original work, MIT
 upstream_mod_remotes: N/A
@@ -16,7 +17,7 @@ license_files: LICENSE, Mod/LICENSE
 dependencies: declared
 showcase:     complete
 settings_audit: complete
-audit_revision: 868ceb3e534dd1d36da9ce9ce532f943fce1bc9e
+audit_revision: 10bf579d3030f2c1d651bef34f061b04b00489d8
 audit_worktree: clean
 automated_tests: passed
 xml_tests: passed
@@ -24,6 +25,13 @@ tested_on:    2026-08-29
 unit_tested_on: 2026-09-13
 workshop:     3806137974 (Joy Rescue 0.1.0, published by maintainer; public/subscription check unverified)
 remaining:
+  - defect: plurals (TRANSLATIONS.md section 2, rule of 2026-09-25), found by the audit of 2026-10-02. Counted nouns go
+      through a single key with a fixed or slash form instead of `.One`/`.Many` keys, in English and in French:
+      `JoyRescue.Settings.Summary` (`{0} buildings`, `{1} usable`...), `KindHeader` (`building(s)`,
+      `activity/activities`), `KindHeaderBroken`, `KindHeaderNoBuilding`, `KindHeaderOff`, and
+      `JoyRescue.Settings.KindRemovedOrphans` (`reassignment(s)`). Neither `.One` nor `.Many` exists in either
+      language. Fix: one `.One`/`.Many` family per counted phrase (French also `.Zero`), the finished phrase passed
+      as one argument; then regenerate `FRENCH_REVIEW.md` and replay the settings passes.
   - unverified: French review by Virginie (TRANSLATIONS.md, 2026-09-30). `translation_fr` stays `partial`
       until she reviews `FRENCH_REVIEW.md`, generated 2026-09-30 by `_tools/Generate-FrenchReview.ps1`
       from the working tree at `0f7a731`. All three French files (Keyed/JoyRescue.xml,
@@ -32,7 +40,7 @@ remaining:
       value. No text in this mod agrees with a pawn's gender (all strings are about buildings, activities
       and settings, none a first- or third-person sentence about a colonist), so the gender-agreement
       switch of TRANSLATIONS.md section 3 does not apply anywhere; no row is flagged `?`.
-  - resolved 2026-09-29: stage moves done -> tested. All three gates given by the owner on 2026-09-24 are
+  - replaced 2026-10-02 (stage back to showcase, plural defect above; kept for history): resolved 2026-09-29: stage moves done -> tested. All three gates given by the owner on 2026-09-24 are
       MET and the sole remaining blocker (BUGS.md's button) is fixed and reverified; see the two entries
       below. Next is tested -> prepublished -> published (AUDIT.md): the Workshop gallery, the owner's
       manual validations and a dry run of the exact SHA remain, per the note further down.
@@ -90,11 +98,35 @@ remaining:
   - unverified: engine-specific mod-pack detection, full load/short hashes, save tolerance
       migration and log rendering are not certified by the isolated definition runner.
 session:      local_e3318eb0-b04f-4f8b-b01a-0d4188a56ee4
-updated:      2026-09-29, third acceptance wave replayed in full on 0f7a731 after the button fix, all green;
+updated:      2026-10-02 audit (stage tested -> showcase, workflow_stage l10n, plural defect); before: 2026-09-29, third acceptance wave replayed in full on 0f7a731 after the button fix, all green;
       BUGS.md item resolved, no defect left blocking done -> tested
 ---
 
 # Joy Rescue — status
+
+## Audit — 2026-10-02 (revision `10bf579`, worktree clean at the start)
+
+Old status `stage: tested` -> retained `stage: showcase`, `workflow_stage: l10n`. The first transition that fails
+is `options -> l10n`, replayed against the current TRANSLATIONS.md (plural rule of 2026-09-25, never applied to this
+mod). No game was launched by this audit; the Pickle evidence on disk was reread, not replayed.
+
+| Check | Result |
+| --- | --- |
+| Standalone repository, origin `vbardales/Rimworld-Joy-Rescue`, STATUS, licence | Validated, unchanged |
+| `upstream_mod_remotes` | `N/A` kept: original work, no source mod, so no upstream repository to base the code on or to send pull requests to |
+| Workshop item | `Mod/About/PublishedFileId.txt` = `3806137974` is tracked (commit `6695ae3`, `Publish JoyRescue 0.1.0`): 0.1.0 was pre-published. `CHANGELOG.md` already carries `## [0.1.0] - 2026-09-22` with "Create the `PublishedFileId.txt` file"; the 1.0.0 entries stay under `[Unreleased]` above it |
+| `.dds` | None tracked, none in the repository; `*.dds` is already in `.gitignore` |
+| Offline tests | Replayed: 133/133 executable cases and 21/21 XML checks, both exit 0 |
+| Plurals | **Defect.** `.One`/`.Many` keys exist nowhere. Counted nouns use fixed or slash forms in English (`{0} buildings`, `building(s)`, `activity/activities`, `reassignment(s)`) and French (`bâtiment(s)`, `activité(s)`, `orphelin(s)`, `réassignation(s)`). Keys: `Settings.Summary`, `KindHeader`, `KindHeaderBroken`, `KindHeaderNoBuilding`, `KindHeaderOff`, `KindRemovedOrphans`. `Test-Xml.ps1` does not require the forms, so it stays green |
+| Gender agreement (French) | Not applicable, as written in `remaining`: no text agrees with a pawn |
+| New gates for `done -> tested` | The three owner gates (no `@wip`, every conditional scenario ran, no manual test left) were recorded as met on tree `0f7a731`. Rechecked: no `@wip` in the 34 features; 32 `@requires` lines, played in the passes of `TESTING.md`. They hold: `Mod/` and `Source/` have not changed since `0f7a731` except `Preview.png` |
+| Gallery | `Gallery/00-preview.png` uses the two-digit name; PUBLISHING.md now wants a single digit from `0`: `0-preview.png`. A `prepublished` item, not a blocker here |
+| Evidence | 82 MB on disk reduced to 5.5 MB: 29 captures converted to jpeg, `messages.ndjson`, `Player.log` and `report.html` removed from the 25 run folders (all on tree `0f7a731`, one per scenario group, none superseded); `summary.json`, `junit.xml`, `summary.md` kept. Nothing in git, folder ignored. `pickle-reports-archive/stalled-JoyRescue-0929-0847` (a `Player.log` of a stalled run, 12 KB, superseded by the replays) was deleted; no other mod's archive touched |
+
+Not done on purpose (AUDIT.md section 12: the audit does not fix): the plural keys. Next transition: fix the plural
+keys in `Source/` and both `Keyed` folders, regenerate `FRENCH_REVIEW.md`, replay the settings passes (`01`, `13` to
+`23`, `06`) in English and French on the new build (a DLL change makes those scenarios new again), then a new audit.
+The French review by Virginie stays open (`translation_fr: partial`).
 
 ## Note from the CI/CD session — 2026-09-27
 
