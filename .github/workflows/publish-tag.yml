@@ -124,7 +124,12 @@ jobs:
           echo "Workflow file $file blob $blob"
 
       - name: Check the release notes exist
-        run: bash release/.github/scripts/changelog-section.sh release/CHANGELOG.md "$VERSION" | head -5
+        # Captured before the pipe: the default shell has no pipefail, so a failing changelog-section.sh would leave the
+        # exit status of head and the dry-run green, then fail after the Steam upload.
+        run: |
+          set -euo pipefail
+          notes="$(bash release/.github/scripts/changelog-section.sh release/CHANGELOG.md "$VERSION")"
+          printf '%s\n' "$notes" | head -5
 
       - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
         with:

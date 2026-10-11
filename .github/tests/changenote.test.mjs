@@ -74,3 +74,10 @@ test('a pre-release version has its own note, and a stable version is not satisf
   assert.throws(() => changenoteFor(note('1.0.6', '[b]1.0.6-beta.1[/b]'), '1.0.6'), /must begin with a line that carries the version/, 'a stable note may not carry the beta name');
   assert.throws(() => changenoteFor(note('1.0.6-beta.1', '[b]1.0.6-beta.10[/b]'), '1.0.6-beta.1'), /must begin with a line that carries the version/, 'beta.1 is not inside beta.10');
 });
+
+test('a version with regular-expression characters is escaped, not interpreted', () => {
+  const note = (heading, first) => `### ${heading}\n\`\`\`\n${first}\n\`\`\``;
+  assert.equal(changenoteFor(note('1.0.0+build.5', '[b]1.0.0+build.5[/b]'), '1.0.0+build.5'), '[b]1.0.0+build.5[/b]');
+  assert.throws(() => changenoteFor(note('1.0.0', '[b]1.0.0[/b]'), '1.0.0+build.5'), /no "### 1\.0\.0\+build\.5" section/, '+ is not a repetition of 0');
+  assert.throws(() => changenoteFor(note('1x0x0', '[b]1x0x0[/b]'), '1.0.0'), /no "### 1\.0\.0" section/, 'a dot is not any character');
+});
