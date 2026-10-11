@@ -25,7 +25,12 @@ tested_on:    2026-08-29
 unit_tested_on: 2026-09-13
 workshop:     3806137974 (Joy Rescue 0.1.0, published by maintainer; public/subscription check unverified)
 remaining:
-  - defect: plurals (TRANSLATIONS.md section 2, rule of 2026-09-25), found by the audit of 2026-10-02. Counted nouns go
+  - fixed 2026-10-11, awaiting the settings replay (`01`, `06`, `13` to `23`, English and French, new DLL): the plural keys.
+      Every counted phrase now has `.One`/`.Many`/`.Zero` (`JoyRescue.Count.*`, plus `SummaryTip`, `KindHeaderOff`,
+      `KindRemovedOrphans` as sentence families), picked by `PluralKey`/`Counted` in `JoyRescueMod.cs`; the headers take
+      finished phrases. Offline 133/133 and 21/21, `FRENCH_REVIEW.md` regenerated. Check-Translations still lists 3 dead
+      keys (`NoJoyBuildings`, `NothingToRescue`, `GroupHeaderWithCode`), older than this change, not yet removed. Text of the
+      original defect, for history: counted nouns go
       through a single key with a fixed or slash form instead of `.One`/`.Many` keys, in English and in French:
       `JoyRescue.Settings.Summary` (`{0} buildings`, `{1} usable`...), `KindHeader` (`building(s)`,
       `activity/activities`), `KindHeaderBroken`, `KindHeaderNoBuilding`, `KindHeaderOff`, and
@@ -33,7 +38,7 @@ remaining:
       language. Fix: one `.One`/`.Many` family per counted phrase (French also `.Zero`), the finished phrase passed
       as one argument; then regenerate `FRENCH_REVIEW.md` and replay the settings passes.
   - unverified: French review by Virginie (TRANSLATIONS.md, 2026-09-30). `translation_fr` stays `partial`
-      until she reviews `FRENCH_REVIEW.md`, generated 2026-09-30 by `_tools/Generate-FrenchReview.ps1`
+      until she reviews `FRENCH_REVIEW.md`, regenerated 2026-10-11 by the shared `scripts/Make-FrenchReview.ps1` (`_tools/` retired)
       from the working tree at `0f7a731`. All three French files (Keyed/JoyRescue.xml,
       Keyed/JoyRescue_Editor.xml, Keyed/JoyRescue_Taxonomy.xml) and the one DefInjected file
       (DefInjected/MainButtonDef/JoyRescue.xml) are read there; no key is missing an English or French
@@ -820,3 +825,7 @@ Translated in-game layout is unverified (F15/F19), independently of complete sta
 localization/EN/FR coverage. No workflow stage beyond `done` is claimed.
 
 Delivered DLL SHA-256: `e7dd9ffe1a0fd1612a1f3586d617f530eaff4ec25804fed64b49dac87393156f`.
+
+## Preview source migration — 2026-10-03
+
+Preview generation now uses the shared renderer with `Art/Preview.config.json`. Canonical sources and publishable outputs were preserved; transient QA belongs in ignored `Art/.render/`.
