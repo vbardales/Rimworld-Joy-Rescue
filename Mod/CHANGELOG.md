@@ -2,6 +2,10 @@
 
 ## [Unreleased]
 
+- Counted phrases of the settings window (building and activity counts, the summary line, the type headers, the
+  tooltip of the summary, the message after deleting a type) now have one key per form (one, many, zero), in
+  English and French, instead of a fixed or slash form such as "building(s)".
+
 - Remove the internal definition name from the activity tooltip of the settings window. The activity's
   label, the buildings it serves and the explanation remain.
 - Rename the common recreation fix set option after what it does, "Move other mods' activities to better
