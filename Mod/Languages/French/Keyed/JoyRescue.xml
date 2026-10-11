@@ -8,10 +8,39 @@
   <JoyRescue.Settings.NotScanned>L'analyse n'a pas encore eu lieu. Relancez RimWorld avec Joy Rescue actif.</JoyRescue.Settings.NotScanned>
   <JoyRescue.Settings.NothingToRescue>Tous les bâtiments de loisir de votre liste de mods sont déjà desservis. Rien à réparer.</JoyRescue.Settings.NothingToRescue>
 
-  <JoyRescue.Settings.Summary>{0} bâtiments, {1} utilisables, {2} orphelins, {3} réparés, {4} types exploitables</JoyRescue.Settings.Summary>
-  <JoyRescue.Settings.SummaryTip>Les {0} types exploitables sont ceux qui proviennent d'un bâtiment réellement utilisable.
+  <!-- Expressions comptées : .One / .Many / .Zero, choisies d'après le nombre, toujours {0} (TRANSLATIONS.md, Counts and plurals). Le français traite 0 comme le singulier. -->
+  <JoyRescue.Count.Building.One>{0} bâtiment</JoyRescue.Count.Building.One>
+  <JoyRescue.Count.Building.Many>{0} bâtiments</JoyRescue.Count.Building.Many>
+  <JoyRescue.Count.Building.Zero>{0} bâtiment</JoyRescue.Count.Building.Zero>
+  <JoyRescue.Count.Usable.One>{0} utilisable</JoyRescue.Count.Usable.One>
+  <JoyRescue.Count.Usable.Many>{0} utilisables</JoyRescue.Count.Usable.Many>
+  <JoyRescue.Count.Usable.Zero>{0} utilisable</JoyRescue.Count.Usable.Zero>
+  <JoyRescue.Count.Orphaned.One>{0} orphelin</JoyRescue.Count.Orphaned.One>
+  <JoyRescue.Count.Orphaned.Many>{0} orphelins</JoyRescue.Count.Orphaned.Many>
+  <JoyRescue.Count.Orphaned.Zero>{0} orphelin</JoyRescue.Count.Orphaned.Zero>
+  <JoyRescue.Count.OrphanedOfThem.One>dont {0} orphelin</JoyRescue.Count.OrphanedOfThem.One>
+  <JoyRescue.Count.OrphanedOfThem.Many>dont {0} orphelins</JoyRescue.Count.OrphanedOfThem.Many>
+  <JoyRescue.Count.OrphanedOfThem.Zero>dont {0} orphelin</JoyRescue.Count.OrphanedOfThem.Zero>
+  <JoyRescue.Count.Rescued.One>{0} réparé</JoyRescue.Count.Rescued.One>
+  <JoyRescue.Count.Rescued.Many>{0} réparés</JoyRescue.Count.Rescued.Many>
+  <JoyRescue.Count.Rescued.Zero>{0} réparé</JoyRescue.Count.Rescued.Zero>
+  <JoyRescue.Count.UsableType.One>{0} type exploitable</JoyRescue.Count.UsableType.One>
+  <JoyRescue.Count.UsableType.Many>{0} types exploitables</JoyRescue.Count.UsableType.Many>
+  <JoyRescue.Count.UsableType.Zero>{0} type exploitable</JoyRescue.Count.UsableType.Zero>
+  <JoyRescue.Count.Activity.One>{0} activité</JoyRescue.Count.Activity.One>
+  <JoyRescue.Count.Activity.Many>{0} activités</JoyRescue.Count.Activity.Many>
+  <JoyRescue.Count.Activity.Zero>{0} activité</JoyRescue.Count.Activity.Zero>
 
-Les attentes en réclament jusqu'à six différents, et la tolérance se compte par type : dix tables d'échecs n'en font toujours qu'un.</JoyRescue.Settings.SummaryTip>
+  <JoyRescue.Settings.Summary>{0}, {1}, {2}, {3}, {4}</JoyRescue.Settings.Summary>
+  <JoyRescue.Settings.SummaryTip.One>Le {0} type exploitable est celui qui provient d'un bâtiment réellement utilisable.
+
+Les attentes en réclament jusqu'à six différents, et la tolérance se compte par type : dix tables d'échecs n'en font toujours qu'un.</JoyRescue.Settings.SummaryTip.One>
+  <JoyRescue.Settings.SummaryTip.Many>Les {0} types exploitables sont ceux qui proviennent d'un bâtiment réellement utilisable.
+
+Les attentes en réclament jusqu'à six différents, et la tolérance se compte par type : dix tables d'échecs n'en font toujours qu'un.</JoyRescue.Settings.SummaryTip.Many>
+  <JoyRescue.Settings.SummaryTip.Zero>Le {0} type exploitable est celui qui provient d'un bâtiment réellement utilisable.
+
+Les attentes en réclament jusqu'à six différents, et la tolérance se compte par type : dix tables d'échecs n'en font toujours qu'un.</JoyRescue.Settings.SummaryTip.Zero>
 
   <JoyRescue.Settings.RescueModsWithOwnCode>Réparer aussi les bâtiments des mods qui ont leur propre code de loisir</JoyRescue.Settings.RescueModsWithOwnCode>
   <JoyRescue.Settings.RescueModsWithOwnCodeTip>Ces mods définissent leurs propres activités de loisir ou pilotes de tâche : ils gèrent peut-être déjà le bâtiment par code, sans le déclarer nulle part. Les réparer quand même peut créer deux tâches concurrentes sur le même meuble. Laissés de côté, ils restent listés ci-dessous et s'activent un par un.</JoyRescue.Settings.RescueModsWithOwnCodeTip>
@@ -57,11 +86,13 @@ Dans les deux cas, les bâtiments orphelins et les activités qui ne desservent 
   <JoyRescue.Settings.RowTipCovered>Déjà desservi par son propre mod. Rien à réparer, et rien à désactiver ici.</JoyRescue.Settings.RowTipCovered>
   <JoyRescue.Settings.RowTipOrphan>Aucune activité ne pointe vers ce bâtiment. Tel quel, aucun colon ne s'en approchera.</JoyRescue.Settings.RowTipOrphan>
 
-  <JoyRescue.Settings.KindHeader>{0} : {1} bâtiment(s), {2} activité(s)</JoyRescue.Settings.KindHeader>
+  <JoyRescue.Settings.KindHeader>{0} : {1}, {2}</JoyRescue.Settings.KindHeader>
   <JoyRescue.Settings.KindHeaderDead>{0} : AUCUNE activité, ce type est inatteignable et ne compte pour rien</JoyRescue.Settings.KindHeaderDead>
-  <JoyRescue.Settings.KindHeaderBroken>{0} : {1} bâtiment(s), dont {2} orphelin(s) en attente de réparation</JoyRescue.Settings.KindHeaderBroken>
-  <JoyRescue.Settings.KindHeaderNoBuilding>{0} : aucun bâtiment, {1} activité(s), cela vient d'objets ou de gestes</JoyRescue.Settings.KindHeaderNoBuilding>
-  <JoyRescue.Settings.KindHeaderOff>{0} : éteint par vous, ses {1} activité(s) sont maintenues à zéro et il ne compte pour rien jusqu'au rallumage</JoyRescue.Settings.KindHeaderOff>
+  <JoyRescue.Settings.KindHeaderBroken>{0} : {1}, {2} en attente de réparation</JoyRescue.Settings.KindHeaderBroken>
+  <JoyRescue.Settings.KindHeaderNoBuilding>{0} : aucun bâtiment, {1}, cela vient d'objets ou de gestes</JoyRescue.Settings.KindHeaderNoBuilding>
+  <JoyRescue.Settings.KindHeaderOff.One>{0} : éteint par vous, {1} est maintenue à zéro et il ne compte pour rien jusqu'au rallumage</JoyRescue.Settings.KindHeaderOff.One>
+  <JoyRescue.Settings.KindHeaderOff.Many>{0} : éteint par vous, {1} sont maintenues à zéro et il ne compte pour rien jusqu'au rallumage</JoyRescue.Settings.KindHeaderOff.Many>
+  <JoyRescue.Settings.KindHeaderOff.Zero>{0} : éteint par vous, {1} est maintenue à zéro et il ne compte pour rien jusqu'au rallumage</JoyRescue.Settings.KindHeaderOff.Zero>
 
   <JoyRescue.Settings.KindTipFrom>Vient de : {0}</JoyRescue.Settings.KindTipFrom>
   <JoyRescue.Settings.KindTipNeedsThing>Réclame un objet ou un bâtiment. Sans lui, ce loisir est tout simplement hors de portée.</JoyRescue.Settings.KindTipNeedsThing>

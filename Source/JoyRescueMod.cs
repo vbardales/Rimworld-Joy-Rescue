@@ -66,13 +66,14 @@ namespace JoyRescue
             // types - is an explanation you read once: it moves into a tooltip and gives its room back
             // to the list, which is what this window is opened for.
             var summaryRect = listing.GetRect(24f);
+            var usableKinds = UsableKindCount();
             Widgets.Label(summaryRect, "JoyRescue.Settings.Summary".Translate(
-                JoyRescueGenerator.JoyBuildingsSeen,
-                JoyRescueGenerator.AlreadyCovered,
-                JoyRescueGenerator.Entries.Count,
-                EnabledCount(),
-                UsableKindCount()));
-            TooltipHandler.TipRegion(summaryRect, "JoyRescue.Settings.SummaryTip".Translate(UsableKindCount()));
+                Counted("JoyRescue.Count.Building", JoyRescueGenerator.JoyBuildingsSeen),
+                Counted("JoyRescue.Count.Usable", JoyRescueGenerator.AlreadyCovered),
+                Counted("JoyRescue.Count.Orphaned", JoyRescueGenerator.Entries.Count),
+                Counted("JoyRescue.Count.Rescued", EnabledCount()),
+                Counted("JoyRescue.Count.UsableType", usableKinds)));
+            TooltipHandler.TipRegion(summaryRect, PluralKey("JoyRescue.Settings.SummaryTip", usableKinds).Translate(usableKinds));
 
             var beforeTaxonomy = Settings.commonTaxonomy;
             listing.CheckboxLabeled("JoyRescue.Taxonomy.Enable".Translate(), ref Settings.commonTaxonomy,
@@ -217,7 +218,7 @@ namespace JoyRescue
 
                     if (orphaned > 0)
                     {
-                        Messages.Message("JoyRescue.Settings.KindRemovedOrphans".Translate(orphaned),
+                        Messages.Message(PluralKey("JoyRescue.Settings.KindRemovedOrphans", orphaned).Translate(orphaned),
                             MessageTypeDefOf.CautionInput, false);
                     }
                 }
@@ -367,7 +368,8 @@ namespace JoyRescue
                 // "unreachable" - sending someone hunting for a fault they created themselves one button
                 // ago. So we count the REAL givers, to say what will start again when it is switched back
                 // on.
-                label = "JoyRescue.Settings.KindHeaderOff".Translate(name, TotalGiverCount(kind));
+                var held = TotalGiverCount(kind);
+                label = PluralKey("JoyRescue.Settings.KindHeaderOff", held).Translate(name, Counted("JoyRescue.Count.Activity", held));
                 colour = new Color(0.55f, 0.55f, 0.62f);
             }
             else if (givers == 0)
@@ -377,19 +379,21 @@ namespace JoyRescue
             }
             else if (broken > 0)
             {
-                label = "JoyRescue.Settings.KindHeaderBroken".Translate(name, total, broken);
+                label = "JoyRescue.Settings.KindHeaderBroken".Translate(name,
+                    Counted("JoyRescue.Count.Building", total), Counted("JoyRescue.Count.OrphanedOfThem", broken));
                 colour = ColorLibrary.Yellow;
             }
             else if (total == 0)
             {
                 // Types with no building: item or action recreation (drinking, reading, meditating,
                 // talking). Normal, and worth saying rather than letting it look like a hole.
-                label = "JoyRescue.Settings.KindHeaderNoBuilding".Translate(name, givers);
+                label = "JoyRescue.Settings.KindHeaderNoBuilding".Translate(name, Counted("JoyRescue.Count.Activity", givers));
                 colour = new Color(0.6f, 0.6f, 0.6f);
             }
             else
             {
-                label = "JoyRescue.Settings.KindHeader".Translate(name, total, givers);
+                label = "JoyRescue.Settings.KindHeader".Translate(name,
+                    Counted("JoyRescue.Count.Building", total), Counted("JoyRescue.Count.Activity", givers));
                 colour = new Color(0.65f, 0.8f, 0.65f);
             }
 
@@ -996,6 +1000,18 @@ namespace JoyRescue
                 Settings.SetEnabled(entry, value);
             }
             ApplySettingsAndRefresh();
+        }
+
+        // A counted phrase or sentence has one key per form (TRANSLATIONS.md, Counts and plurals):
+        // Base.Zero, Base.One, Base.Many. The count is always {0} of the phrase keys.
+        private static string PluralKey(string baseKey, int count)
+        {
+            return baseKey + (count == 0 ? ".Zero" : count == 1 ? ".One" : ".Many");
+        }
+
+        private static TaggedString Counted(string baseKey, int count)
+        {
+            return PluralKey(baseKey, count).Translate(count);
         }
 
         private static int EnabledCount()

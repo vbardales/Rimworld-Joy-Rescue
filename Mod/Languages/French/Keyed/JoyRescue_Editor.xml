@@ -14,7 +14,9 @@
 
   <JoyRescue.Settings.KindPending>{0} (au redémarrage)</JoyRescue.Settings.KindPending>
   <JoyRescue.Settings.KindRevert>Revenir à son type d'origine</JoyRescue.Settings.KindRevert>
-  <JoyRescue.Settings.KindRemovedOrphans>{0} réassignation(s) visaient ce type et ont été retirées avec lui.</JoyRescue.Settings.KindRemovedOrphans>
+  <JoyRescue.Settings.KindRemovedOrphans.One>{0} réassignation visait ce type et a été retirée avec lui.</JoyRescue.Settings.KindRemovedOrphans.One>
+  <JoyRescue.Settings.KindRemovedOrphans.Many>{0} réassignations visaient ce type et ont été retirées avec lui.</JoyRescue.Settings.KindRemovedOrphans.Many>
+  <JoyRescue.Settings.KindRemovedOrphans.Zero>{0} réassignation visait ce type et a été retirée avec lui.</JoyRescue.Settings.KindRemovedOrphans.Zero>
   <JoyRescue.Settings.PendingRestartShort>Certains changements ne prendront qu'au prochain lancement de RimWorld.</JoyRescue.Settings.PendingRestartShort>
 
   <JoyRescue.Settings.PendingRestart>Certains changements ne prendront qu'au prochain lancement de RimWorld. Créer un type, comme déplacer un bâtiment vers un autre type, doit être écrit avant que le jeu ne construise les tables de tolérance au loisir de chaque colon : aucun des deux ne peut se faire en cours de session.</JoyRescue.Settings.PendingRestart>

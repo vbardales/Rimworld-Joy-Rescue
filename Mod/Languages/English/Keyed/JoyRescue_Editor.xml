@@ -14,7 +14,9 @@
 
   <JoyRescue.Settings.KindPending>{0} (on restart)</JoyRescue.Settings.KindPending>
   <JoyRescue.Settings.KindRevert>Back to its original type</JoyRescue.Settings.KindRevert>
-  <JoyRescue.Settings.KindRemovedOrphans>{0} reassignment(s) pointed at this type and were removed with it.</JoyRescue.Settings.KindRemovedOrphans>
+  <JoyRescue.Settings.KindRemovedOrphans.One>{0} reassignment pointed at this type and was removed with it.</JoyRescue.Settings.KindRemovedOrphans.One>
+  <JoyRescue.Settings.KindRemovedOrphans.Many>{0} reassignments pointed at this type and were removed with it.</JoyRescue.Settings.KindRemovedOrphans.Many>
+  <JoyRescue.Settings.KindRemovedOrphans.Zero>{0} reassignments pointed at this type and were removed with it.</JoyRescue.Settings.KindRemovedOrphans.Zero>
   <JoyRescue.Settings.PendingRestartShort>Some changes only take effect the next time RimWorld starts.</JoyRescue.Settings.PendingRestartShort>
 
   <JoyRescue.Settings.PendingRestart>Some changes take effect the next time RimWorld starts. Creating a type, and moving a building to another type, both have to be written before the game builds its per-colonist recreation tolerance tables — there is no way to do either mid-session.</JoyRescue.Settings.PendingRestart>
