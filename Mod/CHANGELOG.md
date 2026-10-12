@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+- Refine English and French wording in the settings, including the zero-count tooltip, gender-neutral French explanations
+  and interaction-cell guidance. Clarify the Workshop description's limits.
 - Counted phrases of the settings window (building and activity counts, the summary line, the type headers, the
   tooltip of the summary, the message after deleting a type) now have one key per form (one, many, zero), in
   English and French, instead of a fixed or slash form such as "building(s)".
