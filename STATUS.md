@@ -1,13 +1,13 @@
 ---
 localization: complete
-translation_en: unchecked
-translation_fr: unchecked
+translation_en: complete
+translation_fr: complete
 mod:          Joy Rescue
 packageId:    nelim.joyrescue
 repo:         Rimworld-Joy-Rescue
 visibility:   public
 detached:     yes
-workflow_stage: writeTests[1.0.0]
+workflow_stage: playTests[1.0.0]
 licence:      original
 licence_at:   original work, MIT
 upstream_mod_remotes: N/A
@@ -22,16 +22,7 @@ tested_on:    2026-09-29
 unit_tested_on: 2026-10-11
 workshop:     3806137974 (Joy Rescue 0.1.0, prepublished by the maintainer; public/subscription check unverified)
 remaining:
-  - unverified: review by Virginie of the texts changed on 2026-10-11 (counted phrases, English and French).
-      She read the first state on 2026-10-12 and asked for 12 wording fixes (SummaryTip.Zero, KindTipNoThing, KindTipTolerance,
-      ModeTip, Mode.InteractionCell, RowTipOrphan, RescueModsWithOwnCodeTip, SortModeTip, two claims of the Steam description,
-      PUBLICATION.md opening and private-item wording, report from a committed revision): all applied in `bd5c2a2`, report
-      regenerated at `c1a9043`. Her confirmation of these changed texts is still to come.
-      `translation_en` and `translation_fr` stay `unchecked` until she reads `FRENCH_REVIEW.md`, regenerated on
-      2026-10-11 by `scripts/Make-FrenchReview.ps1` from the tree at the plural commit (TRANSLATIONS.md, last
-      paragraph of section 4). Her French review of 2026-09-30 never took place either. No text agrees with a pawn
-      (all strings are about buildings, activities and settings), so section 3 of TRANSLATIONS.md, gender
-      agreement, applies nowhere and no row is flagged `?`.
+  - resolved 2026-10-12: French and English review by Virginie, recorded in Translation audit below (revision bd5c2a2, CHANGELOG at dc67e6b).
   - unverified: settings replay in game on the new DLL (the plural change makes the settings scenarios new again:
       `01`, `06`, `13` to `23`, English and French). Tickets 20261011-234938-670-dfd0 (English, `01`) and
       20261011-234939-528-0a77 (French, `01`) are in the queue; the rest follows at `playTests`.
@@ -44,8 +35,8 @@ remaining:
   - note: three Keyed entries are used nowhere in `Source/` (`NoJoyBuildings`, `NothingToRescue`,
       `GroupHeaderWithCode`); `Check-Translations.ps1` lists them. Older than the plural change, to remove or wire.
 session:      local_131c2e71-2ac1-49e4-b776-db6daa35f631
-updated:      2026-10-11 audit against the chain of AUDIT.md (old `l10n`/`showcase` -> `writeTests[1.0.0]`)
-protocols_read_sha: ac587c23f2481ac64ab621b92d75aac0742dce9e
+updated:      2026-10-12 Virginie's review recorded, writeTests -> playTests[1.0.0]
+protocols_read_sha: 8c994dd5dd3d812d3c117029a445eafb4814182a
 ---
 
 # Joy Rescue — status
@@ -76,6 +67,19 @@ Local scripts (AGENTS.md, "Local scripts"): `_tools/Generate-FrenchReview.ps1` d
 rows in `scripts/LOCAL_SCRIPTS.md`. `.build/` holds ignored outputs only; the superseded `taxonomy` and `scratch` folders
 were removed.
 
-Next transition: Virginie reviews `FRENCH_REVIEW.md` (English and French columns); then `translation_en` and
-`translation_fr` become `complete`, the protocols are marked read, `workflow_stage: playTests[1.0.0]`, and the
-settings scenarios replay in small tickets in both languages.
+Update 2026-10-12: Virginie's review is done (Translation audit below), protocols marked read at `8c994dd`,
+`workflow_stage: playTests[1.0.0]`. Next: the settings scenarios replay in small tickets, English and French; the two
+queued tickets (feature `01`) come first.
+
+## Translation audit
+
+Where the text lives: `Mod/Languages/{English,French}/Keyed/JoyRescue.xml`, `JoyRescue_Editor.xml`, `JoyRescue_Taxonomy.xml` and
+`Mod/Languages/French/DefInjected/MainButtonDef/JoyRescue.xml`; `FRENCH_REVIEW.md` lists all of it. No text agrees with a
+pawn, so no gender switch and no flagged row.
+
+- Review by Virginie, 2026-10-12, revision `bd5c2a2` (texts) and `dc67e6b` (CHANGELOG): she read English and French and
+  asked for wording fixes (zero-count tooltip, gender-neutral rewordings, interaction cell, two claims of the Steam
+  description, PUBLICATION.md opening); all applied in `bd5c2a2`, then confirmed (« ok »). `translation_en` and
+  `translation_fr` are `complete`.
+- In-game checks (raw keys, fallback text, clipping, English and French) belong to `playTests`: first tickets queued,
+  see `remaining`.
