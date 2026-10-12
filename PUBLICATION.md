@@ -1,7 +1,7 @@
 # Publication sheet
 
-**Updated 2026-09-25. The mod is at `done`. The owner prepublished 0.1.0 by hand on 2026-09-22: the Workshop item exists
-(`3806137974`) and `Mod/About/PublishedFileId.txt` is committed (`6695ae3`). Ahead: `tested`, the 1.0.0 through the CI, the
+**Updated 2026-10-12. The mod is at `writeTests[1.0.0]`. The owner prepublished 0.1.0 by hand on 2026-09-22: the Workshop item exists
+(`3806137974`) and `Mod/About/PublishedFileId.txt` is committed (`6695ae3`). Ahead: `playTests`, `shootGallery`, the 1.0.0 through the CI, the
 switch to public (by the owner) and the thank-you comments.** This sheet holds what the Workshop page asks for and the
 repository holds nowhere else, so that it can be used again at the next update and by whoever picks the mod up.
 
@@ -53,14 +53,14 @@ top: the mod is `original` work and owes nothing to another mod's code.
 ```
 Makes unusable recreation buildings usable again.
 
-Plenty of mods add a building, tag it with a recreation type, and stop there. That tag is only a label: without a JoyGiverDef pointing at the building, no colonist will ever walk up to it. The building gets built, looks the part, and is never used.
+Plenty of mods add a building, tag it with a recreation type, and stop there. That tag is only a label. Without a recreation giver or custom code that handles it, colonists cannot use the building for recreation. The building gets built, looks the part, and is never used.
 
 Joy Rescue finds those buildings at startup and builds the missing recreation giver and job for them, picking the right vanilla behaviour from the shape of the building itself:
 - a building with an interaction cell gets the telescope treatment (stand on the cell, face the building),
 - a television-type building gets watched from a chair,
 - anything else gets played at from an adjacent cell, chair or no chair.
 
-Everything found is listed in the mod settings, one line per building, with an on/off toggle and a manual override of the chosen behaviour. Buildings coming from mods that ship their own recreation code are listed too, but left off by default, so nothing is ever fixed twice.
+Everything found is listed in the mod settings, one line per building, with an on/off toggle and a manual override of the chosen behaviour. Buildings coming from mods that ship their own recreation code are listed too, but left off by default, to reduce the risk of adding a second, competing recreation job.
 
 You can also create recreation types of your own and move activities or buildings between types, and arrange the list by activity or by building. An optional preset, off by default, moves known activities of other mods to better types at the next restart, and adds three types: video games and simulations, creative recreation, sensory wellbeing.
 
@@ -107,7 +107,7 @@ not what the counts say.
 ### 0.1.0 (prepublished by hand on 2026-09-22, kept for the record)
 
 > Creation of the Workshop item: the `PublishedFileId.txt` file. It carried the mod as it was at commit `6695ae3`, not a tested
-> release. Steam creates every item private.
+> release. The initial upload created this item privately.
 
 ## Dependencies and DLC
 
@@ -184,7 +184,7 @@ Update the register the moment each is posted.
 
 - **`Mod/About/PublishedFileId.txt` is committed** (done 2026-09-22, item 3806137974, `6695ae3`). Lost, the next upload would
   create a second item.
-- **Steam creates every item private**; RimWorld never calls `SetItemVisibility`, and the CI never sends it. Subscribe to your
+- **The initial upload created this item privately**; RimWorld never calls `SetItemVisibility`, and the CI never sends it. Subscribe to your
   own item, test it, then switch it to public by hand. When the 1.0.0 goes to production, the owner also subscribes to the
   comments and watches all activity of the item and of its parent mods, by hand (`PUBLISHING.md`): record the date and the
   three points in `STATUS.md` before marking it `published`.

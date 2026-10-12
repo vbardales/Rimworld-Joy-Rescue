@@ -9,14 +9,14 @@
   </supportedVersions>
   <description>Makes unusable recreation buildings usable again.
 
-Plenty of mods add a building, tag it with a recreation type, and stop there. That tag is only a label: without a JoyGiverDef pointing at the building, no colonist will ever walk up to it. The building gets built, looks the part, and is never used.
+Plenty of mods add a building, tag it with a recreation type, and stop there. That tag is only a label. Without a recreation giver or custom code that handles it, colonists cannot use the building for recreation. The building gets built, looks the part, and is never used.
 
 Joy Rescue finds those buildings at startup and builds the missing recreation giver and job for them, picking the right vanilla behaviour from the shape of the building itself:
 - a building with an interaction cell gets the telescope treatment (stand on the cell, face the building),
 - a television-type building gets watched from a chair,
 - anything else gets played at from an adjacent cell, chair or no chair.
 
-Everything found is listed in the mod settings, one line per building, with an on/off toggle and a manual override of the chosen behaviour. Buildings coming from mods that ship their own recreation code are listed too, but left off by default, so nothing is ever fixed twice.
+Everything found is listed in the mod settings, one line per building, with an on/off toggle and a manual override of the chosen behaviour. Buildings coming from mods that ship their own recreation code are listed too, but left off by default, to reduce the risk of adding a second, competing recreation job.
 
 You can also create recreation types of your own and move activities or buildings between types, and arrange the list by activity or by building. An optional preset, off by default, moves known activities of other mods to better types at the next restart, and adds three types: video games and simulations, creative recreation, sensory wellbeing.
 

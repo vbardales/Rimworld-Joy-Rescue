@@ -25,9 +25,9 @@
 
   <JoyRescue.Settings.ModeTip>Comment le colon atteint le bâtiment.
 
-Se placer dessus : il monte sur la case que le bâtiment déclare, comme un télescope ou un piano.
-S'asseoir en face : il prend une case adjacente et se tourne vers lui, comme une table d'échecs.
-Regarder de loin : il s'assoit à quelques pas et le regarde, comme un téléviseur.
+Rejoindre la case d'interaction : la case que le bâtiment déclare, comme pour un télescope ou un piano.
+S'asseoir en face : occuper une case adjacente et faire face au bâtiment, comme pour une table d'échecs.
+Regarder de loin : s'asseoir à quelques pas pour regarder, comme pour un téléviseur.
 
 Auto choisit d'après la forme du bâtiment. Cliquez pour faire défiler.</JoyRescue.Settings.ModeTip>
 
