@@ -23,6 +23,10 @@ unit_tested_on: 2026-10-11
 workshop:     3806137974 (Joy Rescue 0.1.0, prepublished by the maintainer; public/subscription check unverified)
 remaining:
   - unverified: review by Virginie of the texts changed on 2026-10-11 (counted phrases, English and French).
+      She read the first state on 2026-10-12 and asked for 12 wording fixes (SummaryTip.Zero, KindTipNoThing, KindTipTolerance,
+      ModeTip, Mode.InteractionCell, RowTipOrphan, RescueModsWithOwnCodeTip, SortModeTip, two claims of the Steam description,
+      PUBLICATION.md opening and private-item wording, report from a committed revision): all applied in `bd5c2a2`, report
+      regenerated at `c1a9043`. Her confirmation of these changed texts is still to come.
       `translation_en` and `translation_fr` stay `unchecked` until she reads `FRENCH_REVIEW.md`, regenerated on
       2026-10-11 by `scripts/Make-FrenchReview.ps1` from the tree at the plural commit (TRANSLATIONS.md, last
       paragraph of section 4). Her French review of 2026-09-30 never took place either. No text agrees with a pawn
