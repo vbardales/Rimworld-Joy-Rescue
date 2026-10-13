@@ -7,7 +7,6 @@
   <JoyRescue.Report.Watching>watching {0}.</JoyRescue.Report.Watching>
 
   <JoyRescue.Settings.NotScanned>The scan has not run yet. Restart RimWorld with Joy Rescue enabled.</JoyRescue.Settings.NotScanned>
-  <JoyRescue.Settings.NothingToRescue>Every recreation building in your modlist is already served by a recreation giver. Nothing to fix.</JoyRescue.Settings.NothingToRescue>
 
   <!-- Counted phrases: .One / .Many / .Zero, picked by the count, which is always {0} (TRANSLATIONS.md, Counts and plurals). -->
   <JoyRescue.Count.Building.One>{0} building</JoyRescue.Count.Building.One>
@@ -72,7 +71,6 @@ Either way, orphaned buildings and activities that serve no building come last.<
   <JoyRescue.Settings.Reset>Restore defaults</JoyRescue.Settings.Reset>
   <JoyRescue.Settings.ConfirmReset>Restore every Joy Rescue setting to its default?</JoyRescue.Settings.ConfirmReset>
 
-  <JoyRescue.Settings.GroupHeaderWithCode>{0} — ships its own recreation code</JoyRescue.Settings.GroupHeaderWithCode>
 
   <JoyRescue.Settings.RowTip>{0}\nFrom: {1}\nRecreation type: {2}</JoyRescue.Settings.RowTip>
   <JoyRescue.Settings.RowTipOwnCode>This mod defines recreation givers or job drivers of its own. It may already handle this building in code. Enable only if colonists visibly never use it.</JoyRescue.Settings.RowTipOwnCode>
@@ -83,7 +81,6 @@ Either way, orphaned buildings and activities that serve no building come last.<
   <JoyRescue.Mode.SitAdjacent>Sit facing it</JoyRescue.Mode.SitAdjacent>
   <JoyRescue.Mode.Watch>Watch from afar</JoyRescue.Mode.Watch>
 
-  <JoyRescue.Settings.NoJoyBuildings>No recreation building at all was found in this modlist.</JoyRescue.Settings.NoJoyBuildings>
   <JoyRescue.Settings.RowTipCovered>Already served by its own mod. Nothing to fix, and nothing to switch off here.</JoyRescue.Settings.RowTipCovered>
   <JoyRescue.Settings.RowTipOrphan>No activity points at this building. Left alone, no colonist would ever use it.</JoyRescue.Settings.RowTipOrphan>
 

@@ -33,8 +33,6 @@ remaining:
       are not certified by the isolated definition runner.
   - feature: Workshop gallery images (PUBLICATION.md, AUDIT.md 9): taken from the nelimZen colony or a dedicated Pickle
       scenario, never from test passes. Belongs to `shootGallery`.
-  - note: three Keyed entries are used nowhere in `Source/` (`NoJoyBuildings`, `NothingToRescue`,
-      `GroupHeaderWithCode`); `Check-Translations.ps1` lists them. Older than the plural change, to remove or wire.
 session:      local_5d402cea-359a-464a-ad85-0c5485fb6609
 updated:      2026-10-12 Virginie's review recorded, writeTests -> playTests[1.0.0]
 protocols_read_sha: 2f4e0002e2543fcde57999c51ff8b2f0dfc8efdb
@@ -84,3 +82,6 @@ pawn, so no gender switch and no flagged row.
   `translation_fr` are `complete`.
 - In-game checks (raw keys, fallback text, clipping, English and French) belong to `playTests`: first tickets queued,
   see `remaining`.
+- 2026-10-13: the three unused Keyed entries (`NoJoyBuildings`, `NothingToRescue`, `GroupHeaderWithCode`) were removed from both
+  languages at Virginie's request; no displayed text changes, `Check-Translations.ps1` passes, `FRENCH_REVIEW.md`
+  regenerated. The replay tickets filed at `a0674d8` run on the tree of this commit.

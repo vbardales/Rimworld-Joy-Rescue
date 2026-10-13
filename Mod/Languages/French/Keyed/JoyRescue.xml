@@ -6,7 +6,6 @@
   <JoyRescue.Report.Watching>regarde {0}.</JoyRescue.Report.Watching>
 
   <JoyRescue.Settings.NotScanned>L'analyse n'a pas encore eu lieu. Relancez RimWorld avec Joy Rescue actif.</JoyRescue.Settings.NotScanned>
-  <JoyRescue.Settings.NothingToRescue>Tous les bâtiments de loisir de votre liste de mods sont déjà desservis. Rien à réparer.</JoyRescue.Settings.NothingToRescue>
 
   <!-- Expressions comptées : .One / .Many / .Zero, choisies d'après le nombre, toujours {0} (TRANSLATIONS.md, Counts and plurals). Le français traite 0 comme le singulier. -->
   <JoyRescue.Count.Building.One>{0} bâtiment</JoyRescue.Count.Building.One>
@@ -71,7 +70,6 @@ Dans les deux cas, les bâtiments orphelins et les activités qui ne desservent 
   <JoyRescue.Settings.Reset>Valeurs par défaut</JoyRescue.Settings.Reset>
   <JoyRescue.Settings.ConfirmReset>Rétablir tous les réglages de Joy Rescue ?</JoyRescue.Settings.ConfirmReset>
 
-  <JoyRescue.Settings.GroupHeaderWithCode>{0} : embarque son propre code de loisir</JoyRescue.Settings.GroupHeaderWithCode>
 
   <JoyRescue.Settings.RowTip>{0}\nVient de : {1}\nType de loisir : {2}</JoyRescue.Settings.RowTip>
   <JoyRescue.Settings.RowTipOwnCode>Ce mod définit ses propres activités de loisir ou pilotes de tâche. Il gère peut-être déjà ce bâtiment par code. À n'activer que si les colons ne l'utilisent visiblement jamais.</JoyRescue.Settings.RowTipOwnCode>
@@ -82,7 +80,6 @@ Dans les deux cas, les bâtiments orphelins et les activités qui ne desservent 
   <JoyRescue.Mode.SitAdjacent>S'asseoir en face</JoyRescue.Mode.SitAdjacent>
   <JoyRescue.Mode.Watch>Regarder de loin</JoyRescue.Mode.Watch>
 
-  <JoyRescue.Settings.NoJoyBuildings>Aucun bâtiment de loisir dans cette liste de mods.</JoyRescue.Settings.NoJoyBuildings>
   <JoyRescue.Settings.RowTipCovered>Déjà desservi par son propre mod. Rien à réparer, et rien à désactiver ici.</JoyRescue.Settings.RowTipCovered>
   <JoyRescue.Settings.RowTipOrphan>Aucune activité ne référence ce bâtiment. Sans intervention, il ne sera pas utilisé pour les loisirs.</JoyRescue.Settings.RowTipOrphan>
 
