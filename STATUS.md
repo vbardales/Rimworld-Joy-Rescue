@@ -24,6 +24,7 @@ workshop:     3806137974 (Joy Rescue 0.1.0, prepublished by the maintainer; publ
 remaining:
   - resolved 2026-10-12: French and English review by Virginie, recorded in Translation audit below (revision bd5c2a2, CHANGELOG at dc67e6b).
   - unverified: settings replay in game on the new DLL (the plural change makes the settings scenarios new again:
+      Filed 2026-10-13 at a0674d8 (12 tickets, by this session): 06 EN 20261013-172627-144-2d3d, 06 FR 20261013-172729-322-7ec2; chains 13+14, 15-17, 18-20, 21+22 and 23, EN 20261013-172735-899-c348, 172740-530-8b98, 172745-035-9894, 172749-157-8617, 172753-193-147f, FR 20261013-172757-860-c139, 172803-750-ef6c, 172808-986-6e65, 172814-908-50d6, 172820-184-9d74.
       `01`, `06`, `13` to `23`, English and French). Tickets 20261011-234938-670-dfd0 (English, `01`) and
       20261011-234939-528-0a77 (French, `01`) are in the queue; the rest follows at `playTests`.
   - unverified: Workshop self-subscription and public visibility of item 3806137974, reported by the maintainer, not
@@ -34,7 +35,7 @@ remaining:
       scenario, never from test passes. Belongs to `shootGallery`.
   - note: three Keyed entries are used nowhere in `Source/` (`NoJoyBuildings`, `NothingToRescue`,
       `GroupHeaderWithCode`); `Check-Translations.ps1` lists them. Older than the plural change, to remove or wire.
-session:      local_131c2e71-2ac1-49e4-b776-db6daa35f631
+session:      local_5d402cea-359a-464a-ad85-0c5485fb6609
 updated:      2026-10-12 Virginie's review recorded, writeTests -> playTests[1.0.0]
 protocols_read_sha: 2f4e0002e2543fcde57999c51ff8b2f0dfc8efdb
 ---
