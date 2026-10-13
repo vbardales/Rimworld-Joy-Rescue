@@ -85,7 +85,7 @@ ever tracked.
   full report (they weigh tens of megabytes).
 - The rolling shared archive copies of this mod: select what is needed, then remove that
   archive. Leave the archives of other mods alone.
-- Offline suite outputs under `.build/` of an older build: keep only the latest
+- Offline suite outputs under `build/` of an older build: keep only the latest
   `taxonomy-*.txt` set, which matches the delivered DLL.
 
 Never delete a report a `STATUS.md` field still points to: repoint it first. List what goes

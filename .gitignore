@@ -1,7 +1,7 @@
 # Build intermediates.
 # Source/Directory.Build.props sends them outside the mod folder: they must never end up back
 # inside it, since a Workshop uploader sends Mod/ as it stands, with no exclusion possible.
-.build/
+build/
 Source/obj/
 Source/bin/
 
@@ -34,3 +34,4 @@ desktop.ini
 Tests/Pickle/Evidence/
 Tests/Pickle/runs/
 evidence/
+Art/.render/

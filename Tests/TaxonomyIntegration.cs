@@ -184,7 +184,7 @@ internal static partial class Program
         Test("T08 preset settings and transfer markers survive real Scribe", () =>
         {
             using var f = new SettingsFixture(); Target();
-            var dir = Path.Combine(RepoRoot(), ".build", "taxonomy"); Directory.CreateDirectory(dir);
+            var dir = Path.Combine(RepoRoot(), "build", "taxonomy"); Directory.CreateDirectory(dir);
             string settingsPath = Path.Combine(dir, "settings.xml");
             f.Settings.commonTaxonomy = true; CommonTaxonomy.EnsureKinds(f.Settings);
             Scribe.saver.InitSaving(settingsPath, "settings"); f.Settings.ExposeData(); Scribe.saver.FinalizeSaving();
@@ -224,7 +224,7 @@ internal static partial class Program
             values[f.Kind] = .8f; values[target] = .1f;
             CommonTaxonomy.AppliedEnabled = true;
             CommonTaxonomy.MigrationLinks.Clear(); CommonTaxonomy.MigrationLinks["TestKind>NewKind"] = "NewKind";
-            var dir = Path.Combine(RepoRoot(), ".build", "taxonomy"); Directory.CreateDirectory(dir);
+            var dir = Path.Combine(RepoRoot(), "build", "taxonomy"); Directory.CreateDirectory(dir);
             Scribe.saver.InitSaving(Path.Combine(dir,"new-pawn.xml"), "tolerance");
             set.ExposeData(); Patch_TaxonomyTolerance.Postfix(set); Scribe.saver.FinalizeSaving();
             Patch_TaxonomyTolerance.MigrateLoaded(set); Equal(.1f, set[target]);

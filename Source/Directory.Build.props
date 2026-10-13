@@ -9,8 +9,8 @@
       property before the csproj. The path is one level up from here, so inside the repository
       and outside Mod/ - outside Mod/ being the only real constraint.
     -->
-    <BaseIntermediateOutputPath>$(MSBuildThisFileDirectory)..\.build\obj\</BaseIntermediateOutputPath>
-    <BaseOutputPath>$(MSBuildThisFileDirectory)..\.build\bin\</BaseOutputPath>
+    <BaseIntermediateOutputPath>$(MSBuildThisFileDirectory)..\build\obj\</BaseIntermediateOutputPath>
+    <BaseOutputPath>$(MSBuildThisFileDirectory)..\build\bin\</BaseOutputPath>
   </PropertyGroup>
 
 </Project>

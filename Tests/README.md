@@ -7,9 +7,9 @@ dependencies. Run from the repository root:
 
 ```powershell
 dotnet build Tests/JoyRescue.Tests.csproj -c Release
-& ./.build/tests/bin/Release/net8.0/JoyRescue.Tests.exe
+& ./build/tests/bin/Release/net8.0/JoyRescue.Tests.exe
 # Backward-compatible alias; regressions now run by default:
-& ./.build/tests/bin/Release/net8.0/JoyRescue.Tests.exe --regressions
+& ./build/tests/bin/Release/net8.0/JoyRescue.Tests.exe --regressions
 pwsh -NoProfile -File Tests/Test-Xml.ps1
 pwsh -NoProfile -File ../scripts/Check-DefInjected.ps1 -TransMod ./Mod
 ```
@@ -18,7 +18,7 @@ For a different game location, pass
 `-p:RimWorldManagedDir=D:\Games\RimWorld\RimWorldWin64_Data\Managed` to the build.
 The build compiles production net48 and the net8.0 runner. Exit 0 means success;
 exit 1 means a failed assertion. `dotnet test` does not discover this custom runner.
-Game runtime dependencies are copied only under ignored `.build/tests/`, never Mod/.
+Game runtime dependencies are copied only under ignored `build/tests/`, never Mod/.
 
 ## Scope and limitations
 
@@ -38,7 +38,7 @@ this data-only environment. The attempted run was recorded in a log
 There is no line/branch coverage measurement. SettingsIntegration.cs now executes full
 Retarget transitions (including worker invalidation) in EN and FR, live weight restoration,
 real generation and reassignment, editor helpers and Scribe serialization. The current
-suite passes **118/118**; results are in `.build/taxonomy-results.txt`.
+suite passes **118/118**; results are in `build/taxonomy-results.txt`.
 Manual acceptance is in MANUAL.md and remains unexecuted.
 
 The fixtures initialize real Verse language objects from the distributed Keyed files,
@@ -47,7 +47,7 @@ and clear their databases between cases; globals they change are restored on dis
 Unity profiling and unrelated date/colonist text decoration are disabled in the fixtures.
 Generation/reassignment tests use Verse's Log.LockMessages to avoid the Unity log sink:
 these tests check resulting definitions, not clean in-game logs. Scribe tests use the real
-saver, extractor and loader through all loading phases, writing only `.build/` files.
+saver, extractor and loader through all loading phases, writing only `build/` files.
 No production settings, translation, serialization or generation method is mocked/patched.
 The explicit Publicizer assembly attribute permits the unchanged private-member accesses
 on .NET 8 as well as the intended Mono environment.
@@ -67,7 +67,7 @@ and target definitions, not exhaustive gameplay behavior.
 49/51 with R01, 13/13 XML**. Undefined numeric modes `99` and `-1` were accepted
 instead of Auto. These two failures were genuine reproductions, not ignored tests
 or assertions changed to accept the defect. They were opt-in at that time and now
-run by default. Initial outputs remain under `.build/tests/`; the pre-fix audit
+run by default. Initial outputs remain under `build/tests/`; the pre-fix audit
 outputs were deleted on 2026-09-24 as superseded.
 
 See STATUS.md for the fixed revision/worktree, current results and evidence paths.

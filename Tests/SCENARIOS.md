@@ -214,7 +214,7 @@ Baseline nominal total: 49 (26 settings, 9 heuristic, 3 guards, 11 editor); with
 also described in README.md, MANUAL.md F13 and STATUS.md; no planned case is implicitly PASS.
 ## Settings integration results — 2026-09-13 (superseded by 118/118)
 
-**95/95 total PASS** on 2026-09-13, against the DLL delivered that day. Superseded: the delivered DLL has changed since (SHA-256 `E7DD9FFE...`) and the suite is now 118/118, XML 20/20 (`.build/taxonomy-results.txt`, `.build/taxonomy-xml.txt`). The September 12 matrix above
+**95/95 total PASS** on 2026-09-13, against the DLL delivered that day. Superseded: the delivered DLL has changed since (SHA-256 `E7DD9FFE...`) and the suite is now 118/118, XML 20/20 (`build/taxonomy-results.txt`, `build/taxonomy-xml.txt`). The September 12 matrix above
 is retained as history, not current coverage. New cases in SettingsIntegration.cs:
 
 | Area | Executed scope |
@@ -235,4 +235,4 @@ and removal/rename effects across actual game restarts. They are not certified b
 D33's catch/log behavior and D41's exact log display remain for engine validation; only the
 controlled failure state is asserted off-game. No assertion was weakened to accept R02–R04,
 D40 or the stale-tooltip defect. Reproduction logs
-were deleted on 2026-09-24 as superseded; the current results and build logs are `.build/taxonomy-*.txt`.
+were deleted on 2026-09-24 as superseded; the current results and build logs are `build/taxonomy-*.txt`.

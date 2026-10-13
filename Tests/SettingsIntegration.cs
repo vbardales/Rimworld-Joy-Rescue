@@ -424,7 +424,7 @@ internal static partial class Program
     // a dated evidence folder that a cleanup could delete, which silently broke both cases.
     private static string ScratchFile(string name)
     {
-        var dir = Path.Combine(RepoRoot(), ".build", "scratch");
+        var dir = Path.Combine(RepoRoot(), "build", "scratch");
         Directory.CreateDirectory(dir);
         return Path.Combine(dir, name);
     }

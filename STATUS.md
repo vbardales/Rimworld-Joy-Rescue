@@ -36,7 +36,7 @@ remaining:
       `GroupHeaderWithCode`); `Check-Translations.ps1` lists them. Older than the plural change, to remove or wire.
 session:      local_131c2e71-2ac1-49e4-b776-db6daa35f631
 updated:      2026-10-12 Virginie's review recorded, writeTests -> playTests[1.0.0]
-protocols_read_sha: 8c994dd5dd3d812d3c117029a445eafb4814182a
+protocols_read_sha: 2f4e0002e2543fcde57999c51ff8b2f0dfc8efdb
 ---
 
 # Joy Rescue — status
@@ -64,7 +64,7 @@ by this session; two Pickle tickets are queued through the dispatcher.
 
 Local scripts (AGENTS.md, "Local scripts"): `_tools/Generate-FrenchReview.ps1` deleted, the shared
 `scripts/Make-FrenchReview.ps1` replaces it. `Tests/Test-Xml.ps1` and `Tests/Pickle/Check-Steps.ps1` remain, with their
-rows in `scripts/LOCAL_SCRIPTS.md`. `.build/` holds ignored outputs only; the superseded `taxonomy` and `scratch` folders
+rows in `scripts/LOCAL_SCRIPTS.md`. `build/` (renamed from `.build/`, 2026-10-13) holds ignored outputs only; the superseded `taxonomy` and `scratch` folders
 were removed.
 
 Update 2026-10-12: Virginie's review is done (Translation audit below), protocols marked read at `8c994dd`,

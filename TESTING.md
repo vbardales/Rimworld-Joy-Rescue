@@ -9,7 +9,7 @@ the evidence to keep, `docs/runs/README.md` the runs so far, `STATUS.md` where i
 
 ```powershell
 dotnet build Tests/JoyRescue.Tests.csproj -c Release
-& ./.build/tests/bin/Release/net8.0/JoyRescue.Tests.exe
+& ./build/tests/bin/Release/net8.0/JoyRescue.Tests.exe
 powershell -NoProfile -ExecutionPolicy Bypass -File Tests/Test-Xml.ps1
 ```
 

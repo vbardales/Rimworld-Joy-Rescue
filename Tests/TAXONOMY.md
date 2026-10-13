@@ -71,7 +71,7 @@ Commands from the repository root:
 
 ```powershell
 dotnet build Tests/JoyRescue.Tests.csproj -c Release
-& ./.build/tests/bin/Release/net8.0/JoyRescue.Tests.exe
+& ./build/tests/bin/Release/net8.0/JoyRescue.Tests.exe
 pwsh -NoProfile -File Tests/Test-Xml.ps1
 ```
 
