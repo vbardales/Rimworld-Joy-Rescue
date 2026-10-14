@@ -76,7 +76,7 @@ before `tested`: no manual test may be left. All nineteen are now written as Pic
 | F09 persistence, translations | `21` then `22`, English and French; `01` | passed in both languages, tree `0f7a731`, two launches each; four captures opened |
 | F10 reset | `18` then `19`, `20` | passed, tree `0f7a731`, three launches; captures opened |
 | F11 removal, addition | `27` + `removal-check`, then `28` | passed, both, tree `0f7a731` (removal-check at `9b8a21a`, the error filter accepts the game's own echo of a related error). The saved colony loses its generated job on removal and the addition reads it back |
-| F12 presentation | `23` | passed, tree `0f7a731`, 2 of 2; capture opened. Not applicable: the click on the source link, which hands the address to the operating system's browser; the address and the BBCode are asserted instead |
+| F12 presentation | `23` | passed, tree `a3f2ee0`, the single scenario of `23` (the capture scenario was removed on 2026-10-14: it showed the game's own mod list, not the mod). Not applicable: the click on the source link, which hands the address to the operating system's browser; the address and the BBCode are asserted instead |
 | F13, F19 shortcut, RIMMSQOL | `24` then `25`, `26`; `02` | passed, tree `0f7a731`, three launches, and `02` in the RIMMSQOL pass. RIMMSQOL is Workshop item 1084452457; its About.xml carries no version number, so the build is identified by `1.6/Assemblies/RIMMSqol.dll`, 1,822,720 bytes, SHA-256 starting `1152b0c198d34d4b` |
 | F14 shared activities | `03`, `04`, `05` | passed in both orders, tree `0f7a731`, definitions, jobs and credited kinds |
 | F15, F18 fix set, save and restart | `29` then `30`, `31` | passed, tree `0f7a731`, three launches |
