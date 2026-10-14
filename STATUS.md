@@ -26,6 +26,9 @@ remaining:
   - defect (2026-10-14, F07 French capture, `c139`): the mode button of a building with an interaction cell clips its label without an
       ellipsis in French ("Rejoindre la case d'inter", key `JoyRescue.Mode.InteractionCell`, button about 150 px). English fits. Fix: truncate
       the label with an ellipsis like the type button, or shorten the French text (a text change goes back to Virginie).
+  - defect (2026-10-14, F10 French captures, `6e65`): group header lines run under the "Éteindre" button without an ellipsis in French
+      ("Consommation de drogues : Aucun bâtiment, 1 activité, cela vient (", "Gourmandise : ... d'objets ou de", "... en attente de réparat").
+      The same headers fit in English. Fix: truncate the header to the width left of the button, or shorten the French text.
   - unverified: settings replay in game on the new DLL (the plural change makes the settings scenarios new again:
       Filed 2026-10-13 at a0674d8 (12 tickets, by this session): 06 EN 20261013-172627-144-2d3d, 06 FR 20261013-172729-322-7ec2; chains 13+14, 15-17, 18-20, 21+22 and 23, EN 20261013-172735-899-c348, 172740-530-8b98, 172745-035-9894, 172749-157-8617, 172753-193-147f, FR 20261013-172757-860-c139, 172803-750-ef6c, 172808-986-6e65, 172814-908-50d6, 172820-184-9d74.
       `01`, `06`, `13` to `23`, English and French). Tickets 20261011-234938-670-dfd0 (English, `01`) and
