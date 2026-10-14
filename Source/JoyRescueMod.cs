@@ -405,12 +405,13 @@ namespace JoyRescue
             GUI.DrawTexture(iconRect, TexButton.Info);
             TooltipHandler.TipRegion(rect, KindTip(kind, list));
 
+            // The header is cut with an ellipsis at the room left of the off button: a long translation must
+            // not run under it. The tooltip over the whole band already says the rest.
+            var labelRect = new Rect(iconRect.xMax + 6f, rect.y, rect.width - InfoIconSize - 8f, rect.height)
+                .ContractedBy(2f);
             GUI.color = colour;
             Text.Anchor = TextAnchor.LowerLeft;
-            Widgets.Label(
-                new Rect(iconRect.xMax + 6f, rect.y, rect.width - InfoIconSize - 8f, rect.height)
-                    .ContractedBy(2f),
-                label);
+            Widgets.Label(labelRect, label.Resolve().Truncate(labelRect.width));
             Text.Anchor = TextAnchor.UpperLeft;
             Widgets.DrawLineHorizontal(rect.x, rect.yMax - 1f, rect.width);
             GUI.color = Color.white;
@@ -557,12 +558,17 @@ namespace JoyRescue
                 var modeRect = new Rect(rect.xMax - ModeColumnWidth - 4f, rect.y + 2f,
                     ModeColumnWidth, rect.height - 4f);
                 var rawMode = Settings.RawMode(entry);
-                if (Widgets.ButtonText(modeRect, ModeButtonLabel(entry, rawMode)))
+                // A translation longer than the button is cut with an ellipsis, never clipped on both sides;
+                // the tooltip then carries the full label in front of the usual explanation.
+                var fullMode = ModeButtonLabel(entry, rawMode).Resolve();
+                var shownMode = fullMode.Truncate(modeRect.width - 16f);
+                if (Widgets.ButtonText(modeRect, shownMode))
                 {
                     Settings.SetMode(entry, NextMode(rawMode));
                     ApplySettingsAndRefresh();
                 }
-                TooltipHandler.TipRegion(modeRect, "JoyRescue.Settings.ModeTip".Translate());
+                var modeTip = "JoyRescue.Settings.ModeTip".Translate().Resolve();
+                TooltipHandler.TipRegion(modeRect, shownMode != fullMode ? fullMode + "\n\n" + modeTip : modeTip);
                 rightEdge = modeRect.x - 6f;
             }
 

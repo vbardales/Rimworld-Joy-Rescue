@@ -382,8 +382,16 @@ namespace JoyRescue.PickleSteps
         public void AssertEveryTextTranslated(PickleContext ctx)
         {
             var active = LanguageDatabase.activeLanguage;
-            var keys = LanguageDatabase.defaultLanguage.keyedReplacements.Keys.Where(k => k.StartsWith("JoyRescue.")).ToList();
-            ctx.Assert(keys.Count > 0, "the default language holds no JoyRescue.* text");
+            // The keys come from the mod's own English files, not from the default language the game keeps in
+            // memory: the game does not load that one while it runs in another language.
+            var mod = LoadedModManager.RunningMods.FirstOrDefault(m => m.PackageIdPlayerFacing == "nelim.joyrescue");
+            ctx.Require(mod != null, "Joy Rescue is not among the running mods");
+            var keyed = Path.Combine(mod.RootDir, "Languages", "English", "Keyed");
+            var keys = Directory.Exists(keyed)
+                ? Directory.GetFiles(keyed, "*.xml").SelectMany(p => System.Xml.Linq.XDocument.Load(p).Root.Elements())
+                    .Select(e => e.Name.LocalName).Where(k => k.StartsWith("JoyRescue.")).Distinct().ToList()
+                : new System.Collections.Generic.List<string>();
+            ctx.Assert(keys.Count > 0, $"the English files of the mod ({keyed}) hold no JoyRescue.* text");
             var missing = keys.Where(k => !active.HaveTextForKey(k)).ToList();
             ctx.Assert(missing.Count == 0, $"{missing.Count} of {keys.Count} texts are missing in {active.folderName}: "
                 + string.Join(", ", missing.Take(10)));

@@ -7,6 +7,9 @@
 - Counted phrases of the settings window (building and activity counts, the summary line, the type headers, the
   tooltip of the summary, the message after deleting a type) now have one key per form (one, many, zero), in
   English and French, instead of a fixed or slash form such as "building(s)".
+- Cut the mode button and the type headers of the settings window with an ellipsis when a translation is longer than
+  the room they have, instead of clipping the text on both sides or running it under the neighbouring button. The
+  tooltip carries the full text.
 
 - Remove the internal definition name from the activity tooltip of the settings window. The activity's
   label, the buildings it serves and the explanation remain.
