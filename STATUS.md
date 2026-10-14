@@ -29,6 +29,10 @@ remaining:
   - defect (2026-10-14, F10 French captures, `6e65`): group header lines run under the "Éteindre" button without an ellipsis in French
       ("Consommation de drogues : Aucun bâtiment, 1 activité, cela vient (", "Gourmandise : ... d'objets ou de", "... en attente de réparat").
       The same headers fit in English. Fix: truncate the header to the width left of the button, or shorten the French text.
+  - defect (test, 2026-10-14, F09 French, `50d6`): `AssertEveryTextTranslated` (`Tests/Pickle/Source/RestartSteps.cs:381`) reads the keys from
+      `LanguageDatabase.defaultLanguage.keyedReplacements`, which is empty when the game runs in French (the English default is not
+      loaded then; the game is now 1.6.4871, the last passing French run of this feature was on `0f7a731`, built for 1.6.4633). English
+      passes. Fix: take the keys from the mod's own `Languages/English/Keyed/*.xml` instead, rebuild `JoyRescue.PickleSteps.dll`, replay `21`+`22` in French alone.
   - unverified: settings replay in game on the new DLL (the plural change makes the settings scenarios new again:
       Filed 2026-10-13 at a0674d8 (12 tickets, by this session): 06 EN 20261013-172627-144-2d3d, 06 FR 20261013-172729-322-7ec2; chains 13+14, 15-17, 18-20, 21+22 and 23, EN 20261013-172735-899-c348, 172740-530-8b98, 172745-035-9894, 172749-157-8617, 172753-193-147f, FR 20261013-172757-860-c139, 172803-750-ef6c, 172808-986-6e65, 172814-908-50d6, 172820-184-9d74.
       `01`, `06`, `13` to `23`, English and French). Tickets 20261011-234938-670-dfd0 (English, `01`) and
