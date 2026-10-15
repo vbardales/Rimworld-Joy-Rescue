@@ -23,22 +23,10 @@ unit_tested_on: 2026-10-11
 workshop:     3806137974 (Joy Rescue 0.1.0, prepublished by the maintainer; public/subscription check unverified)
 remaining:
   - resolved 2026-10-12: French and English review by Virginie, recorded in Translation audit below (revision bd5c2a2, CHANGELOG at dc67e6b).
-  - defect (2026-10-14, F07 French capture, `c139`): the mode button of a building with an interaction cell clips its label without an
-      ellipsis in French ("Rejoindre la case d'inter", key `JoyRescue.Mode.InteractionCell`, button about 150 px). English fits. Fix: truncate
-      the label with an ellipsis like the type button, or shorten the French text (a text change goes back to Virginie).
-  - defect (2026-10-14, F10 French captures, `6e65`): group header lines run under the "Éteindre" button without an ellipsis in French
-      ("Consommation de drogues : Aucun bâtiment, 1 activité, cela vient (", "Gourmandise : ... d'objets ou de", "... en attente de réparat").
-      The same headers fit in English. Fix: truncate the header to the width left of the button, or shorten the French text.
-  - defect (test, 2026-10-14, F09 French, `50d6`): `AssertEveryTextTranslated` (`Tests/Pickle/Source/RestartSteps.cs:381`) reads the keys from
-      `LanguageDatabase.defaultLanguage.keyedReplacements`, which is empty when the game runs in French (the English default is not
-      loaded then; the game is now 1.6.4871, the last passing French run of this feature was on `0f7a731`, built for 1.6.4633). English
-      passes. Fix: take the keys from the mod's own `Languages/English/Keyed/*.xml` instead, rebuild `JoyRescue.PickleSteps.dll`, replay `21`+`22` in French alone.
-  - fixed 2026-10-14 at `e87e873`, awaiting replay: the three defects above (French clipping of the mode button and of the group
-      headers: ellipsis in `JoyRescueMod.cs`; test step `AssertEveryTextTranslated` reads the keys from the mod's English files).
-      DLLs rebuilt (offline 133/133, XML 21/21). Replay tickets, small and in French unless noted: 13+14 `20261014-164344-541-b00a`,
-      18-20 `20261014-164347-831-17e4`, 21+22 `20261014-164350-435-f8e6`, 13+14 English `20261014-164352-892-acbf`; the English
-      18-20 retry `20261014-130757-188-0c05` runs on the same tree. Remove the three defect lines once the captures show the ellipsis.
-  - unverified: settings replay in game on the new DLL (the plural change makes the settings scenarios new again:
+  - unverified (2026-10-15): F10 French group headers ("Consommation de drogues", "Gourmandise"): the old captures showed them cut under the
+      "Éteindre" button; the replay at `e87e873` (ellipsis in `JoyRescueMod.cs`) has a tooltip over their end. Close once a capture without a
+      tooltip shows them cut with an ellipsis, or whole. The mode button ellipsis and the F09 test step (`AssertEveryTextTranslated`) are confirmed fixed.
+  - done 2026-10-15: settings replay in game on the new DLL, all green, run lines in `docs/runs/README.md` (the plural change made the settings scenarios new again:
       Filed 2026-10-13 at a0674d8 (12 tickets, by this session): 06 EN 20261013-172627-144-2d3d, 06 FR 20261013-172729-322-7ec2; chains 13+14, 15-17, 18-20, 21+22 and 23, EN 20261013-172735-899-c348, 172740-530-8b98, 172745-035-9894, 172749-157-8617, 172753-193-147f, FR 20261013-172757-860-c139, 172803-750-ef6c, 172808-986-6e65, 172814-908-50d6, 172820-184-9d74.
       `01`, `06`, `13` to `23`, English and French). Tickets 20261011-234938-670-dfd0 (English, `01`) and
       20261011-234939-528-0a77 (French, `01`) are in the queue; the rest follows at `playTests`.
