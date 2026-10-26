@@ -1,28 +1,24 @@
 {
-  "layout": "classic",
-  "title": "Joy Rescue",
-  "titleSize": 46,
-  "titleParts": [
-    {
-      "text": "Joy Rescue"
-    }
-  ],
-  "suffix": "",
-  "tag": "",
-  "copyLines": [
-    "Makes unusable recreation buildings usable again."
-  ],
-  "iconBadge": {
-    "file": "ModIcon-source.png",
-    "corner": "bottom-left",
-    "width": 190,
-    "translate": "12%, -12%",
-    "radius": 48,
-    "rotate": 15,
-    "outline": false
+  "panel": {
+    "title": "Joy Rescue",
+    "titleSize": 46,
+    "titleParts": [
+      {
+        "text": "Joy Rescue"
+      }
+    ],
+    "copyLines": [
+      "Makes unusable recreation buildings usable again."
+    ]
+  },
+  "icon": {
+    "file": "ModIcon-source.png"
+  },
+  "echo": {
+    "file": "echo-preview.png",
+    "color": "var(--accent)"
   },
   "backgroundFile": "Preview-source.png",
-  "backgroundSize": "cover",
   "palette": {
     "veil": "#1A140E",
     "inkPrimary": "#F2ECE1",
