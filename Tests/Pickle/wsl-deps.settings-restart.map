@@ -1,2 +1,3 @@
 nelim.joyrescue.orphanwitness   path:JoyRescue/Tests/Pickle/OrphanWitness/Mod
 nelim.pickletools.keyedclick    path:PickleTools/KeyedClick/Mod
+nelim.pickletools.clickdiagnostics   path:PickleTools/ClickDiagnostics/Mod

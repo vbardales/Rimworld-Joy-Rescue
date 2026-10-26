@@ -1,5 +1,5 @@
 # F10, second process. See 18-f10-write.feature.
-@review @requires:nelim.pickletools.keyedclick
+@review @requires:nelim.pickletools.keyedclick @requires:nelim.pickletools.clickdiagnostics
 Feature: F10 mid: a cancelled reset changes nothing, a confirmed one restores the defaults
 
   @timeout:300
@@ -15,6 +15,7 @@ Feature: F10 mid: a cancelled reset changes nothing, a confirmed one restores th
     And Joy Rescue: the window is given 5 frames
     And Nelim's Pickle Tools: I click button keyed "JoyRescue.Settings.Reset"
     And Joy Rescue: the window is given 5 frames
+    And Nelim's Pickle Tools: I move the mouse to (10, 10)
     And I take a screenshot "joy rescue reset confirmation"
     And Nelim's Pickle Tools: I click button keyed "GoBack"
     And Joy Rescue: the window is given 5 frames
@@ -30,7 +31,8 @@ Feature: F10 mid: a cancelled reset changes nothing, a confirmed one restores th
     And Joy Rescue: there are 0 custom recreation types in the settings
     And Joy Rescue: the activity of the building "JoyRescueWitness_Screen" is on
     And Joy Rescue: the building "JoyRescueWitness_Table" is on the recreation type "JoyRescue_Kind_1"
-    When I take a screenshot "joy rescue settings after the reset"
+    When Nelim's Pickle Tools: I move the mouse to (10, 10)
+    And I take a screenshot "joy rescue settings after the reset"
     And I close all dialogs
     And Joy Rescue: this game is marked as the one that wrote the settings
     Then no errors were logged
