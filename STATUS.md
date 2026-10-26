@@ -38,7 +38,7 @@ remaining:
       scenario, never from test passes. Belongs to `shootGallery`.
 session:      local_5d402cea-359a-464a-ad85-0c5485fb6609
 updated:      2026-10-12 Virginie's review recorded, writeTests -> playTests[1.0.0]
-protocols_read_sha: 2f4e0002e2543fcde57999c51ff8b2f0dfc8efdb
+protocols_read_sha: 43dd90d4b7873c500347fba1be01275a48d5795b
 ---
 
 # Joy Rescue — status
