@@ -16,7 +16,7 @@ powershell -NoProfile -ExecutionPolicy Bypass -File Tests/Test-Xml.ps1
 The executable runner (133 cases) runs the compiled mod and real game types with no game start:
 settings, the choice of mode, generation, reassignment, tolerance transfer, the order of the
 settings list (`L01` to `L09`), real Scribe round trips, and EN/FR resources. The XML suite
-(21 checks) covers resources, translation call arguments, the shortcut definition and the
+(8 checks) calls the shared Check-ModBasics and Check-Translations, then covers translation call arguments, the shortcut definition and the
 distributed documents. Exit 0 is a pass. Neither proves a pawn used a building.
 
 ## In game: the passes

@@ -58,7 +58,7 @@ launch reads, under one hold of the lock (`-Filter <first> -Then <next>,...`). T
 chain is a plain scenario; the last scenario of a chain carries `@joyrescue-restart-last`, which
 puts the settings backup back and deletes the saves the chain made. `RemovalCheck` is the one
 companion with its own steps: it runs in a launch that has no Joy Rescue. Run
-`Check-Steps.ps1` before filing a ticket: it compiles every pattern and matches every step line
+`scripts/Check-Steps.ps1 -Mod JoyRescue` of the protocols root before filing a ticket: it compiles every pattern and matches every step line
 with no game.
 
 ## Evidence to keep

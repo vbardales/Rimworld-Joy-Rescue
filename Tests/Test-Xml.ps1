@@ -20,15 +20,13 @@ function Read-SafeXml([string]$Path) {
         return ,$doc
     } finally { $reader.Dispose() }
 }
-$xmlFiles = @(Get-ChildItem -LiteralPath "$repo/Mod" -Filter '*.xml' -Recurse)
-Check 'XML files exist' { Require ($xmlFiles.Count -gt 0) 'No XML files found' }
-foreach ($file in $xmlFiles) {
-    Check "Parse $($file.Name) [$($file.Directory.Parent.Name)]" {
-        $doc = Read-SafeXml $file.FullName
-        $expected = if ($file.Name -eq 'About.xml') { 'ModMetaData' }
-            elseif ($file.FullName -match '[\\/]Defs[\\/]') { 'Defs' }
-            else { 'LanguageData' }
-        Require ($doc.DocumentElement.LocalName -ceq $expected) "Expected root $expected"
+# Generic checks (XML parses, duplicate defNames, key coverage, stale or empty keys, parameter tokens, notices) are the shared ones.
+foreach ($shared in 'Check-ModBasics', 'Check-Translations') {
+    Check "Shared $shared" {
+        $script = Join-Path (Split-Path $repo -Parent) "scripts/$shared.ps1"
+        Require (Test-Path $script) "Missing $script"
+        $null = & powershell -NoProfile -ExecutionPolicy Bypass -File $script -ModRoot $repo 2>&1
+        Require ($LASTEXITCODE -eq 0) "$shared exit $LASTEXITCODE"
     }
 }
 Check 'About identity, version and Harmony dependency' {
@@ -47,61 +45,21 @@ Check 'GitHub URL in metadata AND visible description' {
 }
 $catalogs = @{}
 foreach ($language in @('English', 'French')) {
-    Check "$language keys unique and nonempty" {
-        $catalog = [System.Collections.Generic.Dictionary[string,string]]::new([System.StringComparer]::Ordinal)
-        foreach ($file in Get-ChildItem -LiteralPath "$repo/Mod/Languages/$language/Keyed" -Filter '*.xml') {
-            $doc = Read-SafeXml $file.FullName
-            foreach ($node in $doc.DocumentElement.ChildNodes) {
-                if ($node.NodeType -ne [System.Xml.XmlNodeType]::Element) { continue }
-                Require (-not $catalog.ContainsKey($node.Name)) "Duplicate key $($node.Name)"
-                Require (-not [string]::IsNullOrWhiteSpace($node.InnerText)) "Empty key $($node.Name)"
-                $catalog.Add($node.Name, $node.InnerText)
-            }
+    $catalog = @{}
+    foreach ($file in Get-ChildItem -LiteralPath "$repo/Mod/Languages/$language/Keyed" -Filter '*.xml') {
+        foreach ($node in (Read-SafeXml $file.FullName).DocumentElement.ChildNodes) {
+            if ($node.NodeType -eq [System.Xml.XmlNodeType]::Element) { $catalog[$node.Name] = $node.InnerText }
         }
-        Require ($catalog.Count -gt 0) "No keys in $language"
-        $catalogs[$language] = $catalog
     }
+    $catalogs[$language] = $catalog
 }
-Check 'French and English key parity' {
-    Require ($catalogs.Count -eq 2) 'Catalog loading failed'
-    $difference = @(Compare-Object @($catalogs.English.Keys) @($catalogs.French.Keys) -CaseSensitive)
-    Require ($difference.Count -eq 0) "Key differences: $($difference.InputObject -join ', ')"
-}
-Check 'Translation placeholders and format strings' {
-    Require ($catalogs.Count -eq 2) 'Catalog loading failed'
-    foreach ($key in $catalogs.English.Keys) {
-        Require ($catalogs.French.ContainsKey($key)) "Missing French key $key"
-        $en = $catalogs.English[$key]
-        $fr = $catalogs.French[$key]
-        $enSlots = @([regex]::Matches($en, '\{(\d+)(?:[^{}]*)\}') | ForEach-Object { [int]$_.Groups[1].Value } | Sort-Object -Unique)
-        $frSlots = @([regex]::Matches($fr, '\{(\d+)(?:[^{}]*)\}') | ForEach-Object { [int]$_.Groups[1].Value } | Sort-Object -Unique)
-        Require (($enSlots -join ',') -ceq ($frSlots -join ',')) "Placeholder mismatch in $key"
-        $max = if ($enSlots.Count) { ($enSlots | Measure-Object -Maximum).Maximum } else { -1 }
-        $values = [object[]]::new([int]$max + 1)
-        for ($i = 0; $i -lt $values.Length; $i++) { $values[$i] = "argument$i" }
-        $null = [string]::Format($en, $values)
-        $null = [string]::Format($fr, $values)
-    }
-}
-Check 'Literal translation keys used by C# exist in both languages' {
+Check 'Translation call arguments satisfy resource placeholders' {
     $found = 0
     foreach ($file in Get-ChildItem -LiteralPath "$repo/Source" -Filter '*.cs' -Recurse) {
         $source = Get-Content -LiteralPath $file.FullName -Raw
         foreach ($match in [regex]::Matches($source, '"(JoyRescue\.[^"]+)"\s*\.Translate\(')) {
             $key = $match.Groups[1].Value
             $found++
-            foreach ($language in @('English', 'French')) {
-                Require ($catalogs[$language].ContainsKey($key)) "$language missing $key"
-            }
-        }
-    }
-    Require ($found -gt 0) 'No translation calls inspected'
-}
-Check 'Translation call arguments satisfy resource placeholders' {
-    foreach ($file in Get-ChildItem -LiteralPath "$repo/Source" -Filter '*.cs' -Recurse) {
-        $source = Get-Content -LiteralPath $file.FullName -Raw
-        foreach ($match in [regex]::Matches($source, '"(JoyRescue\.[^"]+)"\s*\.Translate\(')) {
-            $key = $match.Groups[1].Value
             $depth = 1; $commas = 0; $hasArgument = $false; $quoted = $false; $escaped = $false
             for ($i = $match.Index + $match.Length; $i -lt $source.Length; $i++) {
                 $ch = $source[$i]
@@ -120,15 +78,16 @@ Check 'Translation call arguments satisfy resource placeholders' {
             Require ($depth -eq 0) "Unclosed Translate call: $key"
             $arity = if ($hasArgument) { $commas + 1 } else { 0 }
             foreach ($language in @('English', 'French')) {
+                Require ($catalogs[$language].ContainsKey($key)) "$language missing $key"
                 foreach ($slot in [regex]::Matches($catalogs[$language][$key], '\{(\d+)(?:[^{}]*)\}')) {
                     Require ([int]$slot.Groups[1].Value -lt $arity) "$language $key needs argument $($slot.Groups[1].Value), call supplies $arity"
                 }
             }
         }
     }
+    Require ($found -gt 0) 'No translation calls inspected'
 }
 Check 'The activity tooltip is the activity name alone in both languages' {
-    Require ($catalogs.Count -eq 2) 'Catalog loading failed'
     foreach ($language in @('English', 'French')) {
         Require ($catalogs[$language]['JoyRescue.Settings.GiverTip'] -ceq '{0}') "$language GiverTip must be exactly {0}: the row tooltip is the activity name, nothing else"
     }

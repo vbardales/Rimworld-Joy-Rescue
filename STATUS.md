@@ -26,9 +26,11 @@ remaining:
   - unverified (2026-10-15): F10 French group headers ("Consommation de drogues", "Gourmandise"): the old captures showed them cut under the
       "Éteindre" button; the replay at `e87e873` (ellipsis in `JoyRescueMod.cs`) has a tooltip over their end. Close once a capture without a
       tooltip shows them cut with an ellipsis, or whole. The mode button ellipsis and the F09 test step (`AssertEveryTextTranslated`) are confirmed fixed.
-  - ticket filed 2026-10-26 at `fcb9022` (JoR, French, `-NoBatch`): F10 chain `18` then `19`, `20` (settings-restart map), id `20261026-034127-963-dd50`,
-      evidence `Tests/Pickle/Inbox/f10-mouse-french`. Feature `19` now parks the mouse (`I move the mouse to (10, 10)`, ClickDiagnostics) before its two captures.
-      On RUN_DONE: open the captures, close the F10 line above if the headers show cut with an ellipsis or whole; keep the tree frozen until then.
+  - ticket filed 2026-10-26 at `fcb9022` (JoR, French, `-NoBatch`): F10 chain `18` then `19`, `20` (settings-restart map), id `20261026-034127-963-dd50`
+      ended 2026-11-02 14:34 with exit 1073807364, no report (infra: machine unplugged, TM). TM refiled it from the saved request as `21bd` (same filter, French,
+      settings-restart map, NoBatch), queued; evidence `Tests/Pickle/Inbox/f10-mouse-french`. Feature `19` parks the mouse (`I move the mouse to (10, 10)`, ClickDiagnostics) before its two captures.
+      On RUN_DONE (TM relays, result names old owner `a442b007`): open the captures, close the F10 line above if the headers show cut with an ellipsis or whole.
+  - open: 8.m code review (`code_review_sha` absent), `tested_1_7` absent (1.7 pass follows a green 1.6 `playTests`).
   - done 2026-10-15: settings replay in game on the new DLL, all green, run lines in `docs/runs/README.md` (the plural change made the settings scenarios new again:
       Filed 2026-10-13 at a0674d8 (12 tickets, by this session): 06 EN 20261013-172627-144-2d3d, 06 FR 20261013-172729-322-7ec2; chains 13+14, 15-17, 18-20, 21+22 and 23, EN 20261013-172735-899-c348, 172740-530-8b98, 172745-035-9894, 172749-157-8617, 172753-193-147f, FR 20261013-172757-860-c139, 172803-750-ef6c, 172808-986-6e65, 172814-908-50d6, 172820-184-9d74.
       `01`, `06`, `13` to `23`, English and French). Tickets 20261011-234938-670-dfd0 (English, `01`) and
@@ -39,9 +41,9 @@ remaining:
       are not certified by the isolated definition runner.
   - feature: Workshop gallery images (PUBLICATION.md, AUDIT.md 9): taken from the nelimZen colony or a dedicated Pickle
       scenario, never from test passes. Belongs to `shootGallery`.
-session:      local_5d402cea-359a-464a-ad85-0c5485fb6609
-updated:      2026-10-12 Virginie's review recorded, writeTests -> playTests[1.0.0]
-protocols_read_sha: 43dd90d4b7873c500347fba1be01275a48d5795b
+session:      local_54512579-d805-4ab9-b6a3-59507d509b27
+updated:      2026-11-02 resumed, F10 ticket refiled by TM as 21bd, local Check-Steps removed, Test-Xml cut
+protocols_read_sha: b0ff7db4b2ac0debbadd93e4eddf866b0516c74a
 ---
 
 # Joy Rescue — status
@@ -68,7 +70,7 @@ Replayed today: `dotnet build Tests/JoyRescue.Tests.csproj -c Release`, `JoyResc
 by this session; two Pickle tickets are queued through the dispatcher.
 
 Local scripts (AGENTS.md, "Local scripts"): `_tools/Generate-FrenchReview.ps1` deleted, the shared
-`scripts/Make-FrenchReview.ps1` replaces it. `Tests/Test-Xml.ps1` and `Tests/Pickle/Check-Steps.ps1` remain, with their
+`scripts/Make-FrenchReview.ps1` replaces it. `Tests/Test-Xml.ps1` remains (cut 2026-11-02; `Tests/Pickle/Check-Steps.ps1` removed for the shared `scripts/Check-Steps.ps1`), with its
 rows in `scripts/LOCAL_SCRIPTS.md`. `build/` (renamed from `.build/`, 2026-10-13) holds ignored outputs only; the superseded `taxonomy` and `scratch` folders
 were removed.
 
