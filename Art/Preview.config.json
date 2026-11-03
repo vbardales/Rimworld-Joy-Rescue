@@ -15,8 +15,7 @@
     "file": "ModIcon-source.png"
   },
   "echo": {
-    "file": "echo-preview.png",
-    "color": "var(--accent)"
+    "file": "echo-preview.png"
   },
   "backgroundFile": "Preview-source.png",
   "palette": {
