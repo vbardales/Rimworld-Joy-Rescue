@@ -26,10 +26,11 @@ remaining:
   - unverified (2026-10-15): F10 French group headers ("Consommation de drogues", "Gourmandise"): the old captures showed them cut under the
       "Éteindre" button; the replay at `e87e873` (ellipsis in `JoyRescueMod.cs`) has a tooltip over their end. Close once a capture without a
       tooltip shows them cut with an ellipsis, or whole. The mode button ellipsis and the F09 test step (`AssertEveryTextTranslated`) are confirmed fixed.
-  - ticket filed 2026-10-26 at `fcb9022` (JoR, French, `-NoBatch`): F10 chain `18` then `19`, `20` (settings-restart map), id `20261026-034127-963-dd50`
-      ended 2026-11-02 14:34 with exit 1073807364, no report (infra: machine unplugged, TM). TM refiled it from the saved request as `21bd` (same filter, French,
-      settings-restart map, NoBatch), queued; evidence `Tests/Pickle/Inbox/f10-mouse-french`. Feature `19` parks the mouse (`I move the mouse to (10, 10)`, ClickDiagnostics) before its two captures.
-      On RUN_DONE (TM relays, result names old owner `a442b007`): open the captures, close the F10 line above if the headers show cut with an ellipsis or whole.
+  - 2026-11-10 (read of ticket `21bd`, ended 2026-11-03): chain broken. `seq1` has no report (launcher exit 1073807364, `no-report.txt`); `seq1-1` (feature `18`) 1/1 passed;
+      `seq2` 1/2: feature `19` passed, feature `20` failed ("the writer did not run in an earlier game process of this chain", chain broken by the seq1 loss). The `19` captures
+      (reset confirmation, after the reset) do not show the F10 group headers cut or whole: the confirmation dialog covers them, and the list after the reset is scrolled to another group.
+      F10 line above stays open: needs a capture of the headers ("Consommation de drogues", "Gourmandise") with no dialog and no tooltip. Inbox folder deleted after read (not a validated proof).
+      Next: refile a small F10 ticket (French) when the owner of the queue is free; no run in progress.
   - open: 8.m code review (`code_review_sha` absent), `tested_1_7` absent (1.7 pass follows a green 1.6 `playTests`).
   - done 2026-10-15: settings replay in game on the new DLL, all green, run lines in `docs/runs/README.md` (the plural change made the settings scenarios new again:
       Filed 2026-10-13 at a0674d8 (12 tickets, by this session): 06 EN 20261013-172627-144-2d3d, 06 FR 20261013-172729-322-7ec2; chains 13+14, 15-17, 18-20, 21+22 and 23, EN 20261013-172735-899-c348, 172740-530-8b98, 172745-035-9894, 172749-157-8617, 172753-193-147f, FR 20261013-172757-860-c139, 172803-750-ef6c, 172808-986-6e65, 172814-908-50d6, 172820-184-9d74.
@@ -42,8 +43,8 @@ remaining:
   - feature: Workshop gallery images (PUBLICATION.md, AUDIT.md 9): taken from the nelimZen colony or a dedicated Pickle
       scenario, never from test passes. Belongs to `shootGallery`.
 session:      local_54512579-d805-4ab9-b6a3-59507d509b27
-updated:      2026-11-02 resumed, F10 ticket refiled by TM as 21bd, local Check-Steps removed, Test-Xml cut
-protocols_read_sha: b0ff7db4b2ac0debbadd93e4eddf866b0516c74a
+updated:      2026-11-10 resumed, ticket 21bd read (chain broken, F10 headers still unseen), Preview redone (config keys migrated)
+protocols_read_sha: 41d6a3a915a280b1dc8fd05ad11022bbe6ea67de
 ---
 
 # Joy Rescue — status

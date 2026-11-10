@@ -1,23 +1,14 @@
 {
   "panel": {
     "title": "Joy Rescue",
-    "titleSize": 46,
     "titleParts": [
-      {
-        "text": "Joy Rescue"
-      }
+      { "text": "Joy Rescue" }
     ],
-    "copyLines": [
-      "Makes unusable recreation buildings usable again."
-    ]
+    "description": "Makes unusable recreation buildings usable again."
   },
-  "icon": {
-    "file": "ModIcon-source.png"
-  },
-  "echo": {
-    "file": "echo-preview.png"
-  },
-  "backgroundFile": "Preview-source.png",
+  "background": { "file": "Preview-source.png" },
+  "icon": { "file": "ModIcon-source.png" },
+  "echo": { "file": "echo-preview.png" },
   "palette": {
     "veil": "#1A140E",
     "inkPrimary": "#F2ECE1",
