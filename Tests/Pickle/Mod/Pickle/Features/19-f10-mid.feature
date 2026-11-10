@@ -32,6 +32,7 @@ Feature: F10 mid: a cancelled reset changes nothing, a confirmed one restores th
     And Joy Rescue: the activity of the building "JoyRescueWitness_Screen" is on
     And Joy Rescue: the building "JoyRescueWitness_Table" is on the recreation type "JoyRescue_Kind_1"
     When Nelim's Pickle Tools: I move the mouse to (10, 10)
+    And Joy Rescue: the window is given 5 frames
     And I take a screenshot "joy rescue settings after the reset"
     And I close all dialogs
     And Joy Rescue: this game is marked as the one that wrote the settings
