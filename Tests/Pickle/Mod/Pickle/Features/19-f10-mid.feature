@@ -34,6 +34,9 @@ Feature: F10 mid: a cancelled reset changes nothing, a confirmed one restores th
     When Nelim's Pickle Tools: I move the mouse to (10, 10)
     And Joy Rescue: the window is given 5 frames
     And I take a screenshot "joy rescue settings after the reset"
+    When Joy Rescue: the settings list is scrolled 250 pixels down
+    And Joy Rescue: the window is given 5 frames
+    And I take a screenshot "joy rescue settings headers above the pointer"
     And I close all dialogs
     And Joy Rescue: this game is marked as the one that wrote the settings
     Then no errors were logged

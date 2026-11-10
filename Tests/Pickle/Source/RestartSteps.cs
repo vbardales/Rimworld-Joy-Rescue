@@ -364,6 +364,19 @@ namespace JoyRescue.PickleSteps
             await ctx.WaitFrames(frames);
         }
 
+        // Pickle 6.0.0 moves no real pointer: it rests at the screen centre and the game draws the tooltip of the
+        // list row under it, over the right end of the headers below. Scrolling the list puts the headers above
+        // that row, so a capture can show how a long header ends.
+        [When("Joy Rescue: the settings list is scrolled {int} pixels down")]
+        public void ScrollList(PickleContext ctx, int pixels)
+        {
+            var mod = LoadedModManager.ModHandles.FirstOrDefault(h => h is JoyRescueMod);
+            ctx.Require(mod != null, "the JoyRescueMod handle is not loaded");
+            var field = typeof(JoyRescueMod).GetField("scrollPosition", BindingFlags.Instance | BindingFlags.NonPublic);
+            ctx.Require(field != null, "JoyRescueMod.scrollPosition is unavailable");
+            field.SetValue(mod, new UnityEngine.Vector2(0f, pixels));
+        }
+
         // What the Remove button of a type row does, with the mod's own clean-up of the reassignments that
         // pointed at the type. Used when two rows are on screen and a click could not tell their buttons apart.
         [When("Joy Rescue: the custom recreation type number {int} is deleted")]
