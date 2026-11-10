@@ -28,6 +28,14 @@ remaining:
       8.m code review (`code_review_sha` absent). Ledger `../.replays/JoyRescue-20261110.tsv`.
   - ticket filed 2026-11-10 at `be8faf5` (JoR, French, `-NoBatch`, settings-restart map): F10 chain `18`, then `19`, then `20` as three launches, id `20261110-115047-298-449f`,
       evidence `Tests/Pickle/Inbox/f10-headers-french`. On RUN_DONE: open the `19` captures, close the F10 line if the headers show cut with an ellipsis or whole. The 8.c replay of the stale features follows in small tickets.
+  - code review 8.m done 2026-11-10 (Opus sub-agent, whole `Source/` since the first commit, `code_review_sha` set; 10 findings, none high, read by the reviewer, not yet reproduced in game). Defects, to fix after the F10 ticket `449f` (a `Source/` commit reopens 8.m and replays):
+      - defect (med) `Runtime/JoyRescueGenerator.cs:371`: a rescued activity moved to another type: `giverKindOverrides` skipped at startup (giver not built yet), "restart pending" shown forever.
+      - defect (med) `Runtime/JoyRescueGenerator.cs:409`: `ApplyGiverKindOverrides` leaves shared buildings on other givers of the old type: "Joy source joyKind and jobDef.joyKind are not the same" logged.
+      - defect (med) `Runtime/JoyRescueGenerator.cs:116`: a reassigned building of a mod with its own joy code ends disabled by default (orphan, `DefaultEnabled`, `JoyRescueSettings.cs:80`).
+      - defect (med) `JoyRescueMod.cs:796` (also 782, 907, 921): picking the type a restart already applied removes the override, the building reverts at the next start, no restart warning.
+      - defect (med) `JoyRescueSettings.cs:135`: `nextCustomKindId` resets to 1 while live custom types exist (reserved taxonomy type present): duplicate `JoyRescue_Kind_1`.
+      - defect (med, perf) `JoyRescueMod.cs:260`, `:1031`: `ListLayout.Build`, regex in `ActivityName`, `UsableKindCount` run every GUI event with no cache and no row culling.
+      - defect (low) `JoyRescueMod.cs:991`: `NextMode` offers `InteractionCell` on a building without interaction cell. (low) `JoyRescueMod.cs:208`: Remove hidden for every custom type once the preset exists, type list not scrollable. (low) `Patches/Patch_TaxonomyTolerance.cs:18`: no try/catch around the postfix.
   - resolved 2026-10-12: French and English review by Virginie, recorded in Translation audit below (revision bd5c2a2, CHANGELOG at dc67e6b).
   - unverified (2026-10-15): F10 French group headers ("Consommation de drogues", "Gourmandise"): the old captures showed them cut under the
       "Éteindre" button; the replay at `e87e873` (ellipsis in `JoyRescueMod.cs`) has a tooltip over their end. Close once a capture without a
@@ -49,7 +57,8 @@ remaining:
   - feature: Workshop gallery images (PUBLICATION.md, AUDIT.md 9): taken from the nelimZen colony or a dedicated Pickle
       scenario, never from test passes. Belongs to `shootGallery`.
 session:      local_54512579-d805-4ab9-b6a3-59507d509b27
-updated:      2026-11-10 replay-audit: playTests (8.a, 8.c, 8.l, 8.m open), TRANSLATION_REVIEW.md renamed, unit_tested_on refreshed
+updated:      2026-11-10 code review 8.m done (10 findings, none high), F10 ticket 449f filed
+code_review_sha: abfb9bd8a7d721a7bad03efba7e7afb08e2bebba
 protocols_read_sha: a24bdc17d165fab9b12a0dffa2df5859c5a28e10
 ---
 
