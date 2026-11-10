@@ -26,6 +26,8 @@ remaining:
   - open (replay-audit 2026-11-10, stage playTests): 8.a and 8.l `tested_on` is stale (2026-09-29, no sha; last green run 2026-10-15 at `e87e873`); 8.c features 02-05, 07-12 and 24-34 were last
       played at `0f7a731`, before the plural (`7c6fbfe`) and ellipsis (`e87e873`) code changes: replay tickets to file (8.f, 8.g, 8.j follow); 8.d, 8.h, 8.i the F10 headers capture;
       8.m code review (`code_review_sha` absent). Ledger `../.replays/JoyRescue-20261110.tsv`.
+  - ticket filed 2026-11-10 at `be8faf5` (JoR, French, `-NoBatch`, settings-restart map): F10 chain `18`, then `19`, then `20` as three launches, id `20261110-115047-298-449f`,
+      evidence `Tests/Pickle/Inbox/f10-headers-french`. On RUN_DONE: open the `19` captures, close the F10 line if the headers show cut with an ellipsis or whole. The 8.c replay of the stale features follows in small tickets.
   - resolved 2026-10-12: French and English review by Virginie, recorded in Translation audit below (revision bd5c2a2, CHANGELOG at dc67e6b).
   - unverified (2026-10-15): F10 French group headers ("Consommation de drogues", "Gourmandise"): the old captures showed them cut under the
       "Éteindre" button; the replay at `e87e873` (ellipsis in `JoyRescueMod.cs`) has a tooltip over their end. Close once a capture without a
