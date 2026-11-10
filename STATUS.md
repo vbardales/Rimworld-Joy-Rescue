@@ -7,7 +7,7 @@ packageId:    nelim.joyrescue
 repo:         Rimworld-Joy-Rescue
 visibility:   public
 detached:     yes
-workflow_stage: declareDependencies[1.0.0]
+workflow_stage: playTests[1.0.0]
 licence:      original
 licence_at:   original work, MIT
 upstream_mod_remotes: N/A
@@ -19,10 +19,13 @@ settings_audit: complete
 automated_tests: passed
 xml_tests: passed
 tested_on:    2026-09-29
-unit_tested_on: 2026-10-11
+unit_tested_on: 2026-11-10 (133/133 offline, Test-Xml 8/8, tree be8faf5, code last changed at e87e873)
 workshop:     3806137974 (Joy Rescue 0.1.0, prepublished by the maintainer; public/subscription check unverified)
 remaining:
-  - done 2026-11-10 (4.e, 4.g): `Mod/About/OptionalCompat.xml` created (85 packageIds of `Source/Runtime/TaxonomyRules.cs`, all `kind` synergy, workshopId from the registry); `Check-OptionalCompat.ps1`: 85 patched, 85 declared. Next: replay-audit again to move the stage on (4.h); F10 headers and 8.m code review stay open.
+  - done 2026-11-10 (4.e, 4.g): `Mod/About/OptionalCompat.xml` created (85 packageIds of `Source/Runtime/TaxonomyRules.cs`, all `kind` synergy, workshopId from the registry); `Check-OptionalCompat.ps1`: 85 patched, 85 declared. Replay of 2026-11-10 then moved the stage back to `playTests`.
+  - open (replay-audit 2026-11-10, stage playTests): 8.a and 8.l `tested_on` is stale (2026-09-29, no sha; last green run 2026-10-15 at `e87e873`); 8.c features 02-05, 07-12 and 24-34 were last
+      played at `0f7a731`, before the plural (`7c6fbfe`) and ellipsis (`e87e873`) code changes: replay tickets to file (8.f, 8.g, 8.j follow); 8.d, 8.h, 8.i the F10 headers capture;
+      8.m code review (`code_review_sha` absent). Ledger `../.replays/JoyRescue-20261110.tsv`.
   - resolved 2026-10-12: French and English review by Virginie, recorded in Translation audit below (revision bd5c2a2, CHANGELOG at dc67e6b).
   - unverified (2026-10-15): F10 French group headers ("Consommation de drogues", "Gourmandise"): the old captures showed them cut under the
       "Éteindre" button; the replay at `e87e873` (ellipsis in `JoyRescueMod.cs`) has a tooltip over their end. Close once a capture without a
@@ -44,8 +47,8 @@ remaining:
   - feature: Workshop gallery images (PUBLICATION.md, AUDIT.md 9): taken from the nelimZen colony or a dedicated Pickle
       scenario, never from test passes. Belongs to `shootGallery`.
 session:      local_54512579-d805-4ab9-b6a3-59507d509b27
-updated:      2026-11-10 OptionalCompat.xml created (85 synergy targets), dependency record written
-protocols_read_sha: d58daf407a67eded910566dd2c1b4bca7821c5e0
+updated:      2026-11-10 replay-audit: playTests (8.a, 8.c, 8.l, 8.m open), TRANSLATION_REVIEW.md renamed, unit_tested_on refreshed
+protocols_read_sha: a24bdc17d165fab9b12a0dffa2df5859c5a28e10
 ---
 
 # Joy Rescue — status
