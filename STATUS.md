@@ -22,9 +22,7 @@ tested_on:    2026-09-29
 unit_tested_on: 2026-10-11
 workshop:     3806137974 (Joy Rescue 0.1.0, prepublished by the maintainer; public/subscription check unverified)
 remaining:
-  - open 2026-11-10 (replay-audit, 4.e and 4.g): `Mod/About/OptionalCompat.xml` is absent, `Check-OptionalCompat.ps1 -Mod JoyRescue` gives 85 ERROR (every packageId of
-      `Source/Runtime/TaxonomyRules.cs`: the preset rules for other mods). Declare each with its `kind` (patch, texture, translation or synergy), list them in the dependency
-      record (4.g), then replay from `declareDependencies`. All playTests evidence below stays valid; F10 headers and 8.m code review stay open.
+  - done 2026-11-10 (4.e, 4.g): `Mod/About/OptionalCompat.xml` created (85 packageIds of `Source/Runtime/TaxonomyRules.cs`, all `kind` synergy, workshopId from the registry); `Check-OptionalCompat.ps1`: 85 patched, 85 declared. Next: replay-audit again to move the stage on (4.h); F10 headers and 8.m code review stay open.
   - resolved 2026-10-12: French and English review by Virginie, recorded in Translation audit below (revision bd5c2a2, CHANGELOG at dc67e6b).
   - unverified (2026-10-15): F10 French group headers ("Consommation de drogues", "Gourmandise"): the old captures showed them cut under the
       "Éteindre" button; the replay at `e87e873` (ellipsis in `JoyRescueMod.cs`) has a tooltip over their end. Close once a capture without a
@@ -46,7 +44,7 @@ remaining:
   - feature: Workshop gallery images (PUBLICATION.md, AUDIT.md 9): taken from the nelimZen colony or a dedicated Pickle
       scenario, never from test passes. Belongs to `shootGallery`.
 session:      local_54512579-d805-4ab9-b6a3-59507d509b27
-updated:      2026-11-10 replay-audit: moved back to declareDependencies (4.e OptionalCompat.xml missing, 85 targets)
+updated:      2026-11-10 OptionalCompat.xml created (85 synergy targets), dependency record written
 protocols_read_sha: d58daf407a67eded910566dd2c1b4bca7821c5e0
 ---
 
@@ -81,6 +79,14 @@ were removed.
 Update 2026-10-12: Virginie's review is done (Translation audit below), protocols marked read at `8c994dd`,
 `workflow_stage: playTests[1.0.0]`. Next: the settings scenarios replay in small tickets, English and French; the two
 queued tickets (feature `01`) come first.
+
+## Dependency record (4.g), 2026-11-10, tree after commit `3e764ab`
+
+- Hard dependency: `brrainz.harmony` (the only mod the code references; `Source/` uses HarmonyLib in `JoyRescueMod.cs` and `Patches/`).
+- Order only (`loadAfter`): Harmony and the DLCs (Royalty, Ideology, Biotech, Anomaly, Odyssey).
+- DLC: none required; no `LoadFolders.xml`, no `Patches/`, so no conditional patch to guard.
+- Optional integrations: the 85 mods of `Mod/About/OptionalCompat.xml` (kind synergy): their activities and buildings are moved to better recreation types by the optional preset, from `Source/Runtime/TaxonomyRules.cs`. Never required, no load order imposed.
+- Animal mod integrations (4.f): not applicable, the mod adds no animal.
 
 ## Translation audit
 
